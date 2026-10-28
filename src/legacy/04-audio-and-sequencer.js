@@ -24,7 +24,35 @@ function setGroove(value){
 }
 window.ddakungGroove={get:grooveSnapshot,set:setGroove,reset:()=>setGroove(GROOVE_DEFAULT)};
 let ctx = null;
-function ac(){ if(!ctx) ctx = new (window.AudioContext||window.webkitAudioContext)(); return ctx; }
+let AUDIO_INTERRUPTED=false;
+function configurePlaybackSession(){
+  // WebKit's default ambient session obeys the iPad silent switch.
+  // Request media playback before creating/resuming Web Audio when supported.
+  try{if(typeof navigator!=='undefined'&&navigator.audioSession)navigator.audioSession.type='playback';}catch{}
+}
+function notifyAudioOutput(){window.dispatchEvent(new Event('ddakung-output-change'));}
+function ac(){
+  if(!ctx){
+    configurePlaybackSession();
+    ctx = new (window.AudioContext||window.webkitAudioContext)();
+    ctx.addEventListener('statechange',()=>{
+      if((ctx.state==='interrupted'||ctx.state==='suspended')&&playing){
+        AUDIO_INTERRUPTED=true;stopPlay();
+      }
+      notifyAudioOutput();
+    });
+  }
+  return ctx;
+}
+function resumeAudioContext(c=ac()){
+  configurePlaybackSession();
+  let timeout;
+  // Call resume synchronously within the user's tap, before any network await.
+  const resume=c.resume();
+  return Promise.race([resume,new Promise((_,reject)=>{timeout=setTimeout(()=>reject(new Error('오디오가 시작되지 않았습니다. 재생을 다시 눌러 주세요.')),6000);})])
+    .then(()=>{if(c.state&&c.state!=='running')throw new Error('오디오가 중단되어 있습니다. 재생을 다시 눌러 주세요.');AUDIO_INTERRUPTED=false;notifyAudioOutput();})
+    .finally(()=>clearTimeout(timeout));
+}
 
 /* App-local drum finish. Individual recordings, notes and tuning stay intact. */
 const POLISH_KEY='ddakung.polish.v1';
@@ -598,10 +626,11 @@ window.ddakungAudio={
   getSources:id=>SAMPLE_BANK.getSources(id),
   chooseSource(id,source){this.cancelAudition();return SAMPLE_BANK.chooseSource(id,source);},
   retrySources(){return SAMPLE_BANK.retrySources();},
-  async auditionSource(id,source,variant){this.cancelAudition();const revision=PREVIEW_REVISION,c=ac();await c.resume();if(revision!==PREVIEW_REVISION)return false;if(c.state&&c.state!=='running')throw Error('오디오를 시작하지 못했습니다.');return SAMPLE_BANK.auditionSource(id,source,tuningOf(id),variant);},
+  async auditionSource(id,source,variant){this.cancelAudition();const revision=PREVIEW_REVISION,c=ac();await resumeAudioContext(c);if(revision!==PREVIEW_REVISION)return false;if(c.state&&c.state!=='running')throw Error('오디오를 시작하지 못했습니다.');return SAMPLE_BANK.auditionSource(id,source,tuningOf(id),variant);},
   loadKit(id){this.cancelAudition();return SAMPLE_BANK.load(id);},
   ready:()=>SAMPLE_BANK.ready(),
-  resume:()=>ac().resume(),
+  resume:()=>resumeAudioContext(),
+  outputStatus:()=>({state:ctx?.state||'not-started',playing,pending:PLAY_PENDING,interrupted:AUDIO_INTERRUPTED}),
   stopPreview(){PREVIEW_REVISION++;SAMPLE_BANK.stopPreview();SAMPLE_BANK.cancelCandidate();stopSynthPreview();},
   set(id,values){
     if(!TUNING_IDS.includes(id))throw new Error('Unknown instrument');
@@ -616,13 +645,13 @@ window.ddakungAudio={
     try{ids.forEach(k=>{delete TUNING[k];setInsVol(k,100);});}finally{INS_VOL_SAVE_HOOK=previousHook;}
     return tuningSave();
   },
-  audition(id){const revision=++PREVIEW_REVISION;ac().resume().catch(error=>{if(revision===PREVIEW_REVISION)window.dispatchEvent(new CustomEvent('ddakung-audio-error',{detail:error.message}));});TUNING_AUDITION.request(id);},
+  audition(id){const revision=++PREVIEW_REVISION;resumeAudioContext().catch(error=>{if(revision===PREVIEW_REVISION)window.dispatchEvent(new CustomEvent('ddakung-audio-error',{detail:error.message}));});TUNING_AUDITION.request(id);},
   cancelAudition(){TUNING_AUDITION.cancel();this.stopPreview();},
   async preview(id,variant,automatic=false){
     if(!TUNING_IDS.includes(id))throw new Error('Unknown instrument');
     const revision=++PREVIEW_REVISION,c=ac();
     try{
-      await c.resume();if(revision!==PREVIEW_REVISION)return;
+      await resumeAudioContext(c);if(revision!==PREVIEW_REVISION)return;
       await SAMPLE_BANK.ready();
     }catch(error){if(revision!==PREVIEW_REVISION)return;throw error;}
     if(revision!==PREVIEW_REVISION||(automatic&&playing))return;
@@ -1430,7 +1459,7 @@ async function previewSound(id,art,measure=selMeasure,step=null){
   if(SAMPLE_BANK.state!=='ready'&&SAMPLE_BANK.state!=='synth')return;
   const revision=++PREVIEW_REVISION,c=ac();
   try{
-    await c.resume();if(revision!==PREVIEW_REVISION||playing||PLAY_PENDING)return;
+    await resumeAudioContext(c);if(revision!==PREVIEW_REVISION||playing||PLAY_PENDING)return;
     SAMPLE_BANK.stopPreview();SAMPLE_BANK.cancelCandidate();stopSynthPreview();
     const value=art||ART.NORM, m=measures[measure];
     const events=(value>=ART.ROLL&&value<=ART.GBUZZ&&m&&step!==null)
@@ -2166,10 +2195,10 @@ function stopCursorLoop(){
 async function startPlay(opts){
   const request=++PLAY_REQUEST;
   if(playing)return;
-  PLAY_PENDING=true;window.ddakungAudio.stopPreview();
+  PLAY_PENDING=true;notifyAudioOutput();window.ddakungAudio.stopPreview();
   const c=ac();
-  try{await c.resume();await SAMPLE_BANK.ready();if(c.state&&c.state!=='running')throw Error('오디오 시작이 차단되었습니다. 다시 재생을 눌러 주세요.');}
-  catch(error){if(request===PLAY_REQUEST){PLAY_PENDING=false;window.dispatchEvent(new CustomEvent('ddakung-audio-error',{detail:error.message}));}return;}
+  try{await resumeAudioContext(c);await SAMPLE_BANK.ready();if(c.state&&c.state!=='running')throw Error('오디오 시작이 차단되었습니다. 다시 재생을 눌러 주세요.');}
+  catch(error){if(request===PLAY_REQUEST){PLAY_PENDING=false;notifyAudioOutput();window.dispatchEvent(new CustomEvent('ddakung-audio-error',{detail:error.message}));}return;}
   if(request!==PLAY_REQUEST)return;
   PLAY_PENDING=false;
   if(window.metroStop) window.metroStop();   // 메트로놈 탭 시계와 겹치면 안 된다
@@ -2215,7 +2244,7 @@ async function startPlay(opts){
   startCursorLoop();
   if(preSteps === 0) pushSeg(curM, nextT, nextPlayed(curP));   // 예비박이 있으면 그게 끝날 때 넣는다
   timer = setInterval(tick, 25);
-  setPlayIcon(true);
+  setPlayIcon(true);notifyAudioOutput();
   const ps = document.getElementById('pStart');
   if(ps) ps.textContent = t('연습 정지');
 }
@@ -2283,7 +2312,7 @@ function stopPlay(natural){
   playing = false; practiceRun = false; clearInterval(timer);
   stopCursorLoop();
   if(typeof ensureScorePage==='function')ensureScorePage(selMeasure);
-  setPlayIcon(false);
+  setPlayIcon(false);notifyAudioOutput();
   const ps = document.getElementById('pStart');
   if(ps) ps.textContent = t('연습 시작');
   clearPlayCells();

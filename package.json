@@ -1,6 +1,17 @@
 {
-  "name":"ddakung-dadadung-ipad","version":"0.1.0","private":true,"type":"module",
-  "description":"따쿵따다둥 개인용 iPad 웹 작업실",
-  "scripts":{"dev":"node scripts/build-legacy.mjs && vite --host 127.0.0.1","build":"node scripts/build-legacy.mjs && tsc --noEmit && vite build","preview":"vite preview --host 127.0.0.1 --port 4180 --strictPort","test":"node --test tests/ipad-score-selection.test.mjs tests/score-regions.test.mjs tests/score-pages.test.mjs tests/score-render-bridge.test.mjs"},
-  "devDependencies":{"typescript":"5.9.3","vite":"7.3.7"}
+  "name": "ddakung-dadadung-ipad",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "따쿵따다둥 개인용 iPad 웹 작업실",
+  "scripts": {
+    "dev": "node scripts/build-legacy.mjs && vite --host 127.0.0.1",
+    "build": "node scripts/build-legacy.mjs && tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4180 --strictPort",
+    "test": "node --test tests/ipad-score-selection.test.mjs tests/score-regions.test.mjs tests/score-pages.test.mjs tests/score-render-bridge.test.mjs tests/ipad-audio-session.test.mjs"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "vite": "7.3.7"
+  }
 }

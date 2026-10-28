@@ -1,6 +1,7 @@
 import './domain';
 import {seedIpadPreset} from './ipad-preset';
 import {installUploadedScores} from './uploaded-scores';
+import {installAudioStatus} from './audio-status';
 import {installIpadWorkspace} from './ipad-workspace';
 import { installGridKeyboard } from './accessibility';
 import { installDrumTuning } from './tuning';
@@ -76,6 +77,7 @@ async function boot() {
   installInputPanelLanguage();
   installIpadWorkspace();
   installUploadedScores();
+  installAudioStatus();
   // A new layout does not grant access to any original Studio feature.
   const media = matchMedia('(min-width: 1280px), (min-width: 1000px) and (orientation: landscape)');
   media.addEventListener('change', () => requestAnimationFrame(() => window.maiWorkspace.refreshScore()));
