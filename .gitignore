@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.vercel/
+.env*
+docs/
+public/legacy/app.js
+tests/*
+!tests/ipad-score-selection.test.mjs
+!tests/score-regions.test.mjs
+!tests/score-pages.test.mjs
+!tests/score-render-bridge.test.mjs

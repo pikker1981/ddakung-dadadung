@@ -1,0 +1,12 @@
+[
+  "01-domain-and-language.js",
+  "02-editor.js",
+  "03-notation.js",
+  "04-audio-and-sequencer.js",
+  "05-controls-and-export.js",
+  "06-persistence-and-import.js",
+  "07-layout-and-extensions.js",
+  "grid-clipboard.js",
+  "score-regions.js",
+  "score-render-bridge.js"
+]

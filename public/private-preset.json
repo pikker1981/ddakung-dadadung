@@ -1,0 +1,117 @@
+{
+  "version": 1,
+  "settings": {
+    "ddakung.sources.v1": {
+      "version": 1,
+      "sources": {
+        "splash": "paiste-pst5-splash-8",
+        "china": "paiste-innovations-china-18",
+        "fx": "big-rusty-stack-3-layer",
+        "kick": "bop-sticks",
+        "snare": "personal-tama-starclassic-bubinga",
+        "tom1": "yamaha-recording-custom-tom-10",
+        "tom2": "yamaha-recording-custom-tom-12",
+        "ftom": "yamaha-recording-custom-tom-16",
+        "hihat": "stagg-sh-hihat-14",
+        "hihatFoot": "studio-jazz",
+        "ride": "paiste-formula-602-thin-crash",
+        "crash": "sabian-aax-crash-17"
+      }
+    },
+    "ddakung.tuning.v1": {
+      "kick": {
+        "pitch": 7,
+        "resonance": 160,
+        "tension": 55,
+        "volume": 74
+      },
+      "snare": {
+        "pitch": 5,
+        "resonance": 190,
+        "tension": 80,
+        "volume": 328
+      },
+      "tom1": {
+        "pitch": 8,
+        "resonance": 195,
+        "tension": 90,
+        "volume": 263
+      },
+      "tom2": {
+        "pitch": 3,
+        "resonance": 150,
+        "tension": 50,
+        "volume": 231
+      },
+      "ftom": {
+        "pitch": 0,
+        "resonance": 170,
+        "tension": 45,
+        "volume": 158
+      },
+      "hihat": {
+        "pitch": 4,
+        "resonance": 115,
+        "tension": 50,
+        "volume": 48
+      },
+      "hihatFoot": {
+        "pitch": 0,
+        "resonance": 100,
+        "tension": 0,
+        "volume": 100
+      },
+      "ride": {
+        "pitch": 1,
+        "resonance": 165,
+        "tension": 25,
+        "volume": 135
+      },
+      "crash": {
+        "pitch": 0,
+        "resonance": 155,
+        "tension": 35,
+        "volume": 61
+      },
+      "splash": {
+        "pitch": 2,
+        "resonance": 135,
+        "tension": 20,
+        "volume": 107
+      },
+      "china": {
+        "pitch": 0,
+        "resonance": 145,
+        "tension": 40,
+        "volume": 143
+      },
+      "fx": {
+        "pitch": 7,
+        "resonance": 145,
+        "tension": 25,
+        "volume": 149
+      }
+    },
+    "maidrum.insvol": {
+      "hihat": 48,
+      "kick": 74,
+      "snare": 328,
+      "crash": 61,
+      "ride": 135,
+      "tom1": 263,
+      "tom2": 231,
+      "ftom": 158,
+      "splash": 107,
+      "china": 143,
+      "fx": 149
+    },
+    "ddakung.polish.v1": 66,
+    "ddakung.groove.v1": {
+      "bounceEnabled": true,
+      "bounce": 20,
+      "bounceSubdivision": 2,
+      "nuanceEnabled": false,
+      "nuance": 59
+    }
+  }
+}

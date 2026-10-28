@@ -1,0 +1,72 @@
+/* Own layout for public LITE. No original Studio/private edition selectors are enabled. */
+body.workspace { min-width:320px; }
+.workspace :is(button,a,input,select,.cell):focus-visible { outline:3px solid var(--lime); outline-offset:3px; }
+.workspace .cell:focus-visible { outline-color:var(--lilac); outline-offset:1px; z-index:2; }
+.workspace #padPromo, .workspace #storePop, .workspace #feedback, .workspace #fbStore,
+.workspace #fbPlay, .workspace #setStudio, .workspace #setRestore, .workspace #proPop { display:none!important; }
+.workspace #workspaceStatus { max-width:920px; margin:0 auto; padding:0 18px 12px; display:flex; gap:10px; flex-wrap:wrap; font-size:11px; color:var(--dim); }
+.workspace-label { color:var(--lilac); font-weight:700; }
+.workspace .storage-error { color:#ff9e96; font-weight:700; }
+.workspace .topbar { max-width:960px; }
+.workspace main { max-width:920px; }
+.workspace #scoreWrap { width:100%; position:relative; top:auto; max-height:42svh; overflow:auto; overscroll-behavior:contain; }
+.workspace #scoreSvg { touch-action:pan-x pan-y; }
+.workspace .panel { min-width:0; }
+.workspace .gridWrap { overflow-x:auto; overscroll-behavior-x:contain; scrollbar-width:thin; }
+.workspace #splitter, .workspace #vsplit { display:none!important; }
+.workspace footer { max-width:1440px; margin:20px auto; padding:0 18px; display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; font-size:11px; }
+.workspace footer a { color:var(--dim); }
+.workspace footer #infoBtn { font-size:11px; min-height:34px; }
+.boot-error { background:#692922; padding:18px; position:relative; z-index:99999; }
+@media (min-width:700px) {
+  .workspace .topbar { padding:22px 22px 12px; }
+  .workspace main { padding:4px 22px; }
+  .workspace #scoreWrap { padding:20px; }
+}
+@media (min-width:1280px), (min-width:1000px) and (orientation:landscape) {
+  .workspace .topbar { max-width:none; padding:18px 26px 12px; }
+  .workspace #workspaceStatus { max-width:none; padding:0 26px 14px; }
+  .workspace main { max-width:none; display:grid; grid-template-columns:minmax(320px,.8fr) minmax(480px,1.2fr); grid-template-areas:'title title' 'score panel'; align-items:start; gap:14px 20px; padding:0 26px; }
+  .workspace main > .titlerow { grid-area:title; margin:0; }
+  .workspace main > #scoreWrap { grid-area:score; position:sticky; top:16px; height:calc(100svh - 270px); min-height:280px; max-height:calc(100svh - 270px); margin:0; padding:22px 16px; }
+  .workspace main > .panel { grid-area:panel; display:flex; flex-direction:column; padding:18px 16px; margin:0; min-height:280px; height:calc(100svh - 270px); max-height:calc(100svh - 270px); overflow:auto; overscroll-behavior:contain; }
+  .workspace main > .panel > * { flex-shrink:0; }
+  .workspace main > .panel > #gridMode { display:flex; flex-direction:column; flex:1 0 160px; min-height:160px; }
+  .workspace .dock { max-width:none; }
+  .workspace .gridWrap { flex:1 0 160px; min-height:160px; overflow:auto; padding-bottom:8px; }
+  .workspace .gridWrap::-webkit-scrollbar { display:block; width:8px; height:8px; }
+  .workspace .gridWrap::-webkit-scrollbar-thumb { background:var(--faint); border-radius:8px; }
+  .workspace .gridWrap::-webkit-scrollbar-track { background:var(--surface-2); border-radius:8px; }
+}
+@media (max-width:499px) {
+  .workspace #workspaceStatus { font-size:10px; padding:0 16px 8px; gap:5px 10px; }
+  .workspace .topbar { padding-top:14px; }
+  .workspace main { padding:4px 12px; }
+  .workspace footer { gap:8px; }
+}
+@media print {
+  .workspace #workspaceStatus, .workspace footer { display:none!important; }
+  .workspace main { display:block; }
+  .workspace main > #scoreWrap { height:auto!important; min-height:0!important; max-height:none!important; overflow:visible!important; position:static!important; }
+  .workspace main > .panel { max-height:none!important; overflow:visible!important; }
+}
+
+/* 따쿵따다둥 product identity. */
+.workspace #artRow {
+  flex-wrap:wrap;
+  overflow:visible;
+  -webkit-mask-image:none;
+  mask-image:none;
+  gap:6px;
+}
+.workspace #artRow .wide { display:inline; }
+.workspace #artRow .lbl { display:block; flex-basis:100%; line-height:1.4; }
+.workspace #artRow button { min-height:44px; padding:8px 11px; line-height:1.25; white-space:nowrap; }
+.workspace .hit-target-hint { margin:8px 0 0; color:var(--lilac); font-size:12px; line-height:1.5; }
+.workspace #grid .rowlabel.target-row { color:var(--lilac); background:var(--surface-2); border-radius:var(--r-s); }
+.workspace .wordmark img { height:34px; width:auto; max-width:180px; }
+.workspace .wordmark :is(.lite-mark,.studio-mark,.pc-mark) { display:none!important; }
+.workspace .topbar { gap:16px; flex-wrap:wrap; }
+@media (max-width:600px) {
+  .workspace .topbar .fileacts { width:100%; justify-content:flex-end; }
+}

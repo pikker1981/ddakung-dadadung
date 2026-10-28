@@ -1,0 +1,14 @@
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { resolve } from 'node:path';
+import { createHash } from 'node:crypto';
+const root = resolve(import.meta.dirname, '..');
+const order = JSON.parse(await readFile(resolve(root, 'src/legacy/order.json'), 'utf8'));
+const parts = await Promise.all(order.map(name => readFile(resolve(root, 'src/legacy', name), 'utf8')));
+parts.unshift(await readFile(resolve(root, 'src/legacy/import-contract.js'), 'utf8'));
+parts.push(await readFile(resolve(root, 'src/legacy/workspace-bridge.js'), 'utf8'));
+const bundle = parts.join('\n;\n');
+await mkdir(resolve(root, 'public/legacy'), {recursive: true});
+await writeFile(resolve(root, 'public/legacy/app.js'), bundle);
+const hash = createHash('sha256').update(bundle).digest('hex');
+await writeFile(resolve(root, 'public/legacy/build.json'), JSON.stringify({sha256: hash, sourceOrder: ['import-contract.js', ...order, 'workspace-bridge.js']}, null, 2));
+console.log(`Legacy core assembled: ${parts.length} ordered sections, SHA-256 ${hash.slice(0,16)}`);

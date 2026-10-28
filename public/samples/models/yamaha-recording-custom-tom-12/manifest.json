@@ -1,0 +1,403 @@
+{
+  "version": 1,
+  "id": "yamaha-recording-custom-tom-12",
+  "kind": "instrument",
+  "instrument": "tom",
+  "brand": "Yamaha",
+  "model": "Recording Custom Cherry Tom",
+  "size": "12″",
+  "label": "Yamaha Recording Custom Cherry Tom 12″",
+  "license": "CC-BY-4.0",
+  "source": "https://github.com/sfzinstruments/WilkinsonAudio.NakedDrums/tree/407732a548606ac715ad8f3fbac63d9f4df77c0d",
+  "compatibleTargets": [
+    "tom1",
+    "tom2",
+    "ftom"
+  ],
+  "variants": {
+    "tom2": [
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v1-rr1.wav",
+        "velocity": 0.1732283464566929,
+        "rr": 0,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_10_one-NHRO.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_10_one-C75T.flac"
+        ],
+        "sourceVelocityLow": 1,
+        "sourceVelocityHigh": 43,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v44-rr1.wav",
+        "velocity": 0.5078740157480315,
+        "rr": 0,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_20_one-P2LC.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_20_one-6XRU.flac"
+        ],
+        "sourceVelocityLow": 44,
+        "sourceVelocityHigh": 85,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v86-rr1.wav",
+        "velocity": 0.8385826771653543,
+        "rr": 0,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_30_one-LMST.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_30_one-G8NW.flac"
+        ],
+        "sourceVelocityLow": 86,
+        "sourceVelocityHigh": 127,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v1-rr2.wav",
+        "velocity": 0.1732283464566929,
+        "rr": 1,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_10_two-S2EZ.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_10_two-FS99.flac"
+        ],
+        "sourceVelocityLow": 1,
+        "sourceVelocityHigh": 43,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v44-rr2.wav",
+        "velocity": 0.5078740157480315,
+        "rr": 1,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_20_two-DJ8Z.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_20_two-Q5N1.flac"
+        ],
+        "sourceVelocityLow": 44,
+        "sourceVelocityHigh": 85,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v86-rr2.wav",
+        "velocity": 0.8385826771653543,
+        "rr": 1,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_30_two-XI5N.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_30_two-SU67.flac"
+        ],
+        "sourceVelocityLow": 86,
+        "sourceVelocityHigh": 127,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v1-rr3.wav",
+        "velocity": 0.1732283464566929,
+        "rr": 2,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_10_three-561Q.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_10_three-KF9N.flac"
+        ],
+        "sourceVelocityLow": 1,
+        "sourceVelocityHigh": 43,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v44-rr3.wav",
+        "velocity": 0.5078740157480315,
+        "rr": 2,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_20_three-FJ84.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_20_three-141N.flac"
+        ],
+        "sourceVelocityLow": 44,
+        "sourceVelocityHigh": 85,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v86-rr3.wav",
+        "velocity": 0.8385826771653543,
+        "rr": 2,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_30_three-E3GB.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_30_three-KRBI.flac"
+        ],
+        "sourceVelocityLow": 86,
+        "sourceVelocityHigh": 127,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v1-rr4.wav",
+        "velocity": 0.1732283464566929,
+        "rr": 3,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_10_four-Y0VH.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_10_four-Q6AT.flac"
+        ],
+        "sourceVelocityLow": 1,
+        "sourceVelocityHigh": 43,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v44-rr4.wav",
+        "velocity": 0.5078740157480315,
+        "rr": 3,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_20_four-ORER.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_20_four-17FY.flac"
+        ],
+        "sourceVelocityLow": 44,
+        "sourceVelocityHigh": 85,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v86-rr4.wav",
+        "velocity": 0.8385826771653543,
+        "rr": 3,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_30_four-9YCY.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_30_four-2SNS.flac"
+        ],
+        "sourceVelocityLow": 86,
+        "sourceVelocityHigh": 127,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v1-rr5.wav",
+        "velocity": 0.1732283464566929,
+        "rr": 4,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_10_five-NWAU.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_10_five-U7NY.flac"
+        ],
+        "sourceVelocityLow": 1,
+        "sourceVelocityHigh": 43,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v44-rr5.wav",
+        "velocity": 0.5078740157480315,
+        "rr": 4,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_20_five-FA8F.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_20_five-18UN.flac"
+        ],
+        "sourceVelocityLow": 44,
+        "sourceVelocityHigh": 85,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v86-rr5.wav",
+        "velocity": 0.8385826771653543,
+        "rr": 4,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_30_five-D2YA.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_30_five-UVDB.flac"
+        ],
+        "sourceVelocityLow": 86,
+        "sourceVelocityHigh": 127,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v1-rr6.wav",
+        "velocity": 0.1732283464566929,
+        "rr": 5,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_10_six-5OUJ.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_10_six-YGAZ.flac"
+        ],
+        "sourceVelocityLow": 1,
+        "sourceVelocityHigh": 43,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v44-rr6.wav",
+        "velocity": 0.5078740157480315,
+        "rr": 5,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_20_six-ZWO1.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_20_six-RMDS.flac"
+        ],
+        "sourceVelocityLow": 44,
+        "sourceVelocityHigh": 85,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v86-rr6.wav",
+        "velocity": 0.8385826771653543,
+        "rr": 5,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_30_six-T56A.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_30_six-NXWX.flac"
+        ],
+        "sourceVelocityLow": 86,
+        "sourceVelocityHigh": 127,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v1-rr7.wav",
+        "velocity": 0.1732283464566929,
+        "rr": 6,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_10_seven-3I7F.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_10_seven-ALYI.flac"
+        ],
+        "sourceVelocityLow": 1,
+        "sourceVelocityHigh": 43,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v44-rr7.wav",
+        "velocity": 0.5078740157480315,
+        "rr": 6,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_20_seven-BHZT.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_20_seven-59CL.flac"
+        ],
+        "sourceVelocityLow": 44,
+        "sourceVelocityHigh": 85,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v86-rr7.wav",
+        "velocity": 0.8385826771653543,
+        "rr": 6,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_30_seven-Y5QW.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_30_seven-0TEJ.flac"
+        ],
+        "sourceVelocityLow": 86,
+        "sourceVelocityHigh": 127,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v1-rr8.wav",
+        "velocity": 0.1732283464566929,
+        "rr": 7,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_10_eight-X3UQ.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_10_eight-LMSC.flac"
+        ],
+        "sourceVelocityLow": 1,
+        "sourceVelocityHigh": 43,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v44-rr8.wav",
+        "velocity": 0.5078740157480315,
+        "rr": 7,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_20_eight-ZVCC.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_20_eight-QDXX.flac"
+        ],
+        "sourceVelocityLow": 44,
+        "sourceVelocityHigh": 85,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v86-rr8.wav",
+        "velocity": 0.8385826771653543,
+        "rr": 7,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_30_eight-D6XN.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_30_eight-7OZT.flac"
+        ],
+        "sourceVelocityLow": 86,
+        "sourceVelocityHigh": 127,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v1-rr9.wav",
+        "velocity": 0.1732283464566929,
+        "rr": 8,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_10_nine-49EV.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_10_nine-Z501.flac"
+        ],
+        "sourceVelocityLow": 1,
+        "sourceVelocityHigh": 43,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v44-rr9.wav",
+        "velocity": 0.5078740157480315,
+        "rr": 8,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_20_nine-F4J9.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_20_nine-UJGB.flac"
+        ],
+        "sourceVelocityLow": 44,
+        "sourceVelocityHigh": 85,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v86-rr9.wav",
+        "velocity": 0.8385826771653543,
+        "rr": 8,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_30_nine-E309.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_30_nine-RS6J.flac"
+        ],
+        "sourceVelocityLow": 86,
+        "sourceVelocityHigh": 127,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v1-rr10.wav",
+        "velocity": 0.1732283464566929,
+        "rr": 9,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_10_ten-HUJ7.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_10_ten-Y72T.flac"
+        ],
+        "sourceVelocityLow": 1,
+        "sourceVelocityHigh": 43,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v44-rr10.wav",
+        "velocity": 0.5078740157480315,
+        "rr": 9,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_20_ten-4E5P.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_20_ten-U4AV.flac"
+        ],
+        "sourceVelocityLow": 44,
+        "sourceVelocityHigh": 85,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      },
+      {
+        "url": "/samples/models/yamaha-recording-custom-tom-12/tom2-v86-rr10.wav",
+        "velocity": 0.8385826771653543,
+        "rr": 9,
+        "sourceFiles": [
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-TopOne_D3_30_ten-KM5X.flac",
+          "WilkinsonAudio.NakedDrums/Wilkinson Audio/Naked Drums/Samples/-OH_D3_30_ten-8O5F.flac"
+        ],
+        "sourceVelocityLow": 86,
+        "sourceVelocityHigh": 127,
+        "microphoneMix": "80% direct + 20% matched overhead, then -3 dB"
+      }
+    ]
+  },
+  "fallbacks": {},
+  "description": "Real recorded Yamaha Recording Custom Cherry Tom 12″; no manufacturer endorsement.",
+  "descriptionKo": "윌킨슨 오디오 녹음. Yamaha Recording Custom Cherry 실제 탐. 원본 3단계 세기 × 10회 반복 타격의 근접·오버헤드를 맞춰 혼합했습니다. 다른 탐 슬롯은 같은 녹음을 사용하며 음높이를 합성하지 않습니다.",
+  "attribution": "Wilkinson Audio; SFZ/FLAC adaptation by kinwie. CC BY 4.0. Three source velocity layers and ten genuine matched performances per layer; 80% direct + 20% overhead, uniform -3 dB headroom, PCM16 stereo 44.1 kHz.",
+  "bytes": 12057060,
+  "fileCount": 30,
+  "layerCounts": {
+    "tom1": 3,
+    "tom2": 3,
+    "ftom": 3
+  },
+  "roundRobinCounts": {
+    "tom1": 10,
+    "tom2": 10,
+    "ftom": 10
+  },
+  "quality": {
+    "silentFiles": 0,
+    "clippedFiles": 0,
+    "maxAttackThresholdMs": 0.045,
+    "tail": "Original complete recorded tails; no trimming or fades."
+  }
+}

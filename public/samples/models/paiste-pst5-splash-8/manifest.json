@@ -1,0 +1,90 @@
+{
+  "version": 1,
+  "id": "paiste-pst5-splash-8",
+  "kind": "instrument",
+  "instrument": "splash",
+  "brand": "Paiste",
+  "model": "PST5 Splash",
+  "label": "Paiste PST5 Splash 8″",
+  "size": "8″",
+  "license": "Public Domain (author dedication 2022)",
+  "source": "https://github.com/endolith/Salamander-Drumkit/tree/9e9c9fca9f26e1763435beca4170505d0fa32fb0",
+  "description": "Paiste PST5 Splash 8″; independently recorded real instrument, no manufacturer endorsement. Alexander Holm original overhead recording. Exact series/type/size as stated in author README.",
+  "variants": {
+    "splash": [
+      {
+        "url": "/samples/models/paiste-pst5-splash-8/splash1_OH_F_1.wav",
+        "velocity": 0.7362204724409449,
+        "rr": 0,
+        "sourceFile": "OH/splash1_OH_F_1.wav"
+      },
+      {
+        "url": "/samples/models/paiste-pst5-splash-8/splash1_OH_F_2.wav",
+        "velocity": 0.7362204724409449,
+        "rr": 1,
+        "sourceFile": "OH/splash1_OH_F_2.wav"
+      },
+      {
+        "url": "/samples/models/paiste-pst5-splash-8/splash1_OH_F_3.wav",
+        "velocity": 0.7362204724409449,
+        "rr": 2,
+        "sourceFile": "OH/splash1_OH_F_3.wav"
+      },
+      {
+        "url": "/samples/models/paiste-pst5-splash-8/splash1_OH_F_4.wav",
+        "velocity": 0.7362204724409449,
+        "rr": 3,
+        "sourceFile": "OH/splash1_OH_F_4.wav"
+      },
+      {
+        "url": "/samples/models/paiste-pst5-splash-8/splash1_OH_P_1.wav",
+        "velocity": 0.23622047244094488,
+        "rr": 0,
+        "sourceFile": "OH/splash1_OH_P_1.wav"
+      },
+      {
+        "url": "/samples/models/paiste-pst5-splash-8/splash1_OH_P_2.wav",
+        "velocity": 0.23622047244094488,
+        "rr": 1,
+        "sourceFile": "OH/splash1_OH_P_2.wav"
+      },
+      {
+        "url": "/samples/models/paiste-pst5-splash-8/splash1_OH_P_3.wav",
+        "velocity": 0.23622047244094488,
+        "rr": 2,
+        "sourceFile": "OH/splash1_OH_P_3.wav"
+      },
+      {
+        "url": "/samples/models/paiste-pst5-splash-8/splash1_OH_P_4.wav",
+        "velocity": 0.23622047244094488,
+        "rr": 3,
+        "sourceFile": "OH/splash1_OH_P_4.wav"
+      }
+    ]
+  },
+  "fallbacks": {},
+  "category": "splash",
+  "attribution": "Recorded by Alexander Holm. Original historical CC BY-SA 3.0 README retained; author dedicated all his sampled instruments to public domain in March 2022. Converted original audio to PCM16 stereo 44.1 kHz with uniform -3 dB headroom before resampling; natural tails and source onset retained, no per-hit normalization, no source SFZ gain baked in.",
+  "layerNotes": "Source SFZ velocity groups retained; first up to four real recorded alternatives per group. Same-layer alternatives are genuine separate performances. No synthesized variants; no tail truncation.",
+  "bytes": 3596488,
+  "fileCount": 8,
+  "layerCounts": {
+    "crash": 2,
+    "splash": 2
+  },
+  "roundRobinCounts": {
+    "crash": 4,
+    "splash": 4
+  },
+  "quality": {
+    "clippedFiles": 0,
+    "silentFiles": 0,
+    "tail": "Original recorded tail preserved; no fade or tail truncation added."
+  },
+  "descriptionKo": "알렉산더 홀름 녹음. 제작자가 명시한 시리즈와 구경을 사용하며 실제 녹음의 자연스러운 잔향을 유지했습니다.",
+  "fallbacksKo": {},
+  "compatibleTargets": [
+    "splash",
+    "crash"
+  ]
+}

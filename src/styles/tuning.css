@@ -1,0 +1,67 @@
+.tuning-open{min-height:44px;white-space:nowrap;border-color:var(--lilac)!important;color:var(--lilac)!important}
+.drum-tuning{color:var(--white);background:var(--surface);border:1px solid var(--line);border-radius:var(--r-l);width:min(580px,calc(100vw - 24px));max-height:calc(100dvh - 32px);padding:24px;overflow:auto;overscroll-behavior:contain;font-family:inherit;box-shadow:0 24px 80px #0009}
+.drum-tuning::backdrop{background:#08080db8}
+.drum-tuning [hidden]{display:none!important}
+.drum-tuning .tuning-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.drum-tuning h2{font-size:25px;margin:5px 0 0;letter-spacing:-.04em}
+.tuning-eyebrow{font-size:11px;color:var(--lilac);font-weight:700;letter-spacing:.1em}
+.drum-tuning p{font-size:13px;line-height:1.65;color:var(--dim)}
+.drum-tuning button,.drum-tuning select,.drum-tuning summary{min-height:44px;font-family:inherit}
+.drum-tuning select{display:block;width:100%;margin:8px 0 0;padding:9px 12px;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-s);color:var(--white);font-size:16px}
+.tuning-select-label{font-size:13px;font-weight:700}
+.tuning-audition{display:flex;align-items:center;gap:8px;min-height:44px;font-size:13px;font-weight:700;color:var(--lime)}
+.tuning-audition input{width:18px;height:18px;accent-color:var(--lime)}
+.drum-tuning .tuning-bank-status{color:var(--lime);margin:8px 0 0;font-size:12px}
+.drum-tuning .tuning-kit-description{margin:4px 0 16px;font-size:12px}
+.drum-tuning .tuning-character{color:var(--lilac);margin:8px 0 20px}
+.tuning-control{margin:0 0 16px}
+.tuning-control>div{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.tuning-control label{font-size:14px;font-weight:700}
+.tuning-control output{font-variant-numeric:tabular-nums;font-size:14px;color:var(--lime)}
+.drum-tuning input[type=range]{display:block;width:100%;height:44px;margin:0;accent-color:var(--lime);touch-action:pan-y}
+.drum-tuning .tuning-control p{margin:0;font-size:12px}
+.tuning-actions{display:flex;gap:8px;flex-wrap:wrap;padding-top:4px}
+.drum-tuning .tuning-status{min-height:22px;font-size:12px}
+.drum-tuning .tuning-warning{color:#ffd38c}
+.drum-tuning details{border-top:1px solid var(--line);padding-top:8px}
+.drum-tuning summary{display:list-item;align-content:center;font-size:13px;cursor:pointer}
+.tuning-reset-all{margin-top:12px}
+.drum-tuning :focus-visible{outline:2px solid var(--lime);outline-offset:3px}
+@media(max-width:600px){.drum-tuning{padding:20px 18px;border-radius:var(--r-m)}.tuning-open{font-size:12px!important;padding:0 10px!important}.drum-tuning h2{font-size:22px}}
+.drum-tuning{width:min(1040px,calc(100vw - 32px))}
+.tuning-categories{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:16px 0}
+.tuning-category{padding:9px 8px;border:1px solid var(--line);border-radius:var(--r-s);background:var(--surface-2);color:var(--dim);font:inherit;font-size:13px;cursor:pointer}
+.tuning-category[aria-pressed=true]{border-color:var(--lilac);background:color-mix(in srgb,var(--lilac) 13%,var(--surface));color:var(--white);font-weight:700}
+.tuning-instrument-row{display:flex;align-items:center;gap:14px;max-width:450px;margin-bottom:18px}
+.tuning-instrument-row label{flex-shrink:0}.tuning-instrument-row select{margin:0}
+.tuning-workspace{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(290px,.85fr);gap:24px;align-items:start}
+.tuning-section-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.tuning-section-heading h3{font-size:15px;letter-spacing:-.025em;margin:0}.tuning-section-heading>span{font-size:11px;color:var(--dim)}
+.drum-tuning .tuning-source-intro{margin:0 0 8px;font-size:12px}
+.drum-tuning .tuning-library-status{font-size:12px;color:var(--lilac);min-height:36px;margin:0 0 10px}
+.tuning-source-cards{display:grid;gap:10px;max-height:620px;overflow-y:auto;overscroll-behavior:contain;padding:2px 7px 2px 2px;scrollbar-width:thin}
+.tuning-source-card{border:1px solid var(--line);border-radius:var(--r-m);padding:15px;background:var(--surface-2)}
+.tuning-source-card.is-selected{border-color:var(--lime);box-shadow:inset 3px 0 0 var(--lime)}
+.tuning-source-card h4{margin:0 0 5px;font-size:15px;letter-spacing:-.02em}
+.tuning-library-filters{display:grid;grid-template-columns:minmax(110px,.8fr) minmax(0,1.2fr);gap:10px;margin:10px 0}
+.tuning-library-filters label{font-size:12px;font-weight:700;min-width:0}
+.drum-tuning .tuning-library-filters select,.drum-tuning input[type=search]{box-sizing:border-box;width:100%;min-width:0;min-height:44px;margin-top:6px;padding:9px 10px;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-s);color:var(--white);font:inherit;font-size:16px}
+.drum-tuning .tuning-model-status{font-size:12px;margin:8px 0;color:var(--dim)}
+.drum-tuning .tuning-source-identity{color:var(--lime);font-size:11px;font-weight:700;margin:0 0 5px}
+.tuning-bank-cards{display:grid;gap:10px;max-height:440px;overflow-y:auto;padding:3px 6px 3px 3px;overscroll-behavior:contain}
+.tuning-legacy-banks{margin-top:14px}.tuning-legacy-banks summary{color:var(--dim)}
+.drum-tuning .tuning-source-description{font-size:11px;line-height:1.5;margin:0 0 8px;overflow-wrap:anywhere}
+.drum-tuning .tuning-source-specs{font-size:11px;color:var(--lilac);margin:6px 0}
+.drum-tuning .tuning-source-warning{font-size:11px;color:#ffd38c;margin:6px 0}
+.tuning-source-actions{display:flex;gap:8px;margin:10px 0 7px}
+.tuning-source-actions .btn{flex:1}.tuning-source-actions .btn:disabled{opacity:.7;cursor:default}
+.tuning-source-card>a{font-size:10px;color:var(--dim);text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.tuning-adjustment{padding:18px;border:1px solid var(--line);border-radius:var(--r-m);position:sticky;top:0;background:var(--surface)}
+.drum-tuning .tuning-current-source{color:var(--lilac);font-size:12px;margin:0}
+.drum-tuning .tuning-character{font-size:12px;margin:4px 0 18px}
+.tuning-kit-summary{margin:24px 0 16px;padding-top:20px;border-top:1px solid var(--line)}
+.tuning-kit-pieces{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.tuning-kit-piece{display:flex;flex-direction:column;gap:4px;text-align:left;padding:10px;border:1px solid var(--line);border-radius:var(--r-s);color:var(--white);background:var(--surface-2);font:inherit;cursor:pointer;min-width:0}
+.tuning-kit-piece strong{font-size:12px}.tuning-kit-piece span{font-size:10px;color:var(--dim);overflow-wrap:anywhere}.tuning-kit-piece.is-selected{border-color:var(--lilac)}
+.tuning-preset select{margin-bottom:10px}.drum-tuning .tuning-kit-summary>p{font-size:12px}
+@media(max-width:760px){.tuning-workspace{grid-template-columns:1fr;gap:20px}.tuning-adjustment{position:static}.tuning-source-cards{max-height:440px}.tuning-kit-pieces{grid-template-columns:repeat(2,minmax(0,1fr))}.tuning-categories{grid-template-columns:repeat(3,1fr)}.drum-tuning{width:calc(100vw - 24px)}.tuning-source-card{padding:13px}}

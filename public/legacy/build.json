@@ -1,0 +1,17 @@
+{
+  "sha256": "581ee0cf362b20845dd5a8bded6dff75d332fc1f97bd2385b2a9be4c8962e1aa",
+  "sourceOrder": [
+    "import-contract.js",
+    "01-domain-and-language.js",
+    "02-editor.js",
+    "03-notation.js",
+    "04-audio-and-sequencer.js",
+    "05-controls-and-export.js",
+    "06-persistence-and-import.js",
+    "07-layout-and-extensions.js",
+    "grid-clipboard.js",
+    "score-regions.js",
+    "score-render-bridge.js",
+    "workspace-bridge.js"
+  ]
+}

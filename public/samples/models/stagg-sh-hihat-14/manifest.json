@@ -1,0 +1,162 @@
+{
+  "version": 1,
+  "id": "stagg-sh-hihat-14",
+  "kind": "instrument",
+  "instrument": "hihat",
+  "brand": "Stagg",
+  "model": "SH Hi-Hat",
+  "label": "Stagg SH Hi-Hat 14″",
+  "size": "14″",
+  "license": "Public Domain (author dedication 2022)",
+  "source": "https://github.com/endolith/Salamander-Drumkit/tree/9e9c9fca9f26e1763435beca4170505d0fa32fb0",
+  "description": "Stagg SH Hi-Hat 14″; independently recorded real instrument, no manufacturer endorsement. Alexander Holm original overhead recording. Exact series/type/size as stated in author README.",
+  "variants": {
+    "hihat": [
+      {
+        "url": "/samples/models/stagg-sh-hihat-14/hihatClosed_OH_F_1.wav",
+        "velocity": 0.7598425196850394,
+        "rr": 0,
+        "sourceFile": "OH/hihatClosed_OH_F_1.wav"
+      },
+      {
+        "url": "/samples/models/stagg-sh-hihat-14/hihatClosed_OH_F_2.wav",
+        "velocity": 0.7598425196850394,
+        "rr": 1,
+        "sourceFile": "OH/hihatClosed_OH_F_2.wav"
+      },
+      {
+        "url": "/samples/models/stagg-sh-hihat-14/hihatClosed_OH_F_3.wav",
+        "velocity": 0.7598425196850394,
+        "rr": 2,
+        "sourceFile": "OH/hihatClosed_OH_F_3.wav"
+      },
+      {
+        "url": "/samples/models/stagg-sh-hihat-14/hihatClosed_OH_F_4.wav",
+        "velocity": 0.7598425196850394,
+        "rr": 3,
+        "sourceFile": "OH/hihatClosed_OH_F_4.wav"
+      },
+      {
+        "url": "/samples/models/stagg-sh-hihat-14/hihatClosed_OH_P_1.wav",
+        "velocity": 0.25984251968503935,
+        "rr": 0,
+        "sourceFile": "OH/hihatClosed_OH_P_1.wav"
+      },
+      {
+        "url": "/samples/models/stagg-sh-hihat-14/hihatClosed_OH_P_2.wav",
+        "velocity": 0.25984251968503935,
+        "rr": 1,
+        "sourceFile": "OH/hihatClosed_OH_P_2.wav"
+      },
+      {
+        "url": "/samples/models/stagg-sh-hihat-14/hihatClosed_OH_P_3.wav",
+        "velocity": 0.25984251968503935,
+        "rr": 2,
+        "sourceFile": "OH/hihatClosed_OH_P_3.wav"
+      },
+      {
+        "url": "/samples/models/stagg-sh-hihat-14/hihatClosed_OH_P_4.wav",
+        "velocity": 0.25984251968503935,
+        "rr": 3,
+        "sourceFile": "OH/hihatClosed_OH_P_4.wav"
+      }
+    ],
+    "hihatOpen": [
+      {
+        "url": "/samples/models/stagg-sh-hihat-14/hihatOpen_OH_FF_1.wav",
+        "velocity": 0.8543307086614174,
+        "rr": 0,
+        "sourceFile": "OH/hihatOpen_OH_FF_1.wav"
+      },
+      {
+        "url": "/samples/models/stagg-sh-hihat-14/hihatOpen_OH_FF_2.wav",
+        "velocity": 0.8543307086614174,
+        "rr": 1,
+        "sourceFile": "OH/hihatOpen_OH_FF_2.wav"
+      },
+      {
+        "url": "/samples/models/stagg-sh-hihat-14/hihatOpen_OH_FF_3.wav",
+        "velocity": 0.8543307086614174,
+        "rr": 2,
+        "sourceFile": "OH/hihatOpen_OH_FF_3.wav"
+      },
+      {
+        "url": "/samples/models/stagg-sh-hihat-14/hihatOpen_OH_FF_4.wav",
+        "velocity": 0.8543307086614174,
+        "rr": 3,
+        "sourceFile": "OH/hihatOpen_OH_FF_4.wav"
+      },
+      {
+        "url": "/samples/models/stagg-sh-hihat-14/hihatOpen_OH_F_1.wav",
+        "velocity": 0.5511811023622047,
+        "rr": 0,
+        "sourceFile": "OH/hihatOpen_OH_F_1.wav"
+      },
+      {
+        "url": "/samples/models/stagg-sh-hihat-14/hihatOpen_OH_F_2.wav",
+        "velocity": 0.5511811023622047,
+        "rr": 1,
+        "sourceFile": "OH/hihatOpen_OH_F_2.wav"
+      },
+      {
+        "url": "/samples/models/stagg-sh-hihat-14/hihatOpen_OH_F_3.wav",
+        "velocity": 0.5511811023622047,
+        "rr": 2,
+        "sourceFile": "OH/hihatOpen_OH_F_3.wav"
+      },
+      {
+        "url": "/samples/models/stagg-sh-hihat-14/hihatOpen_OH_F_4.wav",
+        "velocity": 0.5511811023622047,
+        "rr": 3,
+        "sourceFile": "OH/hihatOpen_OH_F_4.wav"
+      },
+      {
+        "url": "/samples/models/stagg-sh-hihat-14/hihatOpen_OH_P_1.wav",
+        "velocity": 0.20078740157480315,
+        "rr": 0,
+        "sourceFile": "OH/hihatOpen_OH_P_1.wav"
+      },
+      {
+        "url": "/samples/models/stagg-sh-hihat-14/hihatOpen_OH_P_2.wav",
+        "velocity": 0.20078740157480315,
+        "rr": 1,
+        "sourceFile": "OH/hihatOpen_OH_P_2.wav"
+      },
+      {
+        "url": "/samples/models/stagg-sh-hihat-14/hihatOpen_OH_P_3.wav",
+        "velocity": 0.20078740157480315,
+        "rr": 2,
+        "sourceFile": "OH/hihatOpen_OH_P_3.wav"
+      },
+      {
+        "url": "/samples/models/stagg-sh-hihat-14/hihatOpen_OH_P_4.wav",
+        "velocity": 0.20078740157480315,
+        "rr": 3,
+        "sourceFile": "OH/hihatOpen_OH_P_4.wav"
+      }
+    ]
+  },
+  "fallbacks": {},
+  "category": "hihat",
+  "attribution": "Recorded by Alexander Holm. Original historical CC BY-SA 3.0 README retained; author dedicated all his sampled instruments to public domain in March 2022. Converted original audio to PCM16 stereo 44.1 kHz with uniform -3 dB headroom before resampling; natural tails and source onset retained, no per-hit normalization, no source SFZ gain baked in.",
+  "layerNotes": "Source SFZ velocity groups retained; first up to four real recorded alternatives per group. Same-layer alternatives are genuine separate performances. No synthesized variants; no tail truncation.",
+  "bytes": 20981104,
+  "fileCount": 24,
+  "layerCounts": {
+    "hihat": 2,
+    "hihatOpen": 3,
+    "hihatFoot": 1
+  },
+  "roundRobinCounts": {
+    "hihat": 4,
+    "hihatOpen": 4,
+    "hihatFoot": 4
+  },
+  "quality": {
+    "clippedFiles": 0,
+    "silentFiles": 0,
+    "tail": "Original recorded tail preserved; no fade or tail truncation added."
+  },
+  "descriptionKo": "알렉산더 홀름 녹음. 제작자가 명시한 시리즈와 구경을 사용하며 실제 녹음의 자연스러운 잔향을 유지했습니다.",
+  "fallbacksKo": {}
+}

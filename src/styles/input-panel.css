@@ -1,0 +1,10 @@
+@font-face{font-family:InputSUIT;src:url(/fonts/SUIT-Regular.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:InputSUIT;src:url(/fonts/SUIT-SemiBold.woff2) format('woff2');font-weight:500 900;font-display:swap}
+.workspace.crt-workspace .crt-input-panel,.workspace.crt-workspace .crt-input-panel *{font-family:InputSUIT,sans-serif!important}
+.workspace.crt-workspace .crt-input-panel{font-size:12px}
+.workspace.crt-workspace .crt-input-panel :is(button,select,label,.lbl,.editor-range,.gcorner){font-size:11px!important}
+.workspace.crt-workspace .crt-input-panel .crt-panel-heading{font-size:13px!important}
+.workspace.crt-workspace .crt-input-panel .rowlabel{font-size:13px!important}
+.workspace.crt-workspace .crt-input-panel :is(.beathead,.beathead span){font-size:10px!important}
+.workspace.crt-workspace .crt-input-panel :is(.editor-hint,.clipboard-status,.measure-repeat-status,.hit-target-hint){font-size:10px!important}
+.workspace.crt-workspace .crt-input-panel .measure-editor-card.is-active .measure-editor-title:after{content:' · Editing'}

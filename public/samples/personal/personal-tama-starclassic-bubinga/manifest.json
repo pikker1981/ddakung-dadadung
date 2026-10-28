@@ -1,0 +1,127 @@
+{
+  "version": 1,
+  "id": "personal-tama-starclassic-bubinga",
+  "kind": "instrument",
+  "instrument": "snare",
+  "brand": "TAMA",
+  "model": "Starclassic Bubinga",
+  "flavor": "Sly 탑 마이크",
+  "size": "14×5.5″",
+  "label": "TAMA Starclassic Bubinga · Sly 탑 마이크",
+  "category": "snare",
+  "scope": "personal",
+  "license": "Personal-use: Author free functioning demo for MIDI programming and music production; no raw redistribution grant.",
+  "source": "https://ultimatemetal.com/threads/slys-drumsamples-library-my-15-snare-drums-collection-for-you.674878/",
+  "description": "Sly 무료 데모의 AKG C414 XL2 탑 마이크. 실제 Soft 3개·Mid 3개·Rimshot 4개. 바텀 마이크 합성 없이 원래 타격 보존.",
+  "descriptionKo": "Sly 무료 데모의 AKG C414 XL2 탑 마이크. 실제 Soft 3개·Mid 3개·Rimshot 4개. 바텀 마이크 합성 없이 원래 타격 보존.",
+  "variants": {
+    "snare": [
+      {
+        "url": "/samples/personal/personal-tama-starclassic-bubinga/snare-001.wav",
+        "velocity": 0.65,
+        "rr": 0,
+        "sourceFile": "raw\\sly\\demo\\SLYS DRUMSAMPLES LIBRARY DEMO\\SNARES\\TAMA\\Starclassic Bubinga 14 x 5,5\\Top - AKG C414 XL2\\Mid1.wav",
+        "sourceOffsetFrames": 0,
+        "sourceRate": 44100,
+        "sourceOffsetSeconds": 0
+      },
+      {
+        "url": "/samples/personal/personal-tama-starclassic-bubinga/snare-002.wav",
+        "velocity": 0.65,
+        "rr": 1,
+        "sourceFile": "raw\\sly\\demo\\SLYS DRUMSAMPLES LIBRARY DEMO\\SNARES\\TAMA\\Starclassic Bubinga 14 x 5,5\\Top - AKG C414 XL2\\Mid2.wav",
+        "sourceOffsetFrames": 0,
+        "sourceRate": 44100,
+        "sourceOffsetSeconds": 0
+      },
+      {
+        "url": "/samples/personal/personal-tama-starclassic-bubinga/snare-003.wav",
+        "velocity": 0.65,
+        "rr": 2,
+        "sourceFile": "raw\\sly\\demo\\SLYS DRUMSAMPLES LIBRARY DEMO\\SNARES\\TAMA\\Starclassic Bubinga 14 x 5,5\\Top - AKG C414 XL2\\Mid3.wav",
+        "sourceOffsetFrames": 0,
+        "sourceRate": 44100,
+        "sourceOffsetSeconds": 0
+      },
+      {
+        "url": "/samples/personal/personal-tama-starclassic-bubinga/snare-004.wav",
+        "velocity": 0.25,
+        "rr": 0,
+        "sourceFile": "raw\\sly\\demo\\SLYS DRUMSAMPLES LIBRARY DEMO\\SNARES\\TAMA\\Starclassic Bubinga 14 x 5,5\\Top - AKG C414 XL2\\Soft1.wav",
+        "sourceOffsetFrames": 0,
+        "sourceRate": 44100,
+        "sourceOffsetSeconds": 0
+      },
+      {
+        "url": "/samples/personal/personal-tama-starclassic-bubinga/snare-005.wav",
+        "velocity": 0.25,
+        "rr": 1,
+        "sourceFile": "raw\\sly\\demo\\SLYS DRUMSAMPLES LIBRARY DEMO\\SNARES\\TAMA\\Starclassic Bubinga 14 x 5,5\\Top - AKG C414 XL2\\Soft2.wav",
+        "sourceOffsetFrames": 0,
+        "sourceRate": 44100,
+        "sourceOffsetSeconds": 0
+      },
+      {
+        "url": "/samples/personal/personal-tama-starclassic-bubinga/snare-006.wav",
+        "velocity": 0.25,
+        "rr": 2,
+        "sourceFile": "raw\\sly\\demo\\SLYS DRUMSAMPLES LIBRARY DEMO\\SNARES\\TAMA\\Starclassic Bubinga 14 x 5,5\\Top - AKG C414 XL2\\Soft3.wav",
+        "sourceOffsetFrames": 0,
+        "sourceRate": 44100,
+        "sourceOffsetSeconds": 0
+      }
+    ],
+    "snareRim": [
+      {
+        "url": "/samples/personal/personal-tama-starclassic-bubinga/snareRim-001.wav",
+        "velocity": 1,
+        "rr": 0,
+        "sourceFile": "raw\\sly\\demo\\SLYS DRUMSAMPLES LIBRARY DEMO\\SNARES\\TAMA\\Starclassic Bubinga 14 x 5,5\\Top - AKG C414 XL2\\Rimshot1.wav",
+        "sourceOffsetFrames": 0,
+        "sourceRate": 44100,
+        "sourceOffsetSeconds": 0
+      },
+      {
+        "url": "/samples/personal/personal-tama-starclassic-bubinga/snareRim-002.wav",
+        "velocity": 1,
+        "rr": 1,
+        "sourceFile": "raw\\sly\\demo\\SLYS DRUMSAMPLES LIBRARY DEMO\\SNARES\\TAMA\\Starclassic Bubinga 14 x 5,5\\Top - AKG C414 XL2\\Rimshot2.wav",
+        "sourceOffsetFrames": 0,
+        "sourceRate": 44100,
+        "sourceOffsetSeconds": 0
+      },
+      {
+        "url": "/samples/personal/personal-tama-starclassic-bubinga/snareRim-003.wav",
+        "velocity": 1,
+        "rr": 2,
+        "sourceFile": "raw\\sly\\demo\\SLYS DRUMSAMPLES LIBRARY DEMO\\SNARES\\TAMA\\Starclassic Bubinga 14 x 5,5\\Top - AKG C414 XL2\\Rimshot3.wav",
+        "sourceOffsetFrames": 0,
+        "sourceRate": 44100,
+        "sourceOffsetSeconds": 0
+      },
+      {
+        "url": "/samples/personal/personal-tama-starclassic-bubinga/snareRim-004.wav",
+        "velocity": 1,
+        "rr": 3,
+        "sourceFile": "raw\\sly\\demo\\SLYS DRUMSAMPLES LIBRARY DEMO\\SNARES\\TAMA\\Starclassic Bubinga 14 x 5,5\\Top - AKG C414 XL2\\Rimshot4.wav",
+        "sourceOffsetFrames": 0,
+        "sourceRate": 44100,
+        "sourceOffsetSeconds": 0
+      }
+    ]
+  },
+  "fallbacks": {
+    "snareXStick": "실제 크로스스틱 녹음 없음; 전용 샘플 미제공."
+  },
+  "fileCount": 10,
+  "bytes": 7323592,
+  "layerCounts": {
+    "snare": 2,
+    "snareRim": 1
+  },
+  "roundRobinCounts": {
+    "snare": 3,
+    "snareRim": 4
+  },
+  "dynamicsProvenance": "Original author filenames"
+}

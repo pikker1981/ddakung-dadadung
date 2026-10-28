@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "id": "bop-sticks",
+  "label": "타마 밥 · 스틱",
+  "license": "CC-BY-SA-3.0",
+  "source": "https://www.bandshed.net/avldrumkits/",
+  "description": "TAMA acoustic drums, sticks; Glen MacArthur / AVL Drumkits. Curated renamed sample-library derivative, CC-BY-SA 3.0.",
+  "variants": {
+    "kick": [
+      {
+        "url": "/samples/bop-sticks/36-TAMA-18-Kick-1.wav",
+        "velocity": 0.1062992125984252,
+        "rr": 0
+      },
+      {
+        "url": "/samples/bop-sticks/36-TAMA-18-Kick-2.wav",
+        "velocity": 0.3110236220472441,
+        "rr": 0
+      },
+      {
+        "url": "/samples/bop-sticks/36-TAMA-18-Kick-3.wav",
+        "velocity": 0.5118110236220472,
+        "rr": 0
+      },
+      {
+        "url": "/samples/bop-sticks/36-TAMA-18-Kick-4.wav",
+        "velocity": 0.7086614173228346,
+        "rr": 0
+      },
+      {
+        "url": "/samples/bop-sticks/36-TAMA-18-Kick-5.wav",
+        "velocity": 0.905511811023622,
+        "rr": 0
+      }
+    ]
+  },
+  "fallbacks": {},
+  "attribution": "Glen MacArthur 2015, AVL Drumkits; original author information and license retained in /samples/licenses/AVL-LICENSE.txt.",
+  "bytes": 25195768,
+  "fileCount": 60
+}

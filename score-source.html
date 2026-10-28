@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>따쿵따다둥 · 원본 악보</title></head>
+<body>
+  <main class="source-viewer">
+    <header><button id="source-back" type="button">← 작업 악보로 돌아가기</button><div><p class="eyebrow">원본 악보 · 읽기 전용</p><h1 id="source-title">참조할 악보를 열어 주세요</h1></div><label class="button">JSON 악보 열기<input id="source-file" type="file" accept=".json,application/json"></label></header>
+    <div class="toolbar"><div class="source-modes" role="group" aria-label="악보 선택 방식"><button type="button" data-source-mode="measure" aria-pressed="true">마디 선택</button><button type="button" data-source-mode="beats" aria-pressed="false">박 선택</button></div><p>박 선택: 눌러 추가/해제 · 마우스 Ctrl+드래그: 범위</p><button id="source-copy" disabled>선택 복사 <kbd>Ctrl+C</kbd></button></div>
+    <p id="source-status" role="status" aria-live="polite">파일은 수정하거나 저장하지 않아요. 복사한 뒤 작업 중인 악보에 붙여 넣으세요.</p>
+    <section id="source-scroll" aria-label="원본 악보"><div id="source-score" tabindex="0" aria-label="원본 악보의 마디와 박 선택"></div><p id="source-empty">악보를 열면 이곳에 표시돼요.</p></section>
+    <footer><button id="source-prev" disabled aria-label="이전 페이지">← 이전</button><span id="source-page">0 / 0</span><button id="source-next" disabled aria-label="다음 페이지">다음 →</button><span id="source-selection">선택한 박 없음</span></footer>
+  </main>
+  <script type="module" src="/src/score-source.ts"></script>
+</body></html>

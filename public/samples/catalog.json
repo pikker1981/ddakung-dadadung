@@ -1,0 +1,332 @@
+{
+  "version": 1,
+  "defaultKit": "custom",
+  "kits": [
+    {
+      "id": "paiste-pst5-splash-8",
+      "label": "Paiste PST5 Splash 8″",
+      "kind": "instrument",
+      "instrument": "splash",
+      "brand": "Paiste",
+      "model": "PST5 Splash",
+      "size": "8″",
+      "description": "Paiste PST5 Splash 8″; independently recorded real instrument, no manufacturer endorsement. Alexander Holm original overhead recording. Exact series/type/size as stated in author README.",
+      "descriptionKo": "알렉산더 홀름 녹음. 제작자가 명시한 시리즈와 구경을 사용하며 실제 녹음의 자연스러운 잔향을 유지했습니다.",
+      "license": "Public Domain (author dedication 2022)",
+      "source": "https://github.com/endolith/Salamander-Drumkit/tree/9e9c9fca9f26e1763435beca4170505d0fa32fb0",
+      "bytes": 3596488,
+      "fileCount": 8,
+      "category": "splash",
+      "layerCounts": {
+        "crash": 2,
+        "splash": 2
+      },
+      "roundRobinCounts": {
+        "crash": 4,
+        "splash": 4
+      },
+      "manifest": "/samples/models/paiste-pst5-splash-8/manifest.json",
+      "compatibleTargets": [
+        "splash"
+      ],
+      "privateUse": true
+    },
+    {
+      "id": "paiste-innovations-china-18",
+      "label": "Paiste Innovations China 18″",
+      "kind": "instrument",
+      "instrument": "china",
+      "brand": "Paiste",
+      "model": "Innovations China",
+      "size": "18″",
+      "description": "Paiste Innovations China 18″; independently recorded real instrument, no manufacturer endorsement. Alexander Holm original overhead recording. Exact series/type/size as stated in author README.",
+      "descriptionKo": "알렉산더 홀름 녹음. 제작자가 명시한 시리즈와 구경을 사용하며 실제 녹음의 자연스러운 잔향을 유지했습니다.",
+      "license": "Public Domain (author dedication 2022)",
+      "source": "https://github.com/endolith/Salamander-Drumkit/tree/9e9c9fca9f26e1763435beca4170505d0fa32fb0",
+      "bytes": 5496664,
+      "fileCount": 4,
+      "category": "china",
+      "layerCounts": {
+        "crash": 1,
+        "china": 1
+      },
+      "roundRobinCounts": {
+        "crash": 4,
+        "china": 4
+      },
+      "manifest": "/samples/models/paiste-innovations-china-18/manifest.json",
+      "compatibleTargets": [
+        "china"
+      ],
+      "privateUse": true
+    },
+    {
+      "id": "big-rusty-stack-3-layer",
+      "label": "Trowa / Polmuz Three-Cymbal Stack 21″ + 16″ + 14″ half hat",
+      "kind": "instrument",
+      "instrument": "fx",
+      "brand": "Trowa / Polmuz",
+      "model": "Three-Cymbal Stack",
+      "size": "21″ + 16″ + 14″ half hat",
+      "description": "Real recorded Trowa / Polmuz Three-Cymbal Stack 21″ + 16″ + 14″ half hat; no manufacturer endorsement.",
+      "descriptionKo": "카로리퍼 Big Rusty Drums 실제 악기 녹음. 제작자 안내서의 모델·규격을 확인하고 원본 매핑의 실제 세기·반복 타격을 보존했습니다. 근접 마이크 녹음과 자연스러운 잔향을 사용합니다.",
+      "license": "CC0-1.0",
+      "source": "https://github.com/sfzinstruments/karoryfer.big-rusty-drums/tree/f07ce00df34a46b6b08375be56fe116cf15782bc",
+      "bytes": 7213488,
+      "fileCount": 24,
+      "layerCounts": {
+        "crash": 6,
+        "fx": 6
+      },
+      "roundRobinCounts": {
+        "crash": 4,
+        "fx": 4
+      },
+      "compatibleTargets": [
+        "fx"
+      ],
+      "manifest": "/samples/models/big-rusty-stack-3-layer/manifest.json",
+      "privateUse": true
+    },
+    {
+      "id": "bop-sticks",
+      "label": "타마 밥 · 스틱",
+      "license": "CC-BY-SA-3.0",
+      "source": "https://www.bandshed.net/avldrumkits/",
+      "description": "TAMA acoustic drums, sticks; Glen MacArthur / AVL Drumkits. Curated renamed sample-library derivative, CC-BY-SA 3.0.",
+      "bytes": 1931994,
+      "fileCount": 5,
+      "manifest": "/samples/bop-sticks/manifest.json",
+      "kind": "instrument",
+      "instrument": "kick",
+      "compatibleTargets": [
+        "kick"
+      ],
+      "privateUse": true
+    },
+    {
+      "id": "personal-tama-starclassic-bubinga",
+      "kind": "instrument",
+      "instrument": "snare",
+      "brand": "TAMA",
+      "model": "Starclassic Bubinga",
+      "flavor": "Sly 탑 마이크",
+      "size": "14×5.5″",
+      "label": "TAMA Starclassic Bubinga · Sly 탑 마이크",
+      "category": "snare",
+      "scope": "personal",
+      "license": "Personal-use: Author free functioning demo for MIDI programming and music production; no raw redistribution grant.",
+      "source": "https://ultimatemetal.com/threads/slys-drumsamples-library-my-15-snare-drums-collection-for-you.674878/",
+      "description": "Sly 무료 데모의 AKG C414 XL2 탑 마이크. 실제 Soft 3개·Mid 3개·Rimshot 4개. 바텀 마이크 합성 없이 원래 타격 보존.",
+      "descriptionKo": "Sly 무료 데모의 AKG C414 XL2 탑 마이크. 실제 Soft 3개·Mid 3개·Rimshot 4개. 바텀 마이크 합성 없이 원래 타격 보존.",
+      "fileCount": 10,
+      "bytes": 7323592,
+      "layerCounts": {
+        "snare": 2,
+        "snareRim": 1
+      },
+      "roundRobinCounts": {
+        "snare": 3,
+        "snareRim": 4
+      },
+      "manifest": "/samples/personal/personal-tama-starclassic-bubinga/manifest.json",
+      "compatibleTargets": [
+        "snare"
+      ],
+      "privateUse": true
+    },
+    {
+      "id": "yamaha-recording-custom-tom-10",
+      "label": "Yamaha Recording Custom Cherry Tom 10″",
+      "kind": "instrument",
+      "instrument": "tom1",
+      "brand": "Yamaha",
+      "model": "Recording Custom Cherry Tom",
+      "size": "10″",
+      "description": "Real recorded Yamaha Recording Custom Cherry Tom 10″; no manufacturer endorsement.",
+      "descriptionKo": "윌킨슨 오디오 녹음. Yamaha Recording Custom Cherry 실제 탐. 원본 3단계 세기 × 10회 반복 타격의 근접·오버헤드를 맞춰 혼합했습니다. 다른 탐 슬롯은 같은 녹음을 사용하며 음높이를 합성하지 않습니다.",
+      "license": "CC-BY-4.0",
+      "source": "https://github.com/sfzinstruments/WilkinsonAudio.NakedDrums/tree/407732a548606ac715ad8f3fbac63d9f4df77c0d",
+      "bytes": 11268644,
+      "fileCount": 30,
+      "layerCounts": {
+        "tom1": 3,
+        "tom2": 3,
+        "ftom": 3
+      },
+      "roundRobinCounts": {
+        "tom1": 10,
+        "tom2": 10,
+        "ftom": 10
+      },
+      "compatibleTargets": [
+        "tom1"
+      ],
+      "manifest": "/samples/models/yamaha-recording-custom-tom-10/manifest.json",
+      "privateUse": true
+    },
+    {
+      "id": "yamaha-recording-custom-tom-12",
+      "label": "Yamaha Recording Custom Cherry Tom 12″",
+      "kind": "instrument",
+      "instrument": "tom2",
+      "brand": "Yamaha",
+      "model": "Recording Custom Cherry Tom",
+      "size": "12″",
+      "description": "Real recorded Yamaha Recording Custom Cherry Tom 12″; no manufacturer endorsement.",
+      "descriptionKo": "윌킨슨 오디오 녹음. Yamaha Recording Custom Cherry 실제 탐. 원본 3단계 세기 × 10회 반복 타격의 근접·오버헤드를 맞춰 혼합했습니다. 다른 탐 슬롯은 같은 녹음을 사용하며 음높이를 합성하지 않습니다.",
+      "license": "CC-BY-4.0",
+      "source": "https://github.com/sfzinstruments/WilkinsonAudio.NakedDrums/tree/407732a548606ac715ad8f3fbac63d9f4df77c0d",
+      "bytes": 12057060,
+      "fileCount": 30,
+      "layerCounts": {
+        "tom1": 3,
+        "tom2": 3,
+        "ftom": 3
+      },
+      "roundRobinCounts": {
+        "tom1": 10,
+        "tom2": 10,
+        "ftom": 10
+      },
+      "compatibleTargets": [
+        "tom2"
+      ],
+      "manifest": "/samples/models/yamaha-recording-custom-tom-12/manifest.json",
+      "privateUse": true
+    },
+    {
+      "id": "yamaha-recording-custom-tom-16",
+      "label": "Yamaha Recording Custom Cherry Tom 16″",
+      "kind": "instrument",
+      "instrument": "ftom",
+      "brand": "Yamaha",
+      "model": "Recording Custom Cherry Tom",
+      "size": "16″",
+      "description": "Real recorded Yamaha Recording Custom Cherry Tom 16″; no manufacturer endorsement.",
+      "descriptionKo": "윌킨슨 오디오 녹음. Yamaha Recording Custom Cherry 실제 탐. 원본 3단계 세기 × 10회 반복 타격의 근접·오버헤드를 맞춰 혼합했습니다. 다른 탐 슬롯은 같은 녹음을 사용하며 음높이를 합성하지 않습니다.",
+      "license": "CC-BY-4.0",
+      "source": "https://github.com/sfzinstruments/WilkinsonAudio.NakedDrums/tree/407732a548606ac715ad8f3fbac63d9f4df77c0d",
+      "bytes": 12057060,
+      "fileCount": 30,
+      "layerCounts": {
+        "tom1": 3,
+        "tom2": 3,
+        "ftom": 3
+      },
+      "roundRobinCounts": {
+        "tom1": 10,
+        "tom2": 10,
+        "ftom": 10
+      },
+      "compatibleTargets": [
+        "ftom"
+      ],
+      "manifest": "/samples/models/yamaha-recording-custom-tom-16/manifest.json",
+      "privateUse": true
+    },
+    {
+      "id": "stagg-sh-hihat-14",
+      "label": "Stagg SH Hi-Hat 14″",
+      "kind": "instrument",
+      "instrument": "hihat",
+      "brand": "Stagg",
+      "model": "SH Hi-Hat",
+      "size": "14″",
+      "description": "Stagg SH Hi-Hat 14″; independently recorded real instrument, no manufacturer endorsement. Alexander Holm original overhead recording. Exact series/type/size as stated in author README.",
+      "descriptionKo": "알렉산더 홀름 녹음. 제작자가 명시한 시리즈와 구경을 사용하며 실제 녹음의 자연스러운 잔향을 유지했습니다.",
+      "license": "Public Domain (author dedication 2022)",
+      "source": "https://github.com/endolith/Salamander-Drumkit/tree/9e9c9fca9f26e1763435beca4170505d0fa32fb0",
+      "bytes": 20081260,
+      "fileCount": 20,
+      "category": "hihat",
+      "layerCounts": {
+        "hihat": 2,
+        "hihatOpen": 3,
+        "hihatFoot": 1
+      },
+      "roundRobinCounts": {
+        "hihat": 4,
+        "hihatOpen": 4,
+        "hihatFoot": 4
+      },
+      "manifest": "/samples/models/stagg-sh-hihat-14/manifest.json",
+      "compatibleTargets": [
+        "hihat"
+      ],
+      "privateUse": true
+    },
+    {
+      "id": "studio-jazz",
+      "label": "버추오시티 · 스튜디오 재즈",
+      "license": "CC0-1.0",
+      "source": "https://github.com/sfzinstruments/virtuosity_drums/tree/9f04cf9a734527edfbb0a4eee1f674e45bbf71bc",
+      "description": "Austin McMahon / Versilian Studios; coherent live jazz kit. Kick/snare close mic + quiet overhead, tom mid + overhead; cymbals overhead.",
+      "bytes": 4358844,
+      "fileCount": 12,
+      "manifest": "/samples/studio-jazz/manifest.json",
+      "kind": "instrument",
+      "instrument": "hihatFoot",
+      "compatibleTargets": [
+        "hihatFoot"
+      ],
+      "privateUse": true
+    },
+    {
+      "id": "paiste-formula-602-thin-crash",
+      "label": "Paiste Formula 602 Thin Crash",
+      "kind": "instrument",
+      "instrument": "ride",
+      "brand": "Paiste",
+      "model": "Formula 602 Thin Crash",
+      "size": null,
+      "description": "Paiste Formula 602 Thin Crash; independently recorded real instrument, no manufacturer endorsement. DRSKit recording by Lars Muldjord / Bent Bisballe Nyeng with Jes Eiler. Diameter not supplied by author. Actual thin crash cymbal played as ride, with recorded bow and bell.",
+      "descriptionKo": "드럼기즈모·DRS 제작진 녹음. 구경 미상. 실제 얇은 크래시 심벌을 라이드처럼 연주한 보우·벨 녹음입니다.",
+      "license": "CC-BY-4.0",
+      "source": "https://github.com/sfzinstruments/DrumGizmo.DRSKit/tree/b01448990a31f722542f1812e56159a97a6a2a82",
+      "bytes": 13832346,
+      "fileCount": 19,
+      "category": "crash-as-ride",
+      "layerCounts": {
+        "ride": 5,
+        "rideBell": 5
+      },
+      "roundRobinCounts": {
+        "ride": 2,
+        "rideBell": 2
+      },
+      "manifest": "/samples/models/paiste-formula-602-thin-crash/manifest.json",
+      "compatibleTargets": [
+        "ride"
+      ],
+      "privateUse": true
+    },
+    {
+      "id": "sabian-aax-crash-17",
+      "label": "Sabian AAX Crash 17″",
+      "kind": "instrument",
+      "instrument": "crash",
+      "brand": "Sabian",
+      "model": "AAX Crash",
+      "size": "17″",
+      "description": "Sabian AAX Crash 17″; independently recorded real instrument, no manufacturer endorsement. Glen MacArthur / AVL recorded sticks; exact series and size from original filenames. More specific product suffix unknown. Existing WAVs reused without duplicate audio.",
+      "descriptionKo": "글렌 매카서·AVL 녹음. 원본 파일명으로 시리즈와 구경을 확인했습니다. 세부 제품 접미사는 미상이며 실제 5단계 세기를 사용합니다.",
+      "license": "CC-BY-SA-3.0",
+      "source": "https://www.bandshed.net/avldrumkits/",
+      "bytes": 5793890,
+      "fileCount": 5,
+      "layerCounts": {
+        "crash": 5
+      },
+      "roundRobinCounts": {
+        "crash": 1
+      },
+      "manifest": "/samples/models/sabian-aax-crash-17/manifest.json",
+      "compatibleTargets": [
+        "crash"
+      ],
+      "privateUse": true
+    }
+  ],
+  "privateUse": true
+}

@@ -1,0 +1,84 @@
+/* This separate web release always uses the iPad shell, including Safari desktop mode. */
+@media screen {
+ body.workspace.crt-workspace.ipad-workspace{min-width:0;padding-bottom:calc(92px + env(safe-area-inset-bottom));overflow-x:hidden}
+ .workspace.crt-workspace.ipad-workspace .topbar{flex-wrap:wrap;gap:8px 14px;padding:10px max(12px,env(safe-area-inset-left));min-height:64px}
+ .ipad-workspace .topbar .padbar{flex-wrap:wrap;justify-content:center;margin:0 auto;max-width:100%}
+ .ipad-workspace .topbar .fileacts{flex-wrap:wrap;justify-content:flex-end;gap:7px;max-width:100%}
+ .ipad-workspace #imageImportButton,.ipad-workspace #crtDivider,.ipad-workspace #mFlip{display:none!important}
+ .ipad-workspace .crt-wordmark{font-size:22px}
+ .workspace.crt-workspace.ipad-workspace :is(button,.btn,.chip,.mkbtn,.mgrp button,.artrow button,.tuning-tab,.bpmstep,summary){min-height:44px;min-width:44px;touch-action:manipulation}
+ .workspace.crt-workspace.ipad-workspace :is(select,input:not([type=checkbox]):not([type=radio])){min-height:44px}
+ .ipad-workspace input[type=checkbox],.ipad-workspace input[type=radio]{width:22px;height:22px}
+ .workspace.crt-workspace.ipad-workspace main{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);grid-template-rows:auto auto auto;grid-template-areas:'title title' 'score panel' 'score velocity';gap:12px;padding:8px 12px 20px!important;align-items:start}
+ .workspace.crt-workspace.ipad-workspace main>.titlerow{height:auto;min-width:0}
+ .ipad-workspace #titleInput{min-width:0;flex:1;height:44px;font-size:16px}
+ .ipad-workspace .titlerow .btn.icon{height:44px;width:44px}
+ .ipad-workspace .crt-stage{height:auto;min-height:0;padding:52px 0 0;position:sticky;top:8px;align-self:start;display:block;overflow:visible}
+ .ipad-workspace .crt-stage .crt-monitor{width:100%;max-width:100%;aspect-ratio:909/840}
+ .ipad-workspace .crt-score-pager{inset:0 0 auto;min-height:44px;gap:6px;font-size:12px;flex-wrap:wrap}
+ .ipad-workspace .crt-score-pager button{padding:6px 8px;font-size:12px}
+ .workspace.crt-workspace.ipad-workspace .crt-screen #scoreWrap{padding:18px 12px!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}
+ .workspace.crt-workspace.ipad-workspace main>.crt-input-panel{height:auto!important;max-height:none!important;min-height:0!important;overflow:visible!important;padding:0 10px 12px!important;min-width:0}
+ .ipad-workspace .crt-panel-heading{min-height:44px;font-size:14px}
+ .ipad-workspace .crt-panel-signal{font-size:11px}
+ .workspace.crt-workspace.ipad-workspace main>.crt-input-panel>.bar{min-height:0;max-height:none;overflow:visible;gap:7px}
+ .ipad-workspace .bar :is(.chiprow,.tools),.workspace.crt-workspace.ipad-workspace #artRow,.ipad-workspace #rhythmTools,.ipad-workspace .editor-toolbar{flex-wrap:wrap;max-height:none;overflow:visible;gap:6px}
+ .ipad-workspace #rhythmTools>[role=group]{flex-wrap:wrap}
+ .workspace.crt-workspace.ipad-workspace #artRow button,.ipad-workspace #rhythmTools button,.ipad-workspace .editor-toolbar :is(select,button){font-size:12px;height:auto;min-height:44px;padding:6px 8px}
+ .workspace.crt-workspace.ipad-workspace main>.panel>#gridMode{flex:1 0 auto;min-height:430px;overflow:visible}
+ .workspace.crt-workspace.ipad-workspace main>.panel>#gridMode>.gridWrap{min-height:430px!important;max-height:650px!important;overflow:auto!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+ .ipad-workspace #grid .cell{height:44px;min-width:32px}
+ .ipad-workspace #grid .rowlabel{font-size:13px}
+ .workspace.crt-workspace.ipad-workspace #velocityEditor{max-height:none;min-width:0;overflow:auto;padding:10px}
+ .ipad-workspace .velocity-heading,.ipad-workspace .velocity-controls{flex-wrap:wrap;gap:6px}
+ .ipad-workspace .velocity-controls :is(button,input){height:44px}
+ .ipad-workspace #velocityEditor .velocity-bars{min-height:56px;height:56px}
+ .ipad-workspace .velocity-help{font-size:11px;line-height:1.5}
+ .ipad-editor-tabs{display:none;grid-area:tabs;gap:8px}
+ .workspace.crt-workspace.ipad-workspace .dock{position:fixed;bottom:0;left:0;right:0;z-index:50;max-width:none;width:100%;height:auto;min-height:76px;padding:8px max(12px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom))!important;gap:10px;flex-wrap:wrap;justify-content:center}
+ .ipad-workspace .transport,.ipad-workspace .tempo{gap:8px;min-width:0;flex-wrap:wrap;justify-content:center}
+ .ipad-workspace .transport .btn{padding:7px 12px}
+ .ipad-workspace .readout b{font-size:25px}
+ .ipad-workspace .pop{padding:16px;overflow:auto;overscroll-behavior:contain}
+ .ipad-workspace .popcard{max-height:calc(100dvh - 32px);overflow:auto;-webkit-overflow-scrolling:touch}
+ .ipad-settings-mixer{display:flex;margin:14px 0;padding-bottom:14px;border-bottom:1px solid #555}
+ .ipad-settings-mixer button{width:100%;text-align:left}
+ #ipadMixerView[hidden]{display:none!important}
+ .workspace.crt-workspace.ipad-workspace.ipad-mixer-open main,.workspace.crt-workspace.ipad-workspace.ipad-mixer-open .topbar,.workspace.crt-workspace.ipad-workspace.ipad-mixer-open #workspaceStatus,.workspace.crt-workspace.ipad-workspace.ipad-mixer-open footer{display:none!important}
+ #ipadMixerView{padding:12px max(14px,env(safe-area-inset-left)) 24px;min-height:calc(100dvh - 92px);background:#171717}
+ .ipad-view-heading{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;border-bottom:1px solid #555;padding-bottom:12px}
+ .ipad-view-heading h1{flex:1;margin:0;font-size:22px;min-width:130px}
+ .workspace.crt-workspace.ipad-workspace #mainMixer{display:block;grid-area:auto;min-height:0;height:auto;max-height:none;overflow:visible;padding:16px!important;margin:0!important}
+ .ipad-workspace #mainMixer .mixer-heading{flex-wrap:wrap;min-height:0;gap:18px;align-items:center;margin-bottom:18px}
+ .ipad-workspace #mainMixer .mixer-heading h2{font-size:20px}
+ .ipad-workspace #mainMixer .mixer-actions{flex-wrap:wrap;gap:8px}
+ .ipad-workspace #mainMixer .mixer-channels{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr))!important;gap:14px;overflow:visible;max-height:none}
+ .ipad-workspace #mainMixer .mixer-channel{padding:12px!important;min-width:0;min-height:270px}
+ .ipad-workspace #mainMixer .mixer-channel-heading{min-height:74px;max-height:none}
+ .ipad-workspace #mainMixer h3{font-size:16px}
+ .ipad-workspace #mainMixer .mixer-source{font-size:12px;line-height:1.4;min-height:34px;max-height:50px;overflow:auto}
+ .ipad-workspace #mainMixer .mixer-control{margin:10px 0;gap:5px}
+ .ipad-workspace #mainMixer .mixer-control>div{font-size:13px;line-height:1.4;min-height:20px}
+ .ipad-workspace #mainMixer .mixer-control input,.ipad-workspace #mainMixer .mixer-heading input[type=range]{height:44px!important;min-height:44px!important;max-width:none;width:100%}
+ .ipad-workspace #mainMixer .mixer-switches{gap:8px;margin-top:10px}
+ .ipad-workspace #mainMixer .mixer-switches button{height:44px;min-height:44px;font-size:12px}
+ .ipad-workspace #mainMixer .mixer-polish{flex:1 1 250px;font-size:13px}
+ .ipad-workspace #mainMixer .mixer-status{font-size:13px;line-height:1.6}
+ .ipad-workspace #drumTuningDialog{max-height:calc(100dvh - 24px);width:calc(100vw - 24px);padding:18px;overflow:auto}
+}
+@media screen and (max-width:999px), screen and (orientation:portrait){
+ .workspace.crt-workspace.ipad-workspace main{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto auto auto;grid-template-areas:'title' 'tabs' 'score' 'velocity';gap:12px}
+ .ipad-workspace .ipad-editor-tabs{display:flex}
+ .ipad-editor-tabs button{flex:1}
+ .ipad-workspace .ipad-editor-tabs button[aria-selected=true]{color:#17120d;background:#ed670f;border-color:#ffb176}
+ .ipad-workspace .crt-stage{position:relative;top:0;width:100%;max-width:850px;margin-inline:auto}
+ .ipad-workspace[data-ipad-tab=score] main>.crt-input-panel,.ipad-workspace[data-ipad-tab=score] #velocityEditor{display:none!important}
+ .ipad-workspace[data-ipad-tab=input] #crtStage{display:none!important}
+ .workspace.crt-workspace.ipad-workspace[data-ipad-tab=input] main{grid-template-areas:'title' 'tabs' 'panel' 'velocity'}
+ .ipad-workspace .topbar .padbar{order:3;width:100%}
+ .ipad-workspace .topbar .fileacts{margin-left:auto}
+ .ipad-workspace .crt-panel-signal{position:static}
+ .ipad-workspace .crt-panel-heading{gap:12px;justify-content:space-between}
+}
+@media print{#ipadMixerView,.ipad-editor-tabs{display:none!important}}
+

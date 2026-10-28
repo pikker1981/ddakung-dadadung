@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 909 840" fill="none">
+<title>Silver pixel CRT enclosure</title>
+<defs>
+  <pattern id="crt-patches" width="87" height="51" patternUnits="userSpaceOnUse"><path fill="#000" opacity=".34" d="M0 0h21v9H0zM39 6h27v6H39zM69 18h18v12H69zM15 24h18v6H15zM36 36h27v12H36zM0 45h12v6H0z"/><path fill="#ddd" opacity=".12" d="M24 3h12v3H24zM3 18h18v3H3zM54 24h12v3H54zM72 42h15v3H72z"/></pattern>
+  <pattern id="crt-case-grain" width="51" height="39" patternUnits="userSpaceOnUse"><path fill="#fff" opacity=".5" d="M0 0h3v3H0zM6 3h3v3H6zM15 0h6v3H15zM27 6h3v3H27zM42 0h3v3H42zM3 12h6v3H3zM18 15h3v3H18zM33 12h6v3H33zM45 18h3v3H45zM0 27h3v3H0zM9 24h3v3H9zM24 30h6v3H24zM39 27h3v3H39zM48 36h3v3H48z"/><path fill="#555" opacity=".22" d="M3 0h3v3H3zM21 3h9v3H21zM36 9h3v3H36zM12 12h3v3H12zM0 18h6v3H0zM27 21h6v3H27zM42 24h6v3H42zM15 30h3v3H15zM33 36h6v3H33z"/></pattern>
+  <pattern id="crt-fine" width="6" height="6" patternUnits="userSpaceOnUse"><path fill="#fff" opacity=".34" d="M0 0h3v3H0zM3 3h3v3H3z"/><path fill="#000" opacity=".25" d="M3 0h3v3H3zM0 3h3v3H0z"/></pattern>
+  <pattern id="crt-dark" width="6" height="6" patternUnits="userSpaceOnUse"><path fill="#aaa" opacity=".3" d="M0 0h2v2H0zM3 3h2v2H3z"/><path fill="#000" opacity=".65" d="M2 0h1v3H2zM5 3h1v3H5z"/></pattern>
+  <pattern id="crt-light" width="6" height="6" patternUnits="userSpaceOnUse"><path fill="#fff" opacity=".65" d="M0 0h3v3H0zM3 3h3v3H3z"/><path fill="#707070" opacity=".22" d="M3 0h2v2H3zM0 3h2v2H0z"/></pattern>
+  <pattern id="crt-vent" width="6" height="9" patternUnits="userSpaceOnUse"><path fill="#bebebe" d="M0 0h6v3H0z"/><path fill="#4d4d4d" d="M0 3h6v3H0z"/></pattern>
+  <linearGradient id="crt-shell" x1="0" y1="0" x2="0" y2="711" gradientUnits="userSpaceOnUse"><stop stop-color="#f1f1ef"/><stop offset=".5" stop-color="#c4c4c2"/><stop offset="1" stop-color="#e0e0de"/></linearGradient>
+  <linearGradient id="crt-wall" x1="0" y1="27" x2="0" y2="690" gradientUnits="userSpaceOnUse"><stop stop-color="#242424"/><stop offset=".13" stop-color="#080808"/><stop offset=".48" stop-color="#090909"/><stop offset=".9" stop-color="#161616"/><stop offset="1" stop-color="#303030"/></linearGradient>
+  <linearGradient id="crt-lower" x1="0" y1="711" x2="0" y2="840" gradientUnits="userSpaceOnUse"><stop stop-color="#bcbcbc"/><stop offset=".13" stop-color="#eee"/><stop offset=".4" stop-color="#cececc"/><stop offset=".48" stop-color="#6f6f6e"/><stop offset=".53" stop-color="#d8d8d6"/><stop offset="1" stop-color="#b2b2b0"/></linearGradient>
+  <!-- One aperture definition is shared by every ring: no frame paint covers the score. -->
+  <path id="crt-aperture" d="M105 126V114H111V108H123V105H183V102H270V99H339V96H570V99H639V102H726V105H786V108H798V114H804V126H807V465H804V594H798V606H786V612H729V615H657V618H570V624H339V621H252V618H183V615H123V612H111V606H105V594H102V465H99V186H102V126Z"/>
+  <mask id="crt-frame-only" maskUnits="userSpaceOnUse" x="0" y="0" width="909" height="840"><path fill="#fff" d="M0 0h909v840H0z"/><use href="#crt-aperture" fill="#000"/></mask>
+</defs>
+<g mask="url(#crt-frame-only)">
+  <!-- Nearly square straight cabinet, tiny clipped corner steps. -->
+  <path fill="#292929" d="M12 0H897V3H903V9H909V822H903V831H894V837H882V840H6V837H0V12H3V6H9V3H12Z"/>
+  <path fill="url(#crt-shell)" fill-rule="evenodd" d="M12 3H897V6H903V15H906V696H903V705H894V711H12V708H6V702H3V15H6V9H12Z M30 24H879V27H885V33H888V681H885V687H879V693H30V690H24V684H21V33H24V27H30Z"/>
+  <path fill="url(#crt-light)" fill-rule="evenodd" d="M12 3H897V6H903V15H906V696H903V705H894V711H12V708H6V702H3V15H6V9H12Z M30 24H879V27H885V33H888V681H885V687H879V693H30V690H24V684H21V33H24V27H30Z"/>
+  <path stroke="#fff" stroke-width="3" d="M9 696V15H15V9H894M15 699H894V693"/>
+  <path stroke="#777" stroke-width="3" d="M900 12V699H894V705H15"/>
+  <path stroke="#252525" stroke-width="3" d="M30 24H879V27H885V33M21 33V681H24V687H30M879 690H30"/>
+  <!-- Deep black inset, wide dithered bevel and narrow silver shoulder. -->
+  <path fill="url(#crt-wall)" fill-rule="evenodd" d="M30 27H879V30H885V681H882V687H876V690H30V687H24V681H24V33H30Z M105 126V114H111V108H123V105H183V102H270V99H339V96H570V99H639V102H726V105H786V108H798V114H804V126H807V465H804V594H798V606H786V612H729V615H657V618H570V624H339V621H252V618H183V615H123V612H111V606H105V594H102V465H99V186H102V126Z"/>
+  <path fill="#353535" d="M30 30H879V54H846L831 60H75L60 54H54V642L30 666Z"/>
+  <path fill="url(#crt-fine)" d="M30 30H879V54H846L831 60H75L60 54H54V642L30 666Z"/>
+  <path fill="url(#crt-patches)" d="M30 30H879V54H846L831 60H75L60 54H54V642L30 666Z"/>
+  <path fill="#171717" d="M855 57L879 33V666L855 648Z"/>
+  <path fill="url(#crt-dark)" d="M855 57L879 33V666L855 648Z"/>
+  <path fill="#292929" d="M57 651L78 633H828L849 651L873 660H36Z"/>
+  <path fill="url(#crt-fine)" d="M57 651L78 633H828L849 651L873 660H36Z"/>
+  <path stroke="#bcbcbc" stroke-width="3" d="M63 54H846L855 63V648L846 654H63L54 645V63Z"/>
+  <path stroke="#626262" stroke-width="3" d="M63 60L81 78M846 60L828 78M63 648L81 630M846 648L828 630"/>
+  <path fill="#0a0a0a" d="M60 84L81 99V612L60 636ZM849 84L825 102V612L849 636Z"/>
+  <path fill="url(#crt-dark)" d="M84 117L105 108V612L84 624ZM804 108L825 117V621L804 612ZM111 96L336 81H573L795 96V108H111ZM111 603L339 615H570L798 603V633H111Z"/>
+  <use href="#crt-aperture" stroke="#474747" stroke-width="6"/>
+  <path stroke="#a9a9a9" stroke-width="3" d="M108 114V180H105V459H108V597L114 609H180L186 615H249L255 621H336L342 627H567L573 621H654L660 618H723L729 612H786L795 606M801 120V180H804V459H801V594"/>
+  <path stroke="#5e5e5e" stroke-width="3" d="M117 105H180V102H267V99H336V96H573V99H642V102H729V105H789"/>
+  <!-- Full-width computer-like control housing; no pedestal. -->
+  <path fill="url(#crt-lower)" d="M6 711H903V816H900V825H894V831H882V837H6Z"/>
+  <path fill="url(#crt-case-grain)" d="M6 714H903V768H6ZM6 780H750V834H6ZM759 780H900V816L882 834H759Z"/>
+  <path fill="#5b5b5b" d="M6 711H903V717H6ZM6 768H903V774H6ZM6 834H882V840H6ZM750 777H759V834H750Z"/>
+  <path fill="#fff" d="M9 777H900V780H9ZM9 780H12V831H9ZM759 780H762V831H759Z"/>
+  <path fill="#111" d="M309 711H600V753H309Z"/>
+  <path fill="#f4f4f4" d="M309 711H315V750H309ZM594 711H600V750H594Z"/>
+  <path fill="#aaa" d="M318 714H321V747H318ZM588 714H591V747H588Z"/>
+  <text x="330" y="739" fill="#ddd" font-family="monospace" font-size="16" font-weight="bold" letter-spacing="2">DDAKUNG</text>
+  <path fill="url(#crt-vent)" d="M486 717H543V747H486Z"/>
+  <path fill="#777" d="M555 723H576V726H555ZM558 729H573V732H558ZM555 738H576V741H555Z"/>
+  <path fill="#393939" d="M681 720H834V750H681ZM843 723H882V750H843Z"/>
+  <path fill="#f0f0ed" d="M687 726H828V744H687ZM849 729H876V744H849Z"/>
+  <path fill="url(#crt-light)" d="M687 726H828V744H687ZM849 729H876V744H849Z"/>
+  <path fill="#f8f8f6" d="M687 726H828V729H687ZM849 729H876V732H849Z"/>
+  <path fill="#202020" d="M849 756H870V762H849Z"/>
+  <text x="30" y="812" fill="#333" font-family="monospace" font-size="21" font-weight="bold" letter-spacing="1.2">CRT MONITOR</text>
+  <g stroke="#404040" stroke-width="5" fill="#aaa"><circle cx="789" cy="801" r="15"/><circle cx="831" cy="801" r="15"/></g>
+  <g stroke="#e3e3e3" stroke-width="3" fill="#171717"><circle cx="789" cy="801" r="9"/><circle cx="831" cy="801" r="9"/></g>
+  <path fill="#464646" d="M783 822H795V825H783ZM825 822H837V825H825Z"/>
+</g>
+</svg>

@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, ">
+<title>따쿵따다둥 — 드럼 악보 작업실</title>
+<meta name="theme-color" content="#0C0C10">
+<meta name="description" content="따쿵따다둥 — PC와 iPad에서 드럼 악보를 만들고, 드럼 소리를 튜닝하고, 바로 연습하는 드럼 작업실.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="따쿵따다둥">
+
+<!-- 네이버 서치어드바이저 소유확인 (2026-09-02). 지우면 사이트가 네이버 검색에서 빠진다 -->
+
+
+
+
+<!-- 보관한 원본의 주소 메모: 대표 주소는 www 없는 쪽. www.maidrum.com도 같은 내용을 내주므로 이 줄이 없으면
+     검색엔진이 두 사이트로 세고, 카카오는 캐시를 따로 잡는다 (2026-09-03) -->
+
+
+
+
+<!-- 공유 미리보기 이미지 1200x630. **절대 URL이어야 한다** — 카카오·메타는 상대경로를 안 읽는다.
+     og.png를 갈아끼우면 카카오는 캐시를 들고 있으니 개발자도구 > 디버거에서 캐시 초기화할 것 -->
+
+
+
+
+
+<link rel="manifest" href="/manifest.json" id="manifestLink">
+<link rel="icon" href="/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/icon-180.png">
+<!-- FONT-CDN — 웹에서는 필요한 조각만 받는 dynamic subset을 쓴다.
+     앱은 오프라인이라 이 줄을 받을 수 없다. build-app.sh가 www/를 만들 때
+     이 한 줄을 통째로 로컬 woff2 @font-face로 갈아 끼운다 (2026-08-18).
+     **이 줄의 모양을 바꾸면 build-app.sh의 치환도 같이 고칠 것** -->
+<link rel="stylesheet" href="/fonts/pretendard.css">
+
+
+<!-- 구조화 데이터 (2026-09-07). alternateName이 "이 사이트의 다른 이름은 따쿵따다둥"이라고
+     검색엔진에 직접 말해 주는 유일한 공식 수단이다. 네이버·구글 둘 다 읽는다.
+     **offers·aggregateRating은 넣지 말 것** — 사실과 어긋나면 구조화 데이터 위반이다. -->
+
+<link rel="stylesheet" href="/src/styles/original.css">
+<link rel="stylesheet" href="/src/styles/workspace.css">
+</head>
+<body>
+
+<div class="bloom" aria-hidden="true"></div>
+<div class="safetop" aria-hidden="true"></div>
+
+<div class="topbar">
+  <div>
+    <!-- 로고 이미지(흰 판) — src는 부팅 스크립트가 LOGO_W로 넣는다 (base64 중복 방지) -->
+    <div class="wordmark"><img id="brandLogo" alt="따쿵따다둥" decoding="async"><span class="lite-mark">LITE</span><span class="studio-mark">STUDIO</span><span class="pc-mark">PRO</span></div>
+    <div class="tagline">스마트폰으로 그리는 드럼 악보</div>
+  </div>
+
+  <div class="padbar" id="padbar" role="group" aria-label="화면 모드">
+    <button id="mEdit" class="sel" aria-pressed="true">편집</button>
+    <button id="mCopy" aria-pressed="false" style="display:none">카피</button>
+    <button id="mScore" aria-pressed="false">악보</button>
+    <button id="mPractice" aria-pressed="false">연습</button>
+    <button id="mMetro" aria-pressed="false">메트로놈</button>
+    <button id="mFlip" class="flip" aria-pressed="false" aria-label="좌우 반전" title="좌우 반전 — 악보를 오른쪽으로">
+      <svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M7 8H3l3.5-3.5"/><path d="M3 8h13a5 5 0 0 1 5 5"/>
+        <path d="M17 16h4l-3.5 3.5"/><path d="M21 16H8a5 5 0 0 1-5-5"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- 상단바는 **세 개 + 톱니**다. 폰 390에서 `.fileacts`가 받을 수 있는 폭이 193px뿐이라
+       버튼이 늘면 두 줄로 접히고 상단바가 78 → 98px이 된다(실측). 그 20px은 악보에서 빠진다.
+       그래서 파일·이미지·인쇄를 `저장` 하나로 묶었다 — **폰·패드에서 인쇄할 일이 거의 없어서**
+       PDF가 상단바 자리를 차지할 값어치가 없다는 판단이다(2026-08-15 사용자 결정). -->
+  <div class="fileacts">
+    <!-- 라이브러리 (PC 스튜디오 /pro, 2026-10-20) — `body.edition-pc`에서만 보인다 -->
+    <button id="shelfBtn" class="shelf-go pconly" type="button" title="라이브러리 (L)" aria-label="라이브러리"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h5v14H4zM10 5.5h4v14h-4z"/><path d="M15.5 6.4l3.6-1 3.4 13.3-3.6 1z"/></svg><span>라이브러리</span></button>
+    <button id="saveBtn" class="btn ghost sm" title="파일 · 이미지 · 인쇄">저장</button>
+    <button id="loadBtn" class="btn ghost sm">열기</button>
+    <button id="setBtn" class="btn ghost sm icn-btn" aria-label="설정" title="설정">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="3.2"/>
+        <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.03 1.56V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 8.9 19.3a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.56-1.03H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.7 8.9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34H9a1.7 1.7 0 0 0 1.03-1.56V3a2 2 0 1 1 4 0v.09A1.7 1.7 0 0 0 15.1 4.7a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87V9a1.7 1.7 0 0 0 1.56 1.03H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1.03z"/>
+      </svg>
+    </button>
+    <input type="file" id="fileInput" accept=".json,application/json" hidden>
+  </div>
+</div>
+
+<!-- 앱 안내 배너 (2026-08-25 · 08-29 모든 폭으로). 웹 LITE에서만 뜬다 — `syncPadPromo` 참고.
+     body 바로 아래에 두어야 인쇄에서 자동으로 걷힌다(`@media print`의 `body > *`). -->
+<div class="padpromo" id="padPromo" role="complementary" aria-label="태블릿 앱 안내">
+  <p data-i18n-html="promo.pad"><b>태블릿이 있다면 따쿵따다둥</b> —
+    좌우 2단 악보 · 스피드 트레이너 · 펜 필기. iPad · Android 태블릿.</p>
+  <a class="go" id="padPromoGo" href="#"
+     target="_blank" rel="noopener">App Store</a>
+  <a class="go alt" id="padPromoPlay" href="#"
+     target="_blank" rel="noopener">Google Play</a>
+  <button class="x" id="padPromoX" type="button" aria-label="안내 닫기" title="안내 닫기">✕</button>
+</div>
+
+<!-- 카톡 인앱 브라우저 안내 (2026-10-11 클레임). 카톡 웹뷰는 저장소가 따로라 다른 브라우저에서
+     열면 곡이 안 보이고, 파일 다운로드도 막혀 있다. 그래서 **백업 복사**를 먼저 쥐여 주고
+     외부 브라우저로 내보낸다. 자동으로 튕기지 않는다 — 이미 카톡 안에 곡이 있는 사람이 있다. -->
+<div class="kakaobar" id="kakaoBar" role="complementary" aria-label="카카오톡 안내">
+  <p data-i18n-html="kakao.bar"><b>카카오톡 안에서 열려 있어요.</b> 여기서 만든 악보는 카톡 안에만 저장되고 파일 저장도 막혀 있습니다. 크롬·삼성 인터넷으로 옮겨 쓰세요.</p>
+  <button class="go main" id="kakaoCopy" type="button">곡 백업 복사</button>
+  <button class="go" id="kakaoOpen" type="button">다른 브라우저로 열기</button>
+  <button class="x" id="kakaoX" type="button" aria-label="안내 닫기" title="안내 닫기">✕</button>
+</div>
+
+<main>
+  <div class="titlerow">
+    <input id="titleInput" type="text" placeholder="곡 제목을 입력하세요" aria-label="곡 제목" maxlength="60" autocomplete="off">
+    <button id="undoBtn" class="btn icon" aria-label="되돌리기" title="되돌리기 (⌘Z)" disabled>
+      <svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M8 7 4 11l4 4"/><path d="M4 11h9a6 6 0 0 1 0 12h-1.5"/>
+      </svg>
+    </button>
+    <button id="redoBtn" class="btn icon" aria-label="다시 실행" title="다시 실행 (⇧⌘Z)" disabled>
+      <svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m16 7 4 4-4 4"/><path d="M20 11h-9a6 6 0 0 0 0 12h1.5"/>
+      </svg>
+    </button>
+  </div>
+  <div id="scoreWrap"><svg id="scoreSvg"></svg></div>
+
+  <!-- 세로(한 단 패드)에서 악보 높이를 끌어 바꾼다. 2단의 세로 분할선과 같은 물건인데
+       방향만 가로다. 더블탭하면 기본값으로 돌아간다 -->
+  <div class="vsplit" id="vsplit" role="separator" aria-orientation="horizontal"
+       title="위아래로 끌면 악보 높이가 바뀝니다. 더블탭하면 기본값"><i></i></div>
+
+  <div class="splitter" id="splitter" role="separator" aria-orientation="vertical"
+       title="드래그하면 폭이 바뀝니다. 더블탭하면 입력 패널을 접습니다"><i></i></div>
+
+
+  <div class="panel">
+    <!-- 카피 모드 (2026-10-16) — 유튜브를 앱 안에서 느리게 들으며 그리드에 그린다.
+         iframe은 **링크를 넣었을 때만** 만든다. 그 전에는 네트워크 요청이 0건이다 -->
+    <div id="copyPane" class="copypane" style="display:none">
+      <div class="cpurl">
+        <input id="cpUrl" type="url" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false"
+               placeholder="유튜브 링크를 붙여넣으세요" aria-label="유튜브 링크">
+        <button id="cpLoad" class="btn sm">불러오기</button>
+      </div>
+      <div class="cpbox" id="cpBox">
+        <p class="cpempty" id="cpEmpty">유튜브 링크를 붙여넣으면 여기서 재생됩니다.<br>속도를 줄여 들으면서 아래 그리드에 그리세요.</p>
+      </div>
+      <p class="cperr" id="cpErr" hidden><span id="cpErrMsg"></span><a id="cpOpen" href="#" target="_blank" rel="noopener">YouTube에서 열기</a></p>
+      <div class="cpctl">
+        <button id="cpBack5" class="cpb" aria-label="5초 뒤로" disabled>−5</button>
+        <button id="cpBack2" class="cpb" aria-label="2초 뒤로" disabled>−2</button>
+        <button id="cpPlay" class="cpb cpplay" aria-label="재생" disabled>
+          <svg class="icn" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path id="cpPlayPath" d="M7 4.5v15l13-7.5z"/></svg>
+        </button>
+        <span class="cpgap"></span>
+        <button id="cpA" class="cpb" disabled title="지금 위치를 반복 시작점으로">A</button>
+        <button id="cpB" class="cpb" disabled title="지금 위치를 반복 끝점으로">B</button>
+        <button id="cpLoop" class="cpb" aria-pressed="false" disabled>구간 반복</button>
+        <button id="cpABClear" class="cpb cpx" aria-label="반복 지점 지우기" hidden>
+          <svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+      <div class="cpinfo">
+        <span class="cptime" id="cpTime" data-no-i18n>0:00 / 0:00</span>
+        <span id="cpAB" class="cpabtxt" data-no-i18n></span>
+        <button id="cpChange" class="cplink" hidden>영상 바꾸기</button>
+        <div class="cprates" id="cpRates" role="group" aria-label="재생 속도">
+          <button data-r="0.25">0.25×</button><button data-r="0.5">0.5×</button><button data-r="0.75">0.75×</button><button data-r="1" class="sel">1×</button>
+        </div>
+      </div>
+    </div>
+    <div class="bar">
+      <div class="chiprow" id="chips"></div>
+      <div class="tools">
+        <!-- 되돌리기·다시하기가 제목 줄로 올라가 비운 자리에 프리셋이 들어왔다.
+             프리셋은 "무엇을 넣을까"라 마디를 만지기 **전에** 고르는 것이라
+             줄 맨 끝보다 맨 앞이 순서상으로도 맞다 -->
+        <select id="presetSel">
+          <option value="">프리셋…</option>
+          <option value="rock8">8비트 락</option>
+          <option value="groove16">16비트 그루브</option>
+          <option value="fill">탐 필인</option>
+        </select>
+        <div class="totalm" title="총 마디 수. −/＋는 4마디 단위, 숫자를 직접 치면 1마디 단위">
+          <span class="wide">총</span>
+          <button type="button" id="totalMinus" aria-label="4마디 줄이기">−</button>
+          <input type="number" id="totalM" min="1" max="400" inputmode="numeric" value="1"
+                 aria-label="총 마디 수">
+          <button type="button" id="totalPlus" aria-label="4마디 늘리기">＋</button>
+          <span>마디</span>
+        </div>
+        <!-- 박자표는 **곡 전체**의 성질이라 총 마디 수 옆이 제자리다.
+             박 나누기(divPop)는 박 하나의 성질이라 악보에서 연다 -->
+        <button id="tsBtn" class="btn sm violet" title="박자표">4/4</button>
+        <button class="btn sm quickm" data-n="24">24</button>
+        <button class="btn sm quickm" data-n="32">32</button>
+        <button id="addM" class="btn sm">＋ 마디</button>
+        <!-- 낱개 알약 여덟 개가 나란히 있으면 폰에서 세 줄로 접히고, 무엇이 무엇과
+             한 묶음인지도 안 보였다("마디 부분이 너무 복잡해", 2026-08-13).
+             뜻이 같은 것끼리 한 알약 안에 넣는다 — 기능은 하나도 안 뺐다.
+             가로폭 실측: 낱개 8개 = 452px → 묶음 2개 = 300px. 한 줄이 준다 -->
+        <div class="mgrp" role="group" aria-label="마디 복사">
+          <button id="dupM">복제</button>
+          <button id="copyM">복사</button>
+          <button id="cutM" class="padonly">잘라내기</button>
+          <button id="pasteM" disabled>붙여넣기</button>
+          <button id="insM" class="padonly" disabled>끼워넣기</button>
+        </div>
+        <div class="mgrp" role="group" aria-label="마디 지우기">
+          <button id="clrM">비우기</button>
+          <button id="delM">삭제</button>
+        </div>
+        <!-- 자동 저장이 생긴 뒤로 **새로 고침이 초기화가 아니다.** 초기화 수단이 따로 필요하다.
+             상단바에 두려다 뺐다 — 390px에서 파일 버튼이 다섯이 되면 줄이 접히고
+             태그라인까지 밀린다. 비우기·삭제 옆이 의미로도 맞고 자리도 있다 -->
+        <!-- 2026-08-13: `새 악보` → `곡 목록`. 새로 만들기는 시트 안으로 들어갔다.
+             자리를 안 늘리려고 있던 슬롯을 그대로 쓴다 (도구 줄이 폰에서 이미 세 줄) -->
+        <!-- 책갈피 (PC 스튜디오, 2026-10-20) — 고른 마디에 꽂거나 뺀다. 마디에 붙어 다닌다(`m.bm`) -->
+        <button id="bmM" class="btn sm pconly" type="button" aria-pressed="false" title="책갈피 (B) — 고른 마디에 꽂거나 뺍니다">책갈피</button>
+        <button id="libBtn" class="btn sm">곡 목록</button>
+      </div>
+      <div class="artrow" id="artRow">
+        <span class="lbl">표기</span>
+        <button data-art="1" class="sel" title="기본" aria-label="기본">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <ellipse cx="12" cy="12" rx="5.4" ry="4.1" fill="currentColor" stroke="none"
+                     transform="rotate(-18 12 12)"/>
+          </svg><span class="wide">기본</span>
+        </button>
+        <button type="button" data-hit-ins="crash" aria-label="크래쉬 타격" aria-controls="grid" title="크래쉬 일반 타격 입력">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m7 7 6 6m0-6-6 6M16 10v11"/></svg><span class="wide">크래쉬 타격</span>
+        </button>
+        <button type="button" data-hit-ins="ride" aria-label="라이드 타격" aria-controls="grid" title="라이드 일반 타격 입력">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M7 7l10 10M17 7 7 17M17 12v9"/></svg><span class="wide">라이드 타격</span>
+        </button>
+        <button type="button" data-hit-ins="splash" aria-label="스플래시 타격" aria-controls="grid" title="스플래시 일반 타격 입력"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 7 8 8m0-8-8 8M14 11v10"/></svg><span class="wide">스플래시 타격</span></button>
+        <button type="button" data-hit-ins="china" aria-label="차이나 타격" aria-controls="grid" title="차이나 일반 타격 입력"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 6 10 10m0-10L5 16M15 11v10M3 4v3m14-3v3"/></svg><span class="wide">차이나 타격</span></button>
+        <button type="button" data-hit-ins="fx" aria-label="스택·FX 타격" aria-controls="grid" title="스택·이펙트 심벌 일반 타격 입력"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m5 5 10 10m0-10L5 15M5 17h10m0-8v12"/></svg><span class="wide">스택·FX 타격</span></button>
+        <button data-art="2" title="고스트" aria-label="고스트">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+               stroke-linecap="round" aria-hidden="true">
+            <path d="M8 5c-2.4 3-2.4 11 0 14"/><path d="M16 5c2.4 3 2.4 11 0 14"/>
+            <ellipse cx="12" cy="12" rx="2.6" ry="2" fill="currentColor" stroke="none"/>
+          </svg><span class="wide">고스트</span>
+        </button>
+        <button data-art="3" title="액센트" aria-label="액센트">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M5 7.5 19 12 5 16.5"/>
+          </svg><span class="wide">액센트</span>
+        </button>
+        <button data-art="4" title="오픈 하이햇" aria-label="오픈 하이햇">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+               stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="6.5" r="3.2"/>
+            <path d="M8 13.5 16 20"/><path d="M16 13.5 8 20"/>
+          </svg><span class="wide">오픈 하이햇</span>
+        </button>
+        <!-- 크로스 스틱·림샷은 **스네어 전용**이다(`XSTICK_OK`/`RIM_OK`).
+             오픈이 하이햇 전용인 것과 같은 구조라 여기, 오픈 옆이 맞다.
+             아이콘은 악보 기호 그대로 — 크로스는 x 머리, 림샷은 감싼 원 -->
+        <button data-art="5" title="크로스 스틱 (림 클릭) — 스네어" aria-label="크로스 스틱">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1"
+               stroke-linecap="round" aria-hidden="true">
+            <path d="M6.5 6.5 17.5 17.5"/><path d="M17.5 6.5 6.5 17.5"/>
+          </svg><span class="wide">크로스 스틱</span>
+        </button>
+        <button data-art="6" title="림샷 — 스네어" aria-label="림샷">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+               aria-hidden="true">
+            <circle cx="12" cy="12" r="7.4"/>
+            <ellipse cx="12" cy="12" rx="3.5" ry="2.7" fill="currentColor" stroke="none"
+                     transform="rotate(-18 12 12)"/>
+          </svg><span class="wide">림샷</span>
+        </button>
+        <!-- 2026-08-29 사용자 요청 3·5번. 오픈(4) 옆이 맞다 — 같은 "주법 기호" 무리다.
+             ＋는 하이햇이면 클로즈, 심벌이면 초크(뮤트)라 이름을 하나로 적는다 -->
+        <button data-art="7" title="닫음 (하이햇 클로즈 · 심벌 초크)" aria-label="닫음">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+               stroke-linecap="round" aria-hidden="true">
+            <path d="M8.8 6.5h6.4"/><path d="M12 3.3v6.4"/>
+            <path d="M8 13.5 16 20"/><path d="M16 13.5 8 20"/>
+          </svg><span class="wide">닫음</span>
+        </button>
+        <button data-art="8" title="라이드 벨 — 라이드" aria-label="라이드 벨">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 5.5 19 12 12 18.5 5 12Z"/>
+          </svg><span class="wide">라이드 벨</span>
+        </button>
+        <!-- 롤 셋 — 사선 수가 곧 쪼개는 정도다(하나=8분, 둘=16분, 셋=32분).
+             값은 9(셋)가 먼저 열려서 하나·둘이 10·11로 뒤에 붙었지만,
+             **단추는 사람이 읽는 순서(1·2·3)로 놓는다** -->
+        <button data-art="10" title="롤 — 사선 하나" aria-label="롤 사선 하나">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" aria-hidden="true">
+            <path d="M17 4v12"/>
+            <path d="M13 13 21 9.5"/>
+            <ellipse cx="13" cy="17" rx="4" ry="3" fill="currentColor" stroke="none"
+                     transform="rotate(-18 13 17)"/>
+          </svg><span class="wide">롤 1</span>
+        </button>
+        <button data-art="11" title="롤 — 사선 둘" aria-label="롤 사선 둘">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" aria-hidden="true">
+            <path d="M17 4v12"/>
+            <path d="M13 11.2 21 7.7"/><path d="M13 14.8 21 11.3"/>
+            <ellipse cx="13" cy="17" rx="4" ry="3" fill="currentColor" stroke="none"
+                     transform="rotate(-18 13 17)"/>
+          </svg><span class="wide">롤 2</span>
+        </button>
+        <button data-art="9" title="롤 — 사선 셋" aria-label="롤 사선 셋">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" aria-hidden="true">
+            <path d="M17 4v12"/>
+            <path d="M13 9.5 21 6"/><path d="M13 13 21 9.5"/><path d="M13 16.5 21 13"/>
+            <ellipse cx="13" cy="17" rx="4" ry="3" fill="currentColor" stroke="none"
+                     transform="rotate(-18 13 17)"/>
+          </svg><span class="wide">롤 3</span>
+        </button>
+        <button data-art="12" title="버즈롤 (z) — 눌러서 튀기는 롤" aria-label="버즈롤">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M17 4v12"/>
+            <polyline points="13.5,8 20.5,8 13.5,14 20.5,14"/>
+            <ellipse cx="13" cy="17" rx="4" ry="3" fill="currentColor" stroke="none"
+                     transform="rotate(-18 13 17)"/>
+          </svg><span class="wide">버즈롤</span>
+        </button>
+        <!-- 손 순서(스티킹). 표기 값과 별개의 모드다 — R을 고르고 음표를 탭하면
+             그 칸에 글자가 붙는다. 발(킥·페달)에는 안 붙는다. 위치는 설정에서 위/아래 -->
+        <button data-stick="1" title="오른손 (R)" aria-label="오른손 (R)">R<span class="wide">오른손</span></button>
+        <button data-stick="2" title="왼손 (L)" aria-label="왼손 (L)">L<span class="wide">왼손</span></button>
+        <!-- 앞꾸밈음. 표기 값이 아니라 **모드**다 — 액센트 위에 얹힌다 -->
+        <button data-orn="1" title="플램 — 앞꾸밈 1타" aria-label="플램">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" aria-hidden="true">
+            <ellipse cx="6" cy="10" rx="2.3" ry="1.8" fill="currentColor" stroke="none"
+                     transform="rotate(-18 6 10)"/><path d="M8.2 9.4V4.5"/>
+            <ellipse cx="16" cy="15" rx="4" ry="3.1" fill="currentColor" stroke="none"
+                     transform="rotate(-18 16 15)"/><path d="M19.8 14.2V4.5"/>
+          </svg><span class="wide">플램</span>
+        </button>
+        <button data-orn="2" title="드래그 — 앞꾸밈 2타" aria-label="드래그">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" aria-hidden="true">
+            <ellipse cx="4.6" cy="10" rx="2.1" ry="1.7" fill="currentColor" stroke="none"
+                     transform="rotate(-18 4.6 10)"/><path d="M6.6 9.4V4.5"/>
+            <ellipse cx="10" cy="10" rx="2.1" ry="1.7" fill="currentColor" stroke="none"
+                     transform="rotate(-18 10 10)"/><path d="M12 9.4V4.5"/>
+            <ellipse cx="17" cy="15" rx="4" ry="3.1" fill="currentColor" stroke="none"
+                     transform="rotate(-18 17 15)"/><path d="M20.8 14.2V4.5"/>
+          </svg><span class="wide">드래그</span>
+        </button>
+        <button data-orn="3" title="러프 — 앞꾸밈 3타" aria-label="러프">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+               stroke-linecap="round" aria-hidden="true">
+            <ellipse cx="3.4" cy="10" rx="1.9" ry="1.5" fill="currentColor" stroke="none"
+                     transform="rotate(-18 3.4 10)"/><path d="M5.2 9.4V4.5"/>
+            <ellipse cx="7.6" cy="10" rx="1.9" ry="1.5" fill="currentColor" stroke="none"
+                     transform="rotate(-18 7.6 10)"/><path d="M9.4 9.4V4.5"/>
+            <ellipse cx="11.8" cy="10" rx="1.9" ry="1.5" fill="currentColor" stroke="none"
+                     transform="rotate(-18 11.8 10)"/><path d="M13.6 9.4V4.5"/>
+            <ellipse cx="18" cy="15" rx="4" ry="3.1" fill="currentColor" stroke="none"
+                     transform="rotate(-18 18 15)"/><path d="M21.8 14.2V4.5"/>
+          </svg><span class="wide">러프</span>
+        </button>
+        <!-- 붙임줄 (2026-08-24). 표기 값이 아니라 **모드**다 — 켜고 음표를 탭하면
+             같은 악기의 앞 음과 이어진다. 이어진 음은 다시 치지 않는다(재생도 건너뛴다) -->
+        <button data-tie="1" title="붙임줄 — 앞 음과 잇기" aria-label="붙임줄">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"
+               stroke-linecap="round" aria-hidden="true">
+            <ellipse cx="5.5" cy="9" rx="2.9" ry="2.2" fill="currentColor" stroke="none"
+                     transform="rotate(-18 5.5 9)"/>
+            <ellipse cx="18.5" cy="9" rx="2.9" ry="2.2" fill="currentColor" stroke="none"
+                     transform="rotate(-18 18.5 9)"/>
+            <path d="M5.5 14.5 Q12 19.5 18.5 14.5"/>
+          </svg><span class="wide">붙임줄</span>
+        </button>
+      </div>
+      <p id="hitTargetHint" class="hit-target-hint" role="status" hidden></p>
+      <!-- 꾸밈 악기 (2026-10-02, 드러머 제보). 꾸밈음 모드일 때만 보인다 —
+           "같은 악기"가 기본이고, 다른 손 악기를 고르면 꾸밈음이 그 악기 줄에 그려지고 그 소리로 난다 -->
+      <div class="artrow ornins" id="ornInsRow">
+        <span class="lbl">꾸밈 악기</span>
+      </div>
+
+    </div>
+
+    <div id="gridMode">
+      <div class="gridWrap" id="grid"></div>
+    </div>
+
+    <div id="practiceMode" style="display:none">
+      <div class="pcard">
+        <header>
+          <h4 class="sec-title">구간 반복</h4>
+          <button id="rngAll" class="btn sm">전체 구간</button>
+        </header>
+        <div class="prow">
+          <label>마디 <input type="number" id="rngStart" min="1" value="1"></label>
+          <span style="color:var(--mute)">—</span>
+          <label><input type="number" id="rngEnd" min="1" value="1"></label>
+          <label><input type="checkbox" id="countIn" checked> 카운트인</label>
+          <label><input type="checkbox" id="metOn" checked> 메트로놈</label>
+        </div>
+      </div>
+
+      <!-- 2.1 (2026-10-15): 드럼 볼륨 — 악보 재생 소리만 줄인다. 클릭·카운트인은 그대로 -->
+      <div class="pcard">
+        <header>
+          <h4 class="sec-title">드럼 볼륨</h4>
+          <span id="drumVolVal" class="dvval" data-drumvol-val data-no-i18n>100%</span>
+        </header>
+        <div class="volrow"><input type="range" id="drumVol" data-drumvol min="0" max="100" step="5" value="100" aria-label="드럼 볼륨"></div>
+        <p class="volnote">메트로놈 클릭은 그대로입니다. 0이면 드럼 없이 클릭만 납니다.</p>
+      </div>
+
+      <div class="pcard" data-pro="1">
+        <header>
+          <h4 class="sec-title">스피드 트레이너</h4>
+          <span id="spdInfo"></span>
+        </header>
+        <div class="prow">
+          <label><input type="checkbox" id="spdOn"> 사용</label>
+          <label><input type="number" id="spdEvery" min="1" value="2">회마다</label>
+          <label>＋<input type="number" id="spdStep" min="1" value="5">BPM</label>
+          <label>목표 <input type="number" id="spdGoal" min="40" max="260" value="140"></label>
+        </div>
+      </div>
+
+      <!-- 2026-08-23: **마이크 채점이 있던 자리다.** 마이크가 드럼 소리를 못 잡았다
+           (8-38장). 그 자리에 인증샷이 그릴 값을 그대로 보여 준다 — 누르기 전에
+           오늘 뭐가 찍힐지 아는 편이, 안 맞는 채점보다 쓸모 있다는 판단이다.
+           숫자와 라벨의 순서는 **인증샷 카드와 같게** 맞췄다. 두 곳이 어긋나면
+           "미리보기가 틀렸다"가 된다. -->
+      <div class="pcard">
+        <header>
+          <h4 class="sec-title">오늘 기록</h4>
+          <span id="tdNote">인증샷에 들어갑니다</span>
+        </header>
+        <div class="tdstat">
+          <div><b id="tdTime">0:00</b><span>총 연습 시간</span></div>
+          <div><b id="tdNotes">0</b><span>음표</span></div>
+          <div><b id="tdStreak">0</b><span>일 연속</span></div>
+        </div>
+        <div class="tdstat sub">
+          <div><b id="tdAvg">—</b><span>평균 BPM</span></div>
+          <div><b id="tdMax">—</b><span>최고 BPM</span></div>
+          <div><b id="tdMin">—</b><span>최저 BPM</span></div>
+        </div>
+      </div>
+
+      <div class="pcard">
+        <header>
+          <h4 class="sec-title">연습 인증</h4>
+          <!-- 2026-08-23: `#certSum`(오늘 N분 · N타)이 여기 있었다. 바로 위에
+               「오늘 기록」 카드가 같은 값을 크게 보여 주게 되어 같은 말이 두 줄이 됐다.
+               `certSumRefresh()`는 요소가 없으면 그냥 돌아가므로 그대로 둔다 -->
+          <span id="certSum" hidden></span>
+        </header>
+        <div class="prow">
+          <button id="certBtn" class="btn sm">인증샷 만들기</button>
+          <button id="histBtn" class="btn sm">기록 보기</button>
+        </div>
+      </div>
+
+      <button id="pStart" class="btn ink" style="width:100%;min-height:50px;font-size:15px;">연습 시작</button>
+      <p class="hint" data-i18n-html="practice.hint">
+        구간을 정하고 <b>연습 시작</b>을 누르면 그 마디만 돕니다. 스피드 트레이너를 켜면
+        회를 돌 때마다 템포가 저절로 올라가요.
+        <br>도는 동안 <b>오늘 기록이 쌓입니다.</b> 위 숫자가 그대로 인증샷에 들어갑니다.
+      </p>
+    </div>
+
+    <!-- ── 메트로놈 탭 (2026-08-28) ──
+         드러머 전용 독립 메트로놈. 곡 재생과는 완전히 딴 시계다 — 엔진은 스크립트
+         맨 아래 metroTab IIFE에 있고, 여기 있는 건 화면뿐이다.
+         화면 문법은 Tempo(Frozen Ape) 무료판 실측 + 사용자 요청 2건:
+         카운팅 사각형이 화면을 가득 채우고, 사각형을 누르면 그 박의 소리
+         (강세·보통·약하게·뮤트·고스트·림·하이햇)를 고른다. 전부 무료(사용자 결정). -->
+    <div id="metroMode" style="display:none">
+      <!-- ── 화면 틀 (2026-09-03 사용자 와이어프레임) ──
+           위: 카운팅 사각형 전폭 · 아래: 왼쪽 열 세트리스트(큼)+클릭 소리·패닝(작음) / 오른쪽 열 빠르기 전고.
+           한 화면에 다 들어가고 페이지 스크롤이 없다 — 넘치면 타일 안에서만 흐른다.
+           Basic/Full 토글은 상단 줄(mtTop)에 — 타일에 넣으면 Basic에서 돌아올 길이 없다. -->
+      <!-- 상단 줄 — 왼쪽 마디 표시("무음 · 4마디"), 오른쪽 Basic/Full. 제 줄을 가진다(2026-09-03 사용자) -->
+      <div class="mtTop">
+        <span class="mtBarTxt" id="mtBar"></span>
+        <!-- Basic = 패드만 (블루픽 B-7) -->
+        <div class="scope mtUiTg" id="mtUiTg" role="group" aria-label="화면 구성">
+          <button type="button" data-ui="basic" data-no-i18n>Basic</button>
+          <button type="button" data-ui="full" class="sel" data-no-i18n>Full</button>
+        </div>
+      </div>
+      <div class="mtStage">
+        <div class="mtDots" id="mtDots" aria-label="카운팅 사각형 — 누르면 그 박의 소리를 고릅니다"></div>
+        <p class="mtLegend" data-i18n-html="metro.acc">사각형을 누르면 <b>강세 · 고스트 · 림 · 하이햇</b> 등 그 박의 소리를 고를 수 있습니다.</p>
+      </div>
+
+      <div class="mtGrid">
+        <!-- 타일 1 — 세트리스트 (2026-09-01). 같은 이름 저장=덮어쓰기, 삭제는 ✕ 두 번 -->
+        <div class="mtSec mtTile mtTileSet">
+          <header><h4 class="sec-title">세트리스트</h4>
+            <span class="mtSetHdR"><span id="mtSetInfo" data-no-i18n></span>
+              <label class="mtSetAuto"><input type="checkbox" id="mtSetAuto"> 자동 진행</label></span></header>
+          <div class="prow mtSetRow">
+            <input type="text" id="mtSetName" maxlength="40" placeholder="곡 이름">
+            <button type="button" id="mtSetSave">저장</button>
+            <!-- 본편에서만 보인다(measures·tsOf). 곡 제목·BPM·박자표 변화·마디 수를 한 줄로 -->
+            <button type="button" id="mtSetFromScore" style="display:none">악보에서</button>
+          </div>
+          <div id="mtSetList" class="mtSetList" role="list" aria-label="세트리스트"></div>
+          <p class="hint">지금 세팅을 이름 붙여 저장해 두고 탭 한 번으로 되부릅니다 — 같은 이름은 덮어씁니다. 빠르기·박자표·분할·리듬꼴·박별 소리·클릭·패닝·마디 카운팅·갭·자동 템포가 저장됩니다.</p>
+        </div>
+
+        <!-- 타일 2 — 빠르기: BPM·슬라이더·박자표·재생·탭·분할·리듬꼴 + 갭 트레이너·자동 템포 -->
+        <div class="mtSec mtTile mtTileTempo">
+          <header><h4 class="sec-title">템포</h4></header>
+          <div class="mtStrip">
+            <div class="mtRow">
+              <button type="button" class="mtStep" id="mtDn10" aria-label="10 줄이기">−10</button>
+              <button type="button" class="mtStep" id="mtDn" aria-label="1 줄이기">−</button>
+              <div class="mtBpm">
+                <b id="mtBpmVal" data-no-i18n>120</b>
+                <span><span data-no-i18n>BPM · </span><i id="mtTerm" data-no-i18n>Allegro</i></span>
+              </div>
+              <button type="button" class="mtStep" id="mtUp" aria-label="1 늘리기">＋</button>
+              <button type="button" class="mtStep" id="mtUp10" aria-label="10 늘리기">＋10</button>
+            </div>
+            <div class="mtRow">
+              <input type="range" id="mtRange" min="20" max="300" step="1" value="120" aria-label="빠르기">
+            </div>
+            <div class="mtRow mtRowCtl">
+              <div class="mtCtlL">
+              <label class="mtTs">박자표
+            <select id="mtNum" aria-label="박자표 분자">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option selected>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+                <option>11</option>
+                <option>12</option>
+                <option>13</option>
+                <option>14</option>
+                <option>15</option>
+                <option>16</option>
+            </select>
+                <span data-no-i18n>/</span>
+            <select id="mtDen" aria-label="박자표 분모">
+                <option>2</option>
+                <option selected>4</option>
+                <option>8</option>
+                <option>16</option>
+            </select>
+              </label>
+              <span id="mtTsInfo" data-no-i18n></span>
+              <!-- 분할 — Tempo 오른쪽 아래 음표 버튼. 지금 분할의 악보 기호가 그려진다 -->
+              <button type="button" id="mtSubBtn" aria-label="분할" title="분할"></button>
+              <!-- 리듬꼴 — 16분 그리드에 쉼표를 섞은 클릭 패턴 (블루픽 B-6) -->
+              <button type="button" id="mtFigBtn" aria-label="리듬꼴" title="리듬꼴"><span class="mtFigCells"><i></i><i></i><i></i><i></i></span></button>
+              </div>
+              <div class="mtCtlR">
+              <button type="button" id="mtTap" class="btn">탭 템포</button>
+              <button type="button" id="mtStart" aria-label="메트로놈 시작" data-no-i18n>▶</button>
+              </div>
+            </div>
+            <p class="hint mtStripHint" id="mtSubHint" style="display:none">겹박자(6/8·9/8·12/8)는 점4분이 한 박 — 셋잇단으로 셉니다.</p>
+          </div>
+          <div class="mtTrain">
+            <div class="prow mtTrainRow">
+              <b>갭 트레이너</b>
+              <label><input type="checkbox" id="mtGapOn"> 사용</label>
+              <label>클릭 <input type="number" id="mtGapPlay" min="1" max="32" value="4">마디</label>
+              <label>무음 <input type="number" id="mtGapMute" min="1" max="32" value="2">마디</label>
+              <span id="mtGapInfo"></span>
+            </div>
+            <div class="prow mtTrainRow">
+              <b>자동 템포</b>
+              <label><input type="checkbox" id="mtAutoOn"> 사용</label>
+              <label><input type="number" id="mtAutoEvery" min="1" max="64" value="4">마디마다</label>
+              <label>＋<input type="number" id="mtAutoStep" min="1" max="40" value="5">BPM</label>
+              <label>목표 <input type="number" id="mtAutoGoal" min="20" max="300" value="160"></label>
+              <span id="mtAutoInfo"></span>
+            </div>
+            <!-- 2026-10-08 리서치 반영 — 카운트인(Tempo)·랜덤 뮤트(Time Guru)·자동 정지(Tempo 트래커) -->
+            <div class="prow mtTrainRow">
+              <b>카운트인</b>
+              <label><input type="number" id="mtCountIn" min="0" max="2" value="0">마디</label>
+              <b class="mtTrainB2">랜덤 뮤트</b>
+              <label><input type="number" id="mtRandMute" min="0" max="90" step="10" value="0"><span data-no-i18n>%</span></label>
+            </div>
+            <div class="prow mtTrainRow">
+              <b>자동 정지</b>
+              <label><input type="checkbox" id="mtStopOn"> 사용</label>
+              <label><input type="number" id="mtStopBars" min="1" max="999" value="32">마디 후</label>
+              <!-- 화면 지연 보정 (2.1) — 블루투스로 들을 때 패드가 소리보다 먼저 켜지는 것을 늦춘다 -->
+              <b class="mtTrainB2">화면 지연</b>
+              <label><input type="number" id="mtLag" min="0" max="500" step="10" value="0"><span data-no-i18n>ms</span></label>
+              <span id="mtLagInfo"></span>
+            </div>
+            <div class="prow mtTrainRow mtChecks">
+              <label><input type="checkbox" id="mtFlashOn" checked> 화면 플래시</label>
+              <label><input type="checkbox" id="mtWakeOn" checked> 항상 화면 켬</label>
+              <!-- 마디 카운팅 — Tempo 유료판 방식 (2026-08-29) -->
+              <label><input type="checkbox" id="mtBarVoiceOn"> 마디 카운팅</label>
+            </div>
+          </div>
+          <p class="hint">마디 카운팅을 켜면 마디 첫 박에서 몇 번째 마디인지 목소리로 셉니다 — 1~4를 돕니다.</p>
+        </div>
+
+        <!-- 타일 3 — 클릭 소리 + 패닝 (2026-09-03 와이어프레임 2안: 한 타일에 두 줄) -->
+        <div class="mtSec mtTile mtTileSound">
+          <div class="mtSndRow">
+            <h4 class="sec-title">클릭 소리</h4>
+            <div class="scope mtSoundBig" id="mtSound" role="group" aria-label="클릭 소리">
+              <button type="button" data-snd="click" class="sel">클릭</button>
+              <button type="button" data-snd="wood">우드</button>
+              <button type="button" data-snd="beep">비프</button>
+              <button type="button" data-snd="voice">목소리</button>
+            </div>
+          </div>
+          <!-- 패닝 — 인이어로 클릭을 한쪽 귀에만 받는 드러머용 (블루픽 A-3) -->
+          <div class="mtSndRow">
+            <h4 class="sec-title">패닝</h4>
+            <div class="scope mtPanBig" id="mtPan" role="group" aria-label="패닝">
+              <button type="button" data-pan="L">왼쪽</button>
+              <button type="button" data-pan="C" class="sel">가운데</button>
+              <button type="button" data-pan="R">오른쪽</button>
+            </div>
+          </div>
+          <!-- 볼륨·약박 세기 (2026-10-08, Time Guru '강세 밸런스'·Tempo 볼륨) — 인이어로 밴드 믹스 위에 클릭을 얹을 때 -->
+          <div class="mtSndRow">
+            <h4 class="sec-title">볼륨</h4>
+            <div class="mtRangeRow"><input type="range" id="mtVol" min="0" max="100" step="5" value="100" aria-label="볼륨"><b id="mtVolVal" data-no-i18n>100</b></div>
+          </div>
+          <div class="mtSndRow">
+            <h4 class="sec-title">약박 세기</h4>
+            <div class="mtRangeRow"><input type="range" id="mtBal" min="10" max="100" step="2" value="62" aria-label="약박 세기"><b id="mtBalVal" data-no-i18n>62</b></div>
+          </div>
+          <p class="hint">강세·보통·약하게 박에 적용됩니다. 고스트·림·하이햇 박은 제 소리를 냅니다.</p>
+        </div>
+      </div>
+
+      <!-- 분할 고르기 창 — Tempo 오른쪽 아래 음표 버튼과 같은 물건 (2026-08-28).
+           글자 알약 대신 악보 기호로 고른다. 기호는 SVG다(Bravura는 단독본에 없다) -->
+      <div class="mtPopWrap" id="mtSubPop" hidden>
+        <div class="mtPopCard" role="menu" aria-label="분할">
+          <header><h4>분할</h4>
+            <button type="button" id="mtSubClose" aria-label="닫기">✕</button></header>
+          <div class="mtSubGrid" id="mtSub" role="group" aria-label="분할">
+            <button type="button" data-sub="1" class="sel"><svg viewBox="0 0 48 40" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><ellipse cx="21" cy="32" rx="5.2" ry="3.8" transform="rotate(-18 21 32)" stroke="none"/><path d="M25.7 30.6V7" stroke-width="2.6" fill="none"/></g></svg><span>기본</span></button>
+            <button type="button" data-sub="2"><svg viewBox="0 0 48 40" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><ellipse cx="12" cy="32" rx="4.8" ry="3.5" transform="rotate(-18 12 32)" stroke="none"/><ellipse cx="34" cy="32" rx="4.8" ry="3.5" transform="rotate(-18 34 32)" stroke="none"/><path d="M16.4 30.6V10M38.4 30.6V10" stroke-width="2.4" fill="none"/><path d="M15.2 10h24.4" stroke-width="5.5" fill="none"/></g></svg><span>8분</span></button>
+            <button type="button" data-sub="3"><svg viewBox="0 0 48 40" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><text x="24" y="8.5" text-anchor="middle" font-size="9.5" font-style="italic" stroke="none">3</text><ellipse cx="8.5" cy="33" rx="4.4" ry="3.3" transform="rotate(-18 8.5 33)" stroke="none"/><ellipse cx="24" cy="33" rx="4.4" ry="3.3" transform="rotate(-18 24 33)" stroke="none"/><ellipse cx="39.5" cy="33" rx="4.4" ry="3.3" transform="rotate(-18 39.5 33)" stroke="none"/><path d="M12.6 31.6V14M28 31.6V14M43.6 31.6V14" stroke-width="2.2" fill="none"/><path d="M11.5 14h33.2" stroke-width="5" fill="none"/></g></svg><span>셋잇단</span></button>
+            <button type="button" data-sub="4"><svg viewBox="0 0 48 40" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><ellipse cx="7" cy="33" rx="4.2" ry="3.2" transform="rotate(-18 7 33)" stroke="none"/><ellipse cx="18.6" cy="33" rx="4.2" ry="3.2" transform="rotate(-18 18.6 33)" stroke="none"/><ellipse cx="30.2" cy="33" rx="4.2" ry="3.2" transform="rotate(-18 30.2 33)" stroke="none"/><ellipse cx="41.8" cy="33" rx="4.2" ry="3.2" transform="rotate(-18 41.8 33)" stroke="none"/><path d="M10.9 31.6V12M22.5 31.6V12M34.1 31.6V12M45.7 31.6V12" stroke-width="2.1" fill="none"/><path d="M9.9 12h36.8" stroke-width="4.6" fill="none"/><path d="M9.9 19h36.8" stroke-width="4.6" fill="none"/></g></svg><span>16분</span></button>
+            <button type="button" data-sub="5"><svg viewBox="0 0 48 40" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><text x="24" y="8.5" text-anchor="middle" font-size="9.5" font-style="italic" stroke="none">5</text><ellipse cx="5.0" cy="33" rx="3.6" ry="2.8" transform="rotate(-18 5.0 33)" stroke="none"/><ellipse cx="14.5" cy="33" rx="3.6" ry="2.8" transform="rotate(-18 14.5 33)" stroke="none"/><ellipse cx="24.0" cy="33" rx="3.6" ry="2.8" transform="rotate(-18 24.0 33)" stroke="none"/><ellipse cx="33.5" cy="33" rx="3.6" ry="2.8" transform="rotate(-18 33.5 33)" stroke="none"/><ellipse cx="43.0" cy="33" rx="3.6" ry="2.8" transform="rotate(-18 43.0 33)" stroke="none"/><path d="M8.3 31.8V14M17.8 31.8V14M27.3 31.8V14M36.8 31.8V14M46.3 31.8V14" stroke-width="1.9" fill="none"/><path d="M7.3 14h40.0" stroke-width="4.6" fill="none"/></g></svg><span>5연음</span></button>
+            <button type="button" data-sub="6"><svg viewBox="0 0 48 40" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><text x="24" y="8.5" text-anchor="middle" font-size="9.5" font-style="italic" stroke="none">6</text><ellipse cx="5.0" cy="33" rx="3.6" ry="2.8" transform="rotate(-18 5.0 33)" stroke="none"/><ellipse cx="12.6" cy="33" rx="3.6" ry="2.8" transform="rotate(-18 12.6 33)" stroke="none"/><ellipse cx="20.2" cy="33" rx="3.6" ry="2.8" transform="rotate(-18 20.2 33)" stroke="none"/><ellipse cx="27.8" cy="33" rx="3.6" ry="2.8" transform="rotate(-18 27.8 33)" stroke="none"/><ellipse cx="35.4" cy="33" rx="3.6" ry="2.8" transform="rotate(-18 35.4 33)" stroke="none"/><ellipse cx="43.0" cy="33" rx="3.6" ry="2.8" transform="rotate(-18 43.0 33)" stroke="none"/><path d="M8.3 31.8V14M15.9 31.8V14M23.5 31.8V14M31.1 31.8V14M38.7 31.8V14M46.3 31.8V14" stroke-width="1.9" fill="none"/><path d="M7.3 14h40.0" stroke-width="4.6" fill="none"/></g></svg><span>6연음</span></button>
+            <button type="button" data-sub="7"><svg viewBox="0 0 48 40" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><text x="24" y="8.5" text-anchor="middle" font-size="9.5" font-style="italic" stroke="none">7</text><ellipse cx="5.0" cy="33" rx="3.6" ry="2.8" transform="rotate(-18 5.0 33)" stroke="none"/><ellipse cx="11.3" cy="33" rx="3.6" ry="2.8" transform="rotate(-18 11.3 33)" stroke="none"/><ellipse cx="17.7" cy="33" rx="3.6" ry="2.8" transform="rotate(-18 17.7 33)" stroke="none"/><ellipse cx="24.0" cy="33" rx="3.6" ry="2.8" transform="rotate(-18 24.0 33)" stroke="none"/><ellipse cx="30.3" cy="33" rx="3.6" ry="2.8" transform="rotate(-18 30.3 33)" stroke="none"/><ellipse cx="36.7" cy="33" rx="3.6" ry="2.8" transform="rotate(-18 36.7 33)" stroke="none"/><ellipse cx="43.0" cy="33" rx="3.6" ry="2.8" transform="rotate(-18 43.0 33)" stroke="none"/><path d="M8.3 31.8V14M14.6 31.8V14M21.0 31.8V14M27.3 31.8V14M33.6 31.8V14M40.0 31.8V14M46.3 31.8V14" stroke-width="1.9" fill="none"/><path d="M7.3 14h40.0" stroke-width="4.6" fill="none"/></g></svg><span>7연음</span></button>
+            <button type="button" data-sub="sw"><svg viewBox="0 0 48 40" aria-hidden="true"><g fill="currentColor" stroke="currentColor"><text x="24" y="8.5" text-anchor="middle" font-size="9.5" font-style="italic" stroke="none">3</text><ellipse cx="10" cy="33" rx="4.6" ry="3.4" transform="rotate(-18 10 33)" stroke="none"/><ellipse cx="37" cy="33" rx="4.6" ry="3.4" transform="rotate(-18 37 33)" stroke="none"/><path d="M14.2 31.6V13M41.2 31.6V13" stroke-width="2.3" fill="none"/><path d="M13.1 13h29.2" stroke-width="5" fill="none"/></g></svg><span>셔플</span></button>
+          </div>
+          <!-- 폴리리듬 (2026-10-08, Pro Metronome·PolyNome) — 마디를 N등분한 둘째 클릭 -->
+          <div class="mtPolyRow">
+            <span class="sec-title">폴리리듬</span>
+            <div class="scope" id="mtPoly" role="group" aria-label="폴리리듬">
+              <button type="button" data-poly="0" class="sel">끄기</button>
+              <button type="button" data-poly="2" data-no-i18n>2</button>
+              <button type="button" data-poly="3" data-no-i18n>3</button>
+              <button type="button" data-poly="4" data-no-i18n>4</button>
+              <button type="button" data-poly="5" data-no-i18n>5</button>
+              <button type="button" data-poly="6" data-no-i18n>6</button>
+              <button type="button" data-poly="7" data-no-i18n>7</button>
+            </div>
+          </div>
+          <p class="hint">한 마디를 N등분한 둘째 클릭이 박 위에 겹칩니다 — 4/4에 3이면 3:4.</p>
+        </div>
+      </div>
+
+      <!-- 리듬꼴 고르기 창 (블루픽 B-6). 표기는 악보 기호가 아니라 16분 그리드 셀 —
+           따쿵따다둥의 그리드 언어다. 첫 칸이 쉼표인 꼴은 엇박 연습용 -->
+      <div class="mtPopWrap" id="mtFigPop" hidden>
+        <div class="mtPopCard" role="menu" aria-label="리듬꼴">
+          <header><h4>리듬꼴</h4>
+            <button type="button" id="mtFigClose" aria-label="닫기">✕</button></header>
+          <div class="mtFigGrid" role="group" aria-label="리듬꼴">
+            <button type="button" data-fig="" aria-label="리듬꼴 끄기"><span class="mtFigOff">끄기</span></button>
+            <button type="button" data-fig="xxxx" aria-label="xxxx" data-no-i18n><span class="mtFigCells"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></button>
+            <button type="button" data-fig="x·xx" aria-label="x·xx" data-no-i18n><span class="mtFigCells"><i class="on"></i><i></i><i class="on"></i><i class="on"></i></span></button>
+            <button type="button" data-fig="·xxx" aria-label="·xxx" data-no-i18n><span class="mtFigCells"><i></i><i class="on"></i><i class="on"></i><i class="on"></i></span></button>
+            <button type="button" data-fig="xx·x" aria-label="xx·x" data-no-i18n><span class="mtFigCells"><i class="on"></i><i class="on"></i><i></i><i class="on"></i></span></button>
+            <button type="button" data-fig="x··x" aria-label="x··x" data-no-i18n><span class="mtFigCells"><i class="on"></i><i></i><i></i><i class="on"></i></span></button>
+            <button type="button" data-fig="·x·x" aria-label="·x·x" data-no-i18n><span class="mtFigCells"><i></i><i class="on"></i><i></i><i class="on"></i></span></button>
+            <button type="button" data-fig="x·x·" aria-label="x·x·" data-no-i18n><span class="mtFigCells"><i class="on"></i><i></i><i class="on"></i><i></i></span></button>
+            <button type="button" data-fig="·x··" aria-label="·x··" data-no-i18n><span class="mtFigCells"><i></i><i class="on"></i><i></i><i></i></span></button>
+            <button type="button" data-fig="··x·" aria-label="··x·" data-no-i18n><span class="mtFigCells"><i></i><i></i><i class="on"></i><i></i></span></button>
+            <button type="button" data-fig="xx··" aria-label="xx··" data-no-i18n><span class="mtFigCells"><i class="on"></i><i class="on"></i><i></i><i></i></span></button>
+          </div>
+          <p class="hint">한 박(16분 네 칸)에서 칠 칸만 골라 클릭이 그 리듬을 칩니다. 켜져 있는 동안 분할 대신 적용됩니다.</p>
+          <!-- 한 마디 리듬꼴 (2026-10-08, PolyNome·Tempo Lab) — 박마다 4칸, 누르면 토글 -->
+          <div class="mtFigBarRow"><span class="sec-title">마디 전체</span><div class="mtFigBar" id="mtFigBar" role="group" aria-label="마디 전체"></div></div>
+        </div>
+      </div>
+
+      <!-- 박 소리 고르기 창 (2026-08-28 사용자 요청) -->
+      <div class="mtPopWrap" id="mtVoicePop" hidden>
+        <div class="mtPopCard" role="menu" aria-label="박 소리 고르기">
+          <header><h4 id="mtPopTitle" data-no-i18n></h4>
+            <button type="button" id="mtPopClose" aria-label="닫기">✕</button></header>
+          <div class="mtPopGrid">
+            <button type="button" data-bt="accent"><i data-no-i18n>＞</i>강세</button>
+            <button type="button" data-bt="normal"><i data-no-i18n>●</i>보통</button>
+            <button type="button" data-bt="soft"><i data-no-i18n>○</i>약하게</button>
+            <button type="button" data-bt="mute"><i data-no-i18n>—</i>뮤트</button>
+            <button type="button" data-bt="ghost"><i data-no-i18n>( )</i>고스트</button>
+            <button type="button" data-bt="rim"><i data-no-i18n>✕</i>림</button>
+            <button type="button" data-bt="hihat"><i data-no-i18n>✳</i>하이햇</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="mtFlash" aria-hidden="true"></div>
+    </div>
+<div class="feedback" id="feedback" hidden>
+      <!-- 앱에서는 이 딱지를 뗀다. 앱스토어 2.2는 베타·데모·시험판을 리젝한다 -->
+      <span class="lbl" id="fbBeta">베타</span>
+      <button id="fbForm" class="btn sm" hidden>의견 보내기</button>
+      <a id="fbChat" class="btn sm" target="_blank" rel="noopener" hidden>오픈채팅</a>
+      <button id="infoBtn" class="btn sm">정보</button>
+      <!-- 앱스토어 상시 링크 (2026-08-29) — 배너는 닫히지만 이 길은 남는다. 앱에서는 뗀다 -->
+      <a id="fbStore" class="btn sm" href="#"
+         target="_blank" rel="noopener">iPad 앱</a>
+      <a id="fbPlay" class="btn sm" href="#"
+         target="_blank" rel="noopener">Android 앱</a>
+      <span class="tip" data-i18n-html="feedback.tip">고장·건의는 <b>의견 보내기</b>, 이야기 나누실 건 <b>오픈채팅</b>으로.</span>
+    </div>
+  </div>
+</main>
+
+<footer>따쿵따다둥 · 드럼 악보 작업실</footer>
+
+<div class="dock">
+  <div class="transport">
+    <button id="playBtn" aria-label="재생">
+      <svg class="icn" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5.6v12.8L19 12z" fill="currentColor"/></svg>
+    </button>
+    <!-- 요청 13 "Metronome 옵션 or 예비박".
+         버튼 두 개를 넣었더니 폰(390)과 아이패드 2단 좁은 칼럼(357)에서
+         BPM 슬라이더가 0px까지 눌렸다. 하나로 합쳐 **세 단계로 돈다** —
+         꺼짐 → 메트로놈 → 메트로놈+예비박.
+         예비박만 켜는 상태는 안 만든다. 세어 주는 소리를 안 들으면서 예비박만
+         원하는 경우가 없기 때문이고, 그 덕에 버튼이 하나로 끝난다. -->
+    <button id="metBtn" class="btn" aria-pressed="false" aria-label="메트로놈">
+      <svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M9 3h6l3 18H6z"/><path d="M7.5 15h9"/><path d="M12 17.5 17 6.5"/>
+      </svg>
+      <i class="cin" aria-hidden="true">1·2</i>
+    </button>
+    <button id="loopBtn" class="btn on" aria-pressed="true" aria-label="구간 반복">
+      <svg class="icn" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M16.5 3 20 6.5 16.5 10"/>
+        <path d="M20 6.5H8A4.5 4.5 0 0 0 3.5 11v.8"/>
+        <path d="M7.5 21 4 17.5 7.5 14"/>
+        <path d="M4 17.5h12a4.5 4.5 0 0 0 4.5-4.5v-.8"/>
+      </svg>
+    </button>
+    <button id="rangeBtn" class="btn rangebtn" aria-pressed="false" title="구간 반복 — 정한 마디만 돌립니다">구간</button>
+  </div>
+  <div class="tempo">
+    <!-- 숫자를 박에 맞춰 두드리면 탭 템포 (1.9). 독에 단추를 더할 자리가 없어(폰 슬라이더 70px) 숫자 자체가 단추다 -->
+    <div class="readout" id="bpmTap" role="button" tabindex="0" aria-label="두드려서 템포 맞추기"
+         title="박에 맞춰 두드리면 템포가 맞춰집니다"><b id="bpmVal">100</b><span id="bpmUnit">BPM</span></div>
+    <!-- 바만 있으면 정확한 값을 못 맞춘다("120으로"가 안 된다).
+         ‹ ›는 **1씩** 움직인다 — 큰 이동은 슬라이더, 다듬기는 이 버튼 (2026-08-21).
+         자리가 있는 한 단 패드에서만 내놓는다 (2단 357px에는 안 들어간다) -->
+    <button id="bpmDn" class="bpmstep" type="button" aria-label="속도 1 낮추기">‹</button>
+    <button id="bpmUp" class="bpmstep" type="button" aria-label="속도 1 높이기">›</button>
+    <input type="range" id="bpmRange" min="40" max="220" value="100">
+  </div>
+</div>
+
+<!-- ── 시작 안내 (베타) ─────────────────────
+     "자동 저장이 없다"를 먼저 알리는 게 이 창의 진짜 목적이다.
+     이 앱은 어디에도 자동 저장하지 않는다. 알고 쓰면 저장이 습관이 되지만
+     모르고 쓰면 새로 고침 한 번에 사용자를 잃는다.
+     같은 버전에서는 한 번만 뜬다 — 매번 뜨면 두 번째부터는 아무도 안 읽는다.
+     2026-09-07: 웹에서는 저절로 뜨지 않는다 — 설정 → 새 소식에서 연다.
+     앱(구매판)만 버전이 오르면 업데이트 소식을 한 번 띄운다. -->
+<div class="pop" id="introPop" role="dialog" aria-modal="true" aria-label="따쿵따다둥 시작 안내">
+  <div class="popcard intro">
+    <header><b id="introTitle">따쿵따다둥 베타</b><span id="introVer"></span></header>
+
+    <p class="lead" data-i18n-html="intro.lead">드러머를 위한, 쉽고 빠른 채보 도구입니다.</p>
+
+    <p data-i18n-html="intro.whatsnew"><b>이번 업데이트 (2.1)</b><br>
+       <b>라이브러리</b> — 저장한 악보를 카드로 한눈에 · 즐겨찾기·최근 악보·책갈피 · 전체화면 보기에서 펜·형광펜·글 메모 ·
+       연습 기록장·일기장.<br>
+       <b>메트로놈</b> — 누르는 순간 시작 · ▶·세트리스트를 크게 · Basic은 패드 아무 데나 눌러 시작·정지 ·
+       블루투스 이어폰 화면 지연 보정 · 손으로 고른 박자표가 되돌아가던 문제 고침.<br>
+       <b>드럼 볼륨</b>(전체·악기별, 클릭은 그대로) · <b>악보 크기</b> 90~150% · <b>크래쉬 ⊗</b> 머리(설정) ·
+       목소리 카운팅 타이밍 · 음표가 많은 곡에서 재생이 버벅이던 문제 · 안드로이드 PDF 백지 고침.</p>
+    <p class="fine" data-i18n-html="intro.prev">지난 업데이트 — 드러머 전용 메트로놈(2.0) · 탭 템포 · 반박 섞기 · 붙어 있는 두 헤어핀 ·
+       맥 저장 창·영상 · 셈여림·크레센도 · 5·7연음 · 러프·꾸밈 악기 · 마디별 박자표 ·
+       크로스 스틱·림샷 · 영상 악보(MP4) · 펜슬 메모 · R·L 손 순서.</p>
+
+    <p id="introBeta" data-i18n-html="intro.beta">정식 출시 전 <b>베타 버전</b>이라, 기능이 미리 알려 드리지 못한 채
+       바뀌거나 없어질 수 있습니다.</p>
+
+    <p class="warn" id="introSave" data-i18n-html="intro.save"><b>작업하시던 악보는 이 기기에 자동으로 저장됩니다.</b><br>
+       새로 고치거나 창을 닫아도 이어서 열립니다. 다만 <b>이 브라우저 안에만</b> 있어서
+       기기를 바꾸거나 브라우저 데이터를 지우면 사라져요.
+       오래 두실 악보는 <b>저장</b>으로 파일을 내려받아 두세요.</p>
+
+    <p id="introEarly" data-i18n-html="intro.early">먼저 써 보시는 소수의 분들께 드리는 버전입니다.
+       불편한 점이든 있으면 좋겠는 기능이든 편하게 알려 주시면
+       다음 버전에 반영하겠습니다.</p>
+
+    <div class="row">
+      <button id="introStart" class="btn ink">시작하기</button>
+      <button id="introFb" class="btn" hidden>의견 보내기</button>
+      <a id="introChat" class="btn" hidden target="_blank" rel="noopener">오픈채팅</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── 스토어 홍보 팝업 (2026-10-07) ──────────────────────
+     웹 LITE에서만, 방문당이 아니라 **사람당 한 번** 뜬다. 첫 화면을 막지 않으려고
+     들어오자마자가 아니라 `STORE_POP_DELAY` 뒤에 띄운다(2026-09-07 시작 안내를 내린 이유와 같다).
+     앱(IS_NATIVE)에서는 통째로 뗀다 — 앱 안에서 다른 스토어 링크는 심사 거리다.
+     `data-no-i18n` — 이 창의 언어는 화면 언어가 아니라 `storePopLang()`이 정한다(해외 접속 = 영어). -->
+<div class="pop" id="storePop" role="dialog" aria-modal="true" aria-label="따쿵따다둥 앱 안내" data-no-i18n>
+  <div class="popcard intro storecard">
+    <header><b>따쿵따다둥</b><span data-sp>태블릿 앱</span></header>
+    <p class="lead" data-i18n-html="store.lead">태블릿에서는 앱으로 더 크게 쓰세요.</p>
+    <p data-i18n-html="store.body"><b>좌우 2단 악보</b> · <b>스피드 트레이너</b> · <b>구간 반복</b> · <b>펜 필기</b>.<br>
+       한 번 사면 계속 쓰실 수 있습니다. 구독이 아닙니다.</p>
+    <div class="stores">
+      <a class="store main" id="storeApp" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>App Store</b><i>iPad</i></span></a>
+      <a class="store" id="storePlay" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></svg><span><b>Google Play</b><i data-sp>Android 태블릿</i></span></a>
+    </div>
+    <p class="fine" data-i18n-html="store.fine">태블릿 전용 앱입니다. 폰에서는 지금 이 웹을 그대로 쓰시면 됩니다.</p>
+    <div class="row">
+      <button id="storeClose" class="btn" data-sp>닫기</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── 정보 / 라이선스 ──────────────────────
+     Bravura와 Pretendard는 둘 다 SIL OFL 1.1이고, OFL은 **저작권 고지 유지**를 요구한다.
+     코드 주석에만 적어 두면 배포물에는 고지가 없는 셈이라 여기 화면에 둔다.
+     개인정보 한 줄도 같이 둔다 — 이 앱이 아무것도 안 보낸다는 사실이
+     사용자에게는 안 보이므로 말해 줘야 안심한다. -->
+<!-- 저장 — 파일 · 이미지 · 인쇄를 한 서랍에. 상단바 자리를 아끼려고 묶었다(위 주석).
+     자동 저장과 곡 목록이 생긴 뒤로 `.ddakung.json` 저장은 "지금 당장" 누르는 것이 아니라
+     **밖으로 꺼내는 동작**이 됐다. 그래서 PNG·PDF와 한 서랍에 있는 게 오히려 맞다.
+     줄 수를 여기 둔 덕에 **폰에서도 출력 줄 수를 고를 수 있게 됐다** — 예전에는
+     `perLineSel`이 `edition-pad` 전용이라 폰에서 아예 안 보였다.
+     세 버튼 다 **사용자 제스처 안에서** 실행되므로 iOS 공유 시트가 정상으로 뜬다. -->
+<!-- ── 연습 기록 (2026-08-17) — 날짜별 이력. **설정 서랍에서도 열린다**(폰 포함) ── -->
+<div class="pop" id="histPop" role="dialog" aria-label="연습 기록">
+  <div class="popcard">
+    <header><b>연습 기록</b><span>이 기기에 남습니다</span></header>
+    <div class="hstreak"><b id="hStreak">0</b><span>일 연속</span><i id="hStreakNote"></i></div>
+    <div class="hbars" id="hBars" aria-hidden="true"></div>
+    <p class="hlegend"><span id="hFrom"></span><span id="hTo">오늘</span></p>
+    <div class="hrow">
+      <div><b id="hWeek">0:00</b><span>최근 7일</span></div>
+      <div><b id="hMonth">0:00</b><span>최근 30일</span></div>
+      <div><b id="hNotes">0</b><span>7일 음표</span></div>
+    </div>
+    <div class="row">
+      <button id="histCert" class="btn ink">인증샷 만들기</button>
+      <button id="histClose" class="btn">닫기</button>
+    </div>
+    <p class="fine" data-i18n-html="hist.fine">재생·연습이 도는 동안 자동으로 쌓입니다. 이 기기 안에만 있어서
+      브라우저 데이터를 지우면 사라집니다.</p>
+  </div>
+</div>
+
+<!-- ── 연습 인증 (2026-08-17) — 오늘 기록을 사진(또는 악보 카드) 위에 얹는다 ── -->
+<div class="pop" id="certPop" role="dialog" aria-label="연습 인증">
+  <div class="popcard">
+    <header><b>연습 인증</b><span>오늘 이 기기에서 잰 기록입니다</span></header>
+    <canvas id="certCanvas" width="1080" height="1920"></canvas>
+    <div class="row">
+      <button id="certPhoto" class="btn">사진 고르기</button>
+      <button id="certSave" class="btn ink">저장 · 공유</button>
+      <button id="certClose" class="btn">닫기</button>
+    </div>
+    <p class="fine" data-i18n-html="cert.fine">사진을 고르면 사진 위에, 없으면 악보 카드로 만듭니다.
+      사진과 기록은 <b>기기 밖으로 나가지 않습니다</b> — 그림 한 장만 저장됩니다.</p>
+    <input type="file" id="certFile" accept="image/*" hidden>
+  </div>
+</div>
+
+<div class="pop" id="savePop" role="dialog" aria-label="저장">
+  <div class="popcard">
+    <header><b>저장</b><span>파일 · 이미지 · 인쇄</span></header>
+    <div class="row">
+      <button id="saveFileBtn" class="btn ink">.ddakung.json 파일</button>
+      <!-- 라이브러리에 저장 (PC 스튜디오, 2026-10-20 사용자 요청) — 자동 저장을 지금 확정하고 라이브러리로 가는 길 -->
+      <button id="saveShelfBtn" class="btn pconly" type="button">라이브러리에 저장</button>
+    </div>
+    <p class="fine" data-i18n-html="save.file">다시 열어서 이어 그릴 수 있는 형식입니다. 오래 두실 악보는 이걸로 받아 두세요.</p>
+
+    <p class="setlab"><b>이미지 · 인쇄</b></p>
+    <select id="perLineSel" title="PNG·PDF 출력 시 한 줄에 넣을 마디 수">
+      <option value="8">한 줄에 8마디</option>
+      <option value="6">한 줄에 6마디</option>
+      <option value="5">한 줄에 5마디</option>
+      <option value="4" selected>한 줄에 4마디</option>
+      <option value="3">한 줄에 3마디</option>
+      <option value="2">한 줄에 2마디</option>
+      <option value="1">한 줄에 1마디</option>
+    </select>
+    <p class="fine" data-i18n-html="save.perline">32분음표처럼 넓은 마디가 있으면 그 줄만 자동으로 줄어듭니다.</p>
+    <!-- 구간 새 줄 (2026-09-07 사용자 요청 "PDF처럼 A·B 구간이 그 줄 첫 마디에 왔으면").
+         구간 간격이 8·9·12마디처럼 들쭉날쭉이면 줄마디 숫자만으로는 못 맞춘다 —
+         구간 마디에서 줄을 새로 시작해야 한다. 기기 설정(기본 꺼짐)이라 옛 악보는 안 움직인다. -->
+    <div class="scope" id="secScope" role="group" aria-label="구간 새 줄">
+      <button data-secbreak="off" class="sel">이어서</button>
+      <button data-secbreak="on">구간마다 새 줄</button>
+    </div>
+    <p class="fine" data-i18n-html="save.secbreak">켜면 <b>구간 이름이 붙은 마디</b>가 항상 줄 첫머리에 옵니다.</p>
+    <!-- 쉬는 마디 묶기 (2026-09-12 드러머 요청 "멀티레스트") — 기기 설정, 기본 꺼짐 -->
+    <div class="scope" id="multirestScope" role="group" aria-label="쉬는 마디 묶기">
+      <button data-multirest="off" class="sel">쉬는 마디 따로</button>
+      <button data-multirest="on">쉬는 마디 묶기</button>
+    </div>
+    <p class="fine" data-i18n-html="save.multirest">켜면 <b>연달아 빈 마디</b>가 한 칸에 마디 수로 접힙니다(멀티레스트). 구간 이름이나 기호가 붙은 마디에서는 끊깁니다.</p>
+    <!-- 6연음 빔 (2026-10-02 드러머 제보). 기보 이론은 "빔으로 3+3·2+2+2 의도를 보여라"이고,
+         드럼 교재 대세는 6 한 덩어리다 — 기기 설정으로 둘 다 연다. 기본은 3+3 -->
+    <div class="scope" id="sextScope" role="group" aria-label="6연음 빔">
+      <button data-sext="split">6연음 3+3</button>
+      <button data-sext="joined">6연음 한 덩어리</button>
+    </div>
+    <p class="fine" data-i18n-html="save.sext">6연음의 <b>둘째 빔</b>을 3+3으로 끊을지, 여섯 음을 한 덩어리로 이을지 고릅니다. 숫자 6은 그대로입니다.</p>
+    <div class="row">
+      <button id="pngBtn" class="btn">PNG 이미지</button>
+      <button id="pdfBtn" class="btn">PDF · 인쇄</button>
+      <button id="expClose" class="btn">닫기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 설정 — 기기에만 저장되는 표시 설정. 곡 데이터는 아무것도 안 건드린다. -->
+<!-- 곡 정보 (2026-08-27) — 상용 악보의 머리말.
+     **설정 팝업에 안 넣는다.** 저기 든 것은 전부 표시 설정이고 곡 데이터를 하나도
+     안 건드린다(commit도 자동 저장도 안 탄다). 여기 든 것은 정반대로 전부 곡 데이터다. -->
+<div class="pop" id="songPop" role="dialog" aria-label="곡 정보">
+  <div class="popcard">
+    <header><b>곡 정보</b><span>악보 머리말에 나옵니다</span></header>
+    <div class="metagrid">
+      <label><span>제목</span><input class="insname" id="mTitle" maxlength="60" autocomplete="off"></label>
+      <label><span>부제</span><input class="insname" id="mSub" maxlength="80" autocomplete="off"></label>
+      <label><span>작사</span><input class="insname" id="mLyricist" maxlength="80" autocomplete="off"></label>
+      <label><span>작곡</span><input class="insname" id="mComposer" maxlength="80" autocomplete="off"></label>
+      <label><span>편곡</span><input class="insname" id="mArranger" maxlength="80" autocomplete="off"></label>
+      <label><span>노래</span><input class="insname" id="mArtist" maxlength="80" autocomplete="off"></label>
+    </div>
+    <p class="setlab"><b>저작권</b></p>
+    <div class="metagrid">
+      <label><span>저작권</span><input class="insname" id="mCopyright" maxlength="80"
+             autocomplete="off" placeholder="© 2026 이름"></label>
+    </div>
+
+    <p class="setlab"><b>악보 스타일</b></p>
+    <div class="scope" id="styleScope" role="group" aria-label="악보 스타일">
+      <button data-style="classic" class="sel">클래식</button>
+      <button data-style="jazz">재즈</button>
+      <button data-style="hand">손사보</button>
+    </div>
+
+    <p class="setlab"><b>템포 표기</b></p>
+    <div class="scope" id="tempoScope" role="group" aria-label="템포 표기">
+      <button data-tempo="off" class="sel">없음</button>
+      <button data-tempo="on">♩ = BPM</button>
+    </div>
+
+    <p class="setlab"><b>머리말 글자</b></p>
+    <div class="scope" id="headSizeScope" role="group" aria-label="머리말 글자">
+      <button data-hsize="small">작게</button>
+      <button data-hsize="normal" class="sel">보통</button>
+      <button data-hsize="large">크게</button>
+    </div>
+    <button class="btn ghost sm" id="songClose" style="align-self:flex-end">닫기</button>
+  </div>
+</div>
+<div class="pop" id="setPop" role="dialog" aria-label="설정">
+  <div class="popcard">
+    <header><b>설정</b><span>이 기기에서만 적용됩니다</span></header>
+
+    <!-- 언어를 맨 위에 둔다 (2026-08-22). 영어로 쓰려는 사람은 이 창을 열자마자
+         찾아야 하고, 아래로 스크롤해야 나오면 그 사람은 못 찾는다 -->
+    <p class="setlab"><b>언어 · Language</b></p>
+    <div class="scope" id="langScope" role="group" aria-label="언어">
+      <button data-lang="ko" data-no-i18n>한국어</button>
+      <button data-lang="en" data-no-i18n>English</button>
+    </div>
+    <p class="fine" id="langNote" data-i18n-html="set.langnote">화면 글자만 바뀝니다.
+      만드신 악보와 곡 제목, 직접 바꾼 악기 이름은 그대로입니다.</p>
+
+    <p class="setlab"><b>마디 번호</b></p>
+    <div class="scope" id="barnumScope" role="group" aria-label="마디 번호">
+      <button data-barnum="on" class="sel">보이기</button>
+      <button data-barnum="off">숨기기</button>
+    </div>
+
+    <p class="setlab"><b>빈 마디 온쉼표</b></p>
+    <div class="scope" id="mrestScope" role="group" aria-label="빈 마디 온쉼표">
+      <button data-mrest="on" class="sel">보이기</button>
+      <button data-mrest="off">숨기기</button>
+    </div>
+
+    <p class="setlab"><b>킥 음표 줄기</b></p>
+    <div class="scope" id="stemScope" role="group" aria-label="킥 음표 줄기">
+      <button data-stems="split" class="sel">아래로 (성부 분리)</button>
+      <button data-stems="merge">위로 (합치기)</button>
+    </div>
+    <p class="fine" data-i18n-html="set.stems">손과 발의 박 나누기가 다른 마디는 합칠 수 없어 자동으로 나뉩니다.</p>
+
+    <!-- 크래쉬 머리 (2.1, 2026-10-18 사용자 요청) — 라이드 x와 구분하려고 크래쉬만 ⊗로 그리는 차트 관례.
+         기기 설정이다(스템 통합과 같은 성격) — 소리·데이터·저장 파일은 그대로, 그림만 바뀐다 -->
+    <p class="setlab"><b>크래쉬 머리</b></p>
+    <div class="scope" id="crashScope" role="group" aria-label="크래쉬 머리">
+      <button data-crash="x">x</button>
+      <button data-crash="ring" class="sel">⊗ (원 두르기)</button>
+    </div>
+    <p class="fine" data-i18n-html="set.crash">⊗로 두면 크래쉬가 라이드(x)와 한눈에 구분됩니다. 소리와 악보 파일은 그대로입니다.</p>
+
+    <p class="setlab"><b>메트로놈 소리</b></p>
+    <div class="scope" id="metScope" role="group" aria-label="메트로놈 소리">
+      <button data-met="click" class="sel">클릭</button>
+      <button data-met="voice">목소리</button>
+    </div>
+    <p class="fine" data-i18n-html="set.met">목소리는 <b>원·투·쓰리·포</b>로 셉니다. 첫 박은 어느 쪽이든 강조됩니다.</p>
+
+    <!-- 드럼 킷은 앱 전용 (2026-09-10 사용자 결정). 샘플 데이터는 build-app.sh가
+         www/ 사본에만 주입하고, 데이터가 빈 웹에서는 이 묶음이 안 보인다 -->
+    <div id="kitGroup" hidden>
+    <p class="setlab"><b>드럼 사운드</b></p>
+    <div class="scope" id="kitScope" role="group" aria-label="드럼 사운드">
+      <button data-kit="acoustic" class="sel">어쿠스틱</button>
+      <button data-kit="electro">일렉트로</button>
+    </div>
+    <p class="fine" data-i18n-html="set.kit">재생 소리만 바뀝니다. <b>악보는 그대로입니다.</b></p>
+    </div>
+
+    <!-- 2.1 (2026-10-15): 드럼 볼륨 — 연습 탭 카드와 같은 값. 여기는 어느 탭·폰에서도 닿는다 -->
+    <p class="setlab"><b>드럼 볼륨</b> <span id="drumVolSetVal" class="dvval" data-drumvol-val data-no-i18n>100%</span></p>
+    <div class="volrow"><input type="range" id="drumVolSet" data-drumvol min="0" max="100" step="5" value="100" aria-label="드럼 볼륨"></div>
+    <p class="fine">메트로놈 클릭은 그대로입니다. 0이면 드럼 없이 클릭만 납니다.</p>
+
+    <p class="setlab"><b>악보 배경</b></p>
+    <div class="scope" id="paperScope" role="group" aria-label="악보 배경">
+      <button data-paper="white" class="sel">흰색</button>
+      <button data-paper="ivory">아이보리</button>
+      <button data-paper="invert">반전</button>
+    </div>
+    <p class="fine" data-i18n-html="set.paper">PNG는 고른 배경으로 나옵니다. <b>인쇄는 항상 흰 종이</b>입니다 — 잉크를 아끼고, 반전으로 뽑으면 아무것도 안 나오기 때문입니다.</p>
+
+    <p class="setlab"><b>악보 크기</b></p>
+    <div class="scope" id="zoomScope" role="group" aria-label="악보 크기">
+      <button data-zoom="90" data-no-i18n>90%</button>
+      <button data-zoom="100" class="sel" data-no-i18n>100%</button>
+      <button data-zoom="115" data-no-i18n>115%</button>
+      <button data-zoom="130" data-no-i18n>130%</button>
+      <button data-zoom="150" data-no-i18n>150%</button>
+    </div>
+    <p class="fine">음표·오선이 함께 커집니다. 화면과 인쇄·PDF에 모두 적용되고, 키우면 한 줄에 마디가 덜 들어갑니다.</p>
+
+    <p class="setlab"><b>가사·메모 글자 크기</b></p>
+    <div class="scope" id="textScope" role="group" aria-label="가사·메모 글자 크기">
+      <button data-textsize="s">작게</button>
+      <button data-textsize="m" class="sel">보통</button>
+      <button data-textsize="l">크게</button>
+    </div>
+    <p class="fine" data-i18n-html="set.textsize">마디 아래에 적는 가사·메모의 크기입니다. 인쇄·PNG·영상에도 그대로 나갑니다.
+      키우면 <b>단 간격이 그만큼 벌어져</b> 빔이나 다음 단과 안 겹칩니다.</p>
+
+    <p class="setlab"><b>단 간격 (악보 줄 사이)</b></p>
+    <div class="scope" id="gapScope" role="group" aria-label="단 간격">
+      <button data-linegap="tight">좁게</button>
+      <button data-linegap="normal" class="sel">보통</button>
+      <button data-linegap="wide">넓게</button>
+    </div>
+    <p class="fine" data-i18n-html="set.gap">화면과 인쇄에 같이 적용됩니다. <b>좁게</b> 하면 한 장에 단이 더 들어갑니다.</p>
+
+    <p class="setlab"><b>손 순서 표기 (R·L) 위치</b></p>
+    <div class="scope" id="stickScope" role="group" aria-label="R·L 위치">
+      <button data-stickpos="above" class="sel">음표 위</button>
+      <button data-stickpos="below">음표 아래</button>
+    </div>
+    <p class="fine" data-i18n-html="set.stick">표기 팔레트의 <b>R·L</b>을 고르고 음표를 탭하면 붙습니다. 손 악기에만 붙고 발에는 붙지 않습니다.</p>
+
+    <div id="penRow" hidden>
+      <p class="setlab"><b id="penBrandLbl">Apple Pencil</b></p>
+      <div class="scope" id="penScope" role="group" aria-label="Apple Pencil 입력">
+        <button data-penonly="0" class="sel">손가락도 입력</button>
+        <button data-penonly="1">펜으로만 입력</button>
+      </div>
+      <p class="fine" data-i18n-html="set.pen"><b>펜으로만 입력</b>이면 손가락은 넘기기 전용이 됩니다 — 펜으로 찍는 동안 손이 닿아도 음표가 들어가지 않습니다. 펜은 끌어서 여러 칸을 이어 칠할 수 있습니다.</p>
+    </div>
+
+    <p class="setlab"><b>연습 기록</b></p>
+    <div class="row">
+      <button id="setHist" class="btn">기록 보기 · 인증샷</button>
+    </div>
+    <p class="fine" id="histSummary">아직 기록이 없습니다.</p>
+
+    <!-- 앱에서만 보인다. 웹은 잠글 것이 없어서 이 줄이 오히려 혼란이다 -->
+    <div id="proRow" hidden>
+      <p class="setlab"><b>연습기</b></p>
+      <div class="row">
+        <button id="setPro" class="btn">연습기 열기</button>
+        <button id="setRestore" class="btn sm">구매 복원</button>
+      </div>
+      <p class="fine" id="proSummary"></p>
+    </div>
+
+    <p class="setlab"><b>악기</b></p>
+    <div class="row">
+      <button id="setIns" class="btn">악기 고르기 · 순서 · 볼륨</button>
+    </div>
+    <p class="fine" id="insSummary">여덟 개 모두 보입니다.</p>
+
+    <div class="row">
+      <button id="setClose" class="btn ink">닫기</button>
+      <button id="setIntro" class="btn">새 소식</button>
+      <button id="setInfo" class="btn">정보 · 라이선스</button>
+    </div>
+  </div>
+</div>
+
+<!-- 연습기(Pro) — 잠긴 기능을 눌렀을 때. 막기만 하지 않고 무엇이 열리는지 보여 준다.
+     **구매 복원은 여기와 설정 두 곳에 둔다** — 기기를 바꾼 사람이 잠긴 화면에서
+     바로 되돌릴 수 있어야 한다(복원 경로가 없으면 앱스토어 3.1.1 리젝이다) -->
+<div class="pop" id="proPop" role="dialog" aria-label="연습기 열기">
+  <div class="popcard">
+    <header><b>연습기</b><span id="proPrice"></span></header>
+
+    <p class="lead" id="proWhy" data-i18n-html="pro.fine">한 번 사면 계속 쓰실 수 있습니다. 구독이 아닙니다.</p>
+
+    <p class="setlab"><b>열리는 것</b></p>
+    <ul class="prolist">
+      <li data-i18n-html="pro.li1"><b>스피드 트레이너</b> — 정한 횟수마다 BPM이 저절로 올라갑니다</li>
+      <li data-i18n-html="pro.li2"><b>구간 반복</b> — 안 되는 마디만 골라 계속 돌립니다</li>
+    </ul>
+
+    <p class="setlab"><b>지금도 무료인 것</b></p>
+    <ul class="prolist fine">
+      <li>채보 · 재생 · 구간 반복</li>
+      <li>PDF · PNG · 곡 파일 저장</li>
+      <li>연습 기록과 인증샷</li>
+    </ul>
+
+    <div class="row">
+      <button id="proBuy" class="btn ink">구매</button>
+      <button id="proRestore" class="btn">구매 복원</button>
+      <button id="proClose" class="btn">닫기</button>
+    </div>
+    <p class="fine" id="proNote" data-i18n-html="pro.restore">기기를 바꾸셨다면 <b>구매 복원</b>을 누르세요. 같은 Apple 계정이면 다시 결제하지 않습니다.</p>
+  </div>
+</div>
+
+<div class="pop" id="insPop" role="dialog" aria-label="악기 설정">
+  <div class="popcard">
+    <header><b>악기</b><span>입력판에 보일 악기 · 순서 · 볼륨</span></header>
+    <div id="insList" class="inslist"></div>
+    <p class="fine"><b data-i18n-html="roster.fine">숨겨도 음표는 안 지워집니다.</b> 음표가 든 악기는 악보를 열 때 자동으로 다시 켜집니다.</p>
+    <div class="row">
+      <button id="insClose" class="btn ink">닫기</button>
+      <button id="insReset" class="btn sm">기본값으로</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" id="infoPop" role="dialog" aria-label="따쿵따다둥 정보">
+  <div class="popcard intro">
+    <header><b>따쿵따다둥</b><span id="infoVer"></span></header>
+
+    <p class="lead">드러머를 위한, 쉽고 빠른 채보 도구입니다.</p>
+
+
+    <p data-i18n-html="info.privacy"><b>악보가 기기 밖으로 나가지 않습니다.</b><br>
+       계정을 만들지 않고, 만든 악보를 서버로 보내지도 저장하지도 않습니다.
+       자동 저장도 이 브라우저 안에서만 이루어지고, 오래 두실 악보는
+       <b>저장</b>으로 파일을 내려받으세요.</p>
+
+    <!-- Special Thanks — 라이선스 고지 **위**에 둔다 (2026-08-22).
+         고지는 법이 시켜서 적는 것이고 이건 우리가 적고 싶어서 적는 것이라,
+         뒤에 붙이면 각주로 읽힌다. 두 분이 짚어 준 것이 실제로 코드가 됐다 —
+         쉼표 표기, 2차 빔 규칙, 오픈 하이햇 ○ 위치, 메트로놈 목소리, 박자표. -->
+    <p class="thanks"><b>Special Thanks</b><br>
+      윤성욱 <a href="https://instagram.com/yun_drum" target="_blank" rel="noopener">@yun_drum</a>
+      · 김현정 <a href="https://instagram.com/fast83.soul.drum" target="_blank" rel="noopener">@fast83.soul.drum</a>
+    </p>
+
+    <p class="fine" data-i18n-html="info.lic">
+      악보 기호 — Bravura © Steinberg Media Technologies GmbH, SIL Open Font License 1.1<br>
+      글꼴 — Pretendard © 길형진(orioncactus), SIL Open Font License 1.1<br>
+      메트로놈 글꼴 — Freesentation © 이주임(The Freesentation Authors), SIL Open Font License 1.1
+    </p>
+
+    <div class="row">
+      <button id="infoClose" class="btn ink">닫기</button>
+      <a class="btn" href="/privacy.html" target="_blank" rel="noopener">개인정보처리방침</a>
+      <button id="infoFb" class="btn" hidden>의견 보내기</button>
+      <a id="infoChat" class="btn" hidden target="_blank" rel="noopener">오픈채팅</a>
+    </div>
+  </div>
+</div>
+
+<div class="pop" id="brushPop" role="dialog" aria-label="패턴 깔기">
+  <div class="popcard">
+    <header><b id="brushTitle">하이햇</b><span>한 박 패턴을 깔아 줍니다</span></header>
+    <div class="scope" id="brushScope" role="group" aria-label="적용 범위">
+      <button data-scope="all" class="sel">전체</button>
+      <button data-scope="sel">선택 구간</button>
+      <button data-scope="one">이 마디</button>
+    </div>
+    <div class="brushes" id="brushes"></div>
+    <button id="brushClose" class="btn">닫기</button>
+  </div>
+</div>
+
+<!-- ── 박 나누기 ─────────────────────────────
+     팝업으로 둔 이유: 순환 탭(4→3→6)만으로는 **손과 발을 따로** 줄 수가 없다.
+     손 셋잇단 위에 발 4분이 이 기능의 핵심이라 그걸 UI에서 숨기면 안 된다. -->
+<!-- ── 박자표 (2026-08-19 · 2026-09-01 마디별) ────────────────
+     「이 마디부터」를 고르면 고른 마디부터 끝까지 걸린다 — 인쇄 악보 규칙 그대로.
+     한 마디만 바꾸려면 그 마디와 **다음 마디**를 각각 걸면 된다.
+     묶음 선택은 **분모가 8이고 셋으로 안 떨어질 때만** 나온다 — 5/8, 7/8이 그렇다.
+     6/8은 셋씩이 유일한 답이라 고를 것이 없다. -->
+<div class="pop" id="tsPop" role="dialog" aria-label="박자표">
+  <div class="popcard">
+    <header><b>박자표</b></header>
+    <div class="scope violet" id="tsScopeRow" role="group" aria-label="적용 범위">
+      <button data-tsscope="all" class="sel">곡 전체</button>
+      <button data-tsscope="from">이 마디부터</button>
+      <button data-tsscope="only">이 마디만</button>
+    </div>
+    <div class="tsgrid" id="tsQuick" role="group" aria-label="자주 쓰는 박자표"></div>
+    <p class="setlab"><b>직접 넣기</b></p>
+    <div class="row tsrow">
+      <input type="number" id="tsNum" min="1" max="16" inputmode="numeric" value="4" aria-label="한 마디의 박 수">
+      <span class="tsslash">/</span>
+      <select id="tsDen" aria-label="박의 단위">
+        <option value="4">4</option>
+        <option value="8">8</option>
+      </select>
+      <button id="tsApply" class="btn ink sm">적용</button>
+    </div>
+    <div id="tsGrpRow" hidden>
+      <p class="setlab"><b>묶는 방법</b></p>
+      <div class="scope" id="tsGrp" role="group" aria-label="묶는 방법"></div>
+      <p class="fine" data-i18n-html="ts.note">5/8·7/8은 같은 박자라도 곡마다 다르게 묶습니다. 묶음이 곧 박이고, 빔도 그 단위로 이어집니다.</p>
+    </div>
+    <p class="tip" id="tsTip"></p>
+    <div class="row">
+      <button id="tsClose" class="btn">닫기</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" id="divPop" role="dialog" aria-label="박 나누기">
+  <div class="popcard">
+    <header><b id="divTitle">1박 나누기</b><span>한 박을 몇 칸으로 쪼갤지</span></header>
+    <!-- 적용 범위를 **고르기 전에** 정한다.
+         예전엔 "모든 박에 적용"이 별도 버튼이라 한 박을 바꾼 **뒤에** 다시 눌러야 했다.
+         패턴 깔기(brushPop)와 같은 모양으로 맞춰서 배울 게 하나로 준다. -->
+    <div class="scope" id="divScope" role="group" aria-label="적용 범위">
+      <button data-scope="one" class="sel">이 박</button>
+      <button data-scope="all">이 마디 전체</button>
+    </div>
+    <div class="divrow">
+      <span class="vlab hand">손</span>
+      <div class="divbtns" id="divHand" role="group" aria-label="손 나누기"></div>
+    </div>
+    <div class="divrow">
+      <span class="vlab foot">발</span>
+      <div class="divbtns" id="divFoot" role="group" aria-label="발 나누기"></div>
+    </div>
+    <!-- 2박 묶기 (2026-08-24). 묶은 박을 3으로 나눈 것이 2박 3연음(4분음표 셋)이다.
+         마디 구조라 손·발이 같이 영향을 받는다 — 묶으면 손 3칸·발 2칸으로 깔린다 -->
+    <div class="rangerow" id="divMergeRow" hidden>
+      <button id="divMerge" class="btn sm" type="button"></button>
+    </div>
+    <p class="tip" id="divTip" data-i18n-html="div.note">3 = 한 박에 셋잇단, 6 = 8분음표마다 셋잇단, 5·7 = 5·7연음.
+      2+3은 앞 반박 16분 둘 + 뒤 반박 16분 셋잇단, 2+4는 16분 둘 + 32분 넷입니다. 손과 발을 다르게 두면 폴리리듬이 됩니다.</p>
+    <div class="rangerow">
+      <button id="divClose" class="btn sm">닫기</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── 악보 표시 (2026-08-13) ───────────────
+     악보에서 **이미 골라 둔 마디를 한 번 더 누르면** 열린다.
+     새 버튼도 새 제스처도 안 만든 이유는 도구 줄이 폰에서 이미 세 줄이고,
+     길게 누르기는 보이지 않아서 아무도 못 찾기 때문이다.
+     "한 번 눌러 고르고, 다시 눌러 연다"는 규칙 하나로 폰·패드가 같이 된다. -->
+<div class="pop" id="markPop" role="dialog" aria-label="악보 표시">
+  <div class="popcard">
+    <header><b>악보 표시</b><span id="markWhich"></span></header>
+
+    <div class="mkgrp" data-tool="sec">
+      <h5>구간</h5>
+      <div class="mkrow" id="secChips"></div>
+      <input type="text" id="secFree" placeholder="직접 입력" maxlength="20" autocomplete="off">
+    </div>
+
+    <div class="mkgrp" data-tool="rep">
+      <h5>도돌이</h5>
+      <div class="mkrow">
+        <button id="repA" class="mkbtn" type="button">여기서 시작</button>
+        <button id="repB" class="mkbtn" type="button">여기서 끝</button>
+        <label class="mknum">몇 번 <input type="number" id="repN" min="2" max="8" value="2"></label>
+      </div>
+      <h5>한 마디 반복 (%)</h5>
+      <div class="mkrow" id="rptRow"></div>
+      <p class="mknote" data-i18n-html="mark.rpt">앞 마디를 그대로 치는 마디에 %를 씁니다. 비어 있으면 앞 마디 음표를 복사해 두고, 악보에는 기호만 보입니다.</p>
+    </div>
+
+    <div class="mkgrp" data-tool="end">
+      <h5>1·2번 괄호</h5>
+      <div class="mkrow" id="endRow"></div>
+    </div>
+
+    <div class="mkgrp" data-tool="nav">
+      <h5>마디선</h5>
+      <div class="mkrow" id="barRow"></div>
+      <h5>기호</h5>
+      <div class="mkrow" id="navRow"></div>
+      <p class="mknote" data-i18n-html="mark.nav">재생이 기호를 따라갑니다 — D.S.는 세뇨로, D.C.는 처음으로 돌아가고, 돌아온 뒤에는 to Coda와 Fine이 듣습니다.</p>
+    </div>
+
+    <div class="mkgrp" data-tool="dyn">
+      <h5>셈여림</h5>
+      <div class="mkrow" id="dynRow"></div>
+      <div class="mkrow" id="dynBRow"></div>
+      <h5>크레센도 · 디크레센도</h5>
+      <div class="mkrow" id="hpRow"></div>
+      <div class="mkrow" id="hpBRow"></div>
+      <p class="mknote" data-i18n-html="mark.dyn">같은 기호를 켠 마디가 이어지면 한 줄로 이어 그립니다. 여러 마디를 골라 두고 누르면 한 번에 켜집니다. 붙어 있는 두 헤어핀은 뒤쪽 첫 마디에서 <b>여기서 새로</b>를 고르세요. 소리 세기는 바뀌지 않습니다.</p>
+    </div>
+
+    <div class="mkgrp" data-tool="text">
+      <h5>가사 · 메모</h5>
+      <input type="text" id="mkText" placeholder="예) 여기서 보컬 들어옴" maxlength="120" autocomplete="off">
+    </div>
+
+    <div class="rangerow">
+      <button id="mkClear" class="btn sm">이 마디 표시 지우기</button>
+      <button id="mkClose" class="btn ink">완료</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── 라이브러리 (PC 스튜디오 maidrum.com/pro, 2026-10-20) ──────────────────────
+     곡 목록(#libPop)의 자리를 PC에서 대신한다. 곡을 카드로 한눈에 — 첫 두 마디 미리보기 ·
+     즐겨찾기 · 최근 악보 · 책갈피. `SHELF_ON`이 아니면 열리지 않는다(폰·아이패드·앱은 예전 목록). -->
+<div class="shelf" id="shelf" role="dialog" aria-modal="true" aria-label="라이브러리">
+  <div class="shelf-top">
+    <b class="shelf-h"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h5v14H4zM10 5.5h4v14h-4z"/><path d="M15.5 6.4l3.6-1 3.4 13.3-3.6 1z"/></svg><span>라이브러리</span></b>
+    <label class="shelf-search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></svg><input id="shelfQ" type="search" placeholder="곡 제목 · 책갈피 찾기" autocomplete="off" spellcheck="false"><kbd data-no-i18n>/</kbd></label>
+    <select id="shelfSort" class="shelf-sort" aria-label="정렬">
+      <option value="at">최근 수정순</option>
+      <option value="open">최근 연 순</option>
+      <option value="title">제목순</option>
+      <option value="bars">마디 많은 순</option>
+    </select>
+    <button id="shelfNew" class="btn ink sm" type="button">＋ 새 곡</button>
+    <button id="shelfClose" class="btn sm" type="button" title="라이브러리 닫기 (Esc)">닫기</button>
+  </div>
+  <div class="shelf-body">
+    <nav class="shelf-nav" id="shelfNav" aria-label="라이브러리 보기">
+      <button class="nv sel" type="button" data-v="all"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="7" height="7" rx="1.6"/><rect x="13" y="4" width="7" height="7" rx="1.6"/><rect x="4" y="13" width="7" height="7" rx="1.6"/><rect x="13" y="13" width="7" height="7" rx="1.6"/></svg><span>전체</span><em id="shelfNall">0</em></button>
+      <button class="nv" type="button" data-v="fav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.6l2.6 5.3 5.8.85-4.2 4.1 1 5.8L12 16.9l-5.2 2.75 1-5.8-4.2-4.1 5.8-.85z"/></svg><span>즐겨찾기</span><em id="shelfNfav">0</em></button>
+      <button class="nv" type="button" data-v="recent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg><span>최근 악보</span><em id="shelfNrecent">0</em></button>
+      <button class="nv" type="button" data-v="marks"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3.5h11v17l-5.5-4-5.5 4z"/></svg><span>책갈피</span><em id="shelfNmarks">0</em></button>
+      <span class="nvsep">기록</span>
+      <button class="nv" type="button" data-v="plog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9.5h16M8.5 3v4M15.5 3v4"/><path d="M8 13.5h3M8 16.5h6"/></svg><span>연습 기록장</span><em id="shelfNplog">0</em></button>
+      <button class="nv" type="button" data-v="diary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4.5h11a3 3 0 0 1 3 3v12H8a3 3 0 0 1-3-3z"/><path d="M5 16.5a3 3 0 0 1 3-3h11"/><path d="M9 8h6"/></svg><span>일기장</span><em id="shelfNdiary">0</em></button>
+      <div class="shelf-tools">
+        <button id="shelfFile" class="btn sm" type="button">파일 열기</button>
+        <button id="shelfCopyAll" class="btn sm" type="button">전체 백업 복사</button>
+        <button id="shelfPasteIn" class="btn sm" type="button">붙여넣기로 불러오기</button>
+        <p class="libnote" id="shelfNote"></p>
+      </div>
+    </nav>
+    <section class="shelf-main" id="shelfMain" aria-live="polite"></section>
+  </div>
+  <div class="shelf-drop" aria-hidden="true"><b>여기에 놓으면 새 곡으로 들어옵니다</b><span>.ddakung.json 악보 파일 · 여러 개를 한 번에</span></div>
+</div>
+
+<!-- ── 악보 보기 + 메모 (라이브러리에서 곡을 누르면, 2026-10-20) ─────────────────────
+     인쇄용 페이지 그대로 + 메모 한 겹(펜·형광펜·글·지우개). 메모는 마디에 붙는다(m.memo) —
+     기보·PDF·영상에는 안 실리고, 이 화면과 「인쇄」(메모째)에만 나온다 -->
+<div class="reader" id="reader" role="dialog" aria-modal="true" aria-label="악보 보기" data-tool="view">
+  <div class="rd-top">
+    <!-- 라이브러리로 돌아가기 — 이 창의 출구라 제일 잘 보여야 한다 (2026-10-20 사용자 요청) -->
+    <button id="rdBack" class="rd-back" type="button" title="라이브러리로 돌아가기 (Esc)" aria-label="라이브러리로 돌아가기"><svg class="rb-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5h5v14H4zM10 5.5h4v14h-4z"/><path d="M15.5 6.4l3.6-1 3.4 13.3-3.6 1z"/></svg><span>라이브러리</span></button>
+    <div class="rd-title"><b id="rdTitle" data-no-i18n></b><span id="rdSub"></span></div>
+    <div class="rd-tools" role="toolbar" aria-label="메모 도구">
+      <button class="rt sel" type="button" data-tool="view" aria-label="보기" title="보기 (V)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 13V5.5a1.5 1.5 0 0 1 3 0V11"/><path d="M11 10.5V4.5a1.5 1.5 0 0 1 3 0v6"/><path d="M14 10.5V6a1.5 1.5 0 0 1 3 0v8a6 6 0 0 1-6 6h-.6a6 6 0 0 1-4.6-2.2L3.6 15a1.6 1.6 0 0 1 2.5-2l1.9 2"/></svg></button>
+      <button class="rt" type="button" data-tool="pen" aria-label="펜" title="펜 (P)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 0 1 3 3L8 19z"/><path d="M14.5 6.5l3 3"/></svg></button>
+      <button class="rt" type="button" data-tool="hl" aria-label="형광펜" title="형광펜 (H)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 15l-3 3h5l1.5-1.5"/><path d="M9 15l7.5-10.5a2 2 0 0 1 3 2.5L12.5 16.5z"/><path d="M4 21h16" stroke-width="3" opacity=".45"/></svg></button>
+      <button class="rt" type="button" data-tool="text" aria-label="글 메모" title="글 메모 (T) — 누른 자리에 씁니다"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 6V4.5h14V6"/><path d="M12 4.5V19.5"/><path d="M9 19.5h6"/></svg></button>
+      <button class="rt" type="button" data-tool="erase" aria-label="지우개" title="지우개 (E) — 누르거나 문지르면 지웁니다"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 19.5l-3-3a1.6 1.6 0 0 1 0-2.3l8.7-8.7a1.6 1.6 0 0 1 2.3 0l4 4a1.6 1.6 0 0 1 0 2.3l-7.7 7.7z"/><path d="M10 9l5.5 5.5"/><path d="M11 19.5h9"/></svg></button>
+      <span class="rd-colors" id="rdColors" hidden>
+        <button type="button" data-c="red"></button><button type="button" data-c="blue"></button><button type="button" data-c="green"></button><button type="button" data-c="ink"></button>
+      </span>
+      <button class="rt" type="button" id="rdWidth" aria-pressed="false" aria-label="굵게" title="굵게" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8h16" stroke-width="1.4"/><path d="M4 15h16" stroke-width="3.6"/></svg></button>
+      <span class="rd-sep"></span>
+      <button class="rt" type="button" id="rdUndo" aria-label="되돌리기" title="되돌리기 (⌘Z)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7 4 11l4 4"/><path d="M4 11h9a6 6 0 0 1 0 12h-1.5"/></svg></button>
+      <button class="rt" type="button" id="rdRedo" aria-label="다시 실행" title="다시 실행 (⇧⌘Z)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 7l4 4-4 4"/><path d="M20 11h-9a6 6 0 0 0 0 12h1.5"/></svg></button>
+      <button class="rt" type="button" id="rdHide" aria-pressed="false" aria-label="메모 숨기기" title="메모 숨기기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.8"/><path d="M4 20 20 4"/></svg></button>
+      <button class="rt" type="button" id="rdClear" aria-label="메모 모두 지우기" title="메모 모두 지우기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 6.5h15"/><path d="M9 6.5V4.5h6v2"/><path d="M6.5 6.5l1 13h9l1-13"/></svg></button>
+    </div>
+    <div class="rd-right">
+      <button class="rt" type="button" id="rdZoomOut" aria-label="축소" title="축소 (⌘−)">−</button>
+      <button class="rd-zoom" type="button" id="rdZoomFit" title="화면 폭에 맞추기 (⌘0)"><span id="rdZoom" data-no-i18n>100%</span></button>
+      <button class="rt" type="button" id="rdZoomIn" aria-label="확대" title="확대 (⌘+)">＋</button>
+      <button id="rdPlay" class="btn sm" type="button" title="재생 (Space)">▶ 재생</button>
+      <button id="rdPrint" class="btn sm" type="button" title="메모까지 같이 인쇄 · PDF로 저장">인쇄</button>
+      <button id="rdEdit" class="btn sm" type="button">편집하기</button>   <!-- 라임은 「라이브러리」 하나만 — 출구가 먼저 보이게 -->
+    </div>
+  </div>
+  <div class="rd-pages" id="rdPages"></div>
+</div>
+
+<!-- PC 스튜디오 문 (2026-10-20). Studio 통행증이 없는 사람이 /pro로 들어오면 뜬다.
+     코드는 `STUDIO_CODE` 그대로 — 문이 둘이어도 열쇠는 하나다 -->
+<div class="pop" id="pcGate" role="dialog" aria-label="따쿵따다둥">
+  <div class="popcard gatecard">
+    <header><b>따쿵따다둥</b><span>PC 스튜디오</span></header>
+    <p>큰 화면에서 쓰는 드럼 악보 스튜디오입니다. 지금은 테스터에게만 열려 있습니다 — 받은 코드를 넣어 주세요.</p>
+    <input id="pcGateCode" type="password" inputmode="numeric" autocomplete="off" placeholder="테스터 코드" aria-label="테스터 코드">
+    <p class="gatemsg" id="pcGateMsg"></p>
+    <div class="rangerow">
+      <a class="btn sm" href="/">무료 버전으로</a>
+      <button id="pcGateGo" class="btn ink" type="button">열기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 연습 기록 한 줄 (라이브러리 · 연습 기록장, 2026-10-21) -->
+<div class="pop" id="plogPop" role="dialog" aria-label="연습 기록">
+  <div class="popcard plcard">
+    <header><b id="plTitle">연습 기록</b><span>연습할 때마다 한 줄</span></header>
+    <div class="plrow">
+      <label>날짜<input type="date" id="plDate"></label>
+      <label>시각<input type="time" id="plTime"></label>
+      <label>연습 시간<span class="plmin"><input type="number" id="plMin" min="0" max="1440" step="1" inputmode="numeric">분</span></label>
+    </div>
+    <p class="setlab"><b>기분</b></p>
+    <div class="plmoods" id="plMoods" role="group" aria-label="기분"><button type="button" data-mood="1" aria-pressed="false" title="힘듦" aria-label="힘듦"><i data-no-i18n>😣</i><span>힘듦</span></button><button type="button" data-mood="2" aria-pressed="false" title="별로" aria-label="별로"><i data-no-i18n>🙁</i><span>별로</span></button><button type="button" data-mood="3" aria-pressed="false" title="보통" aria-label="보통"><i data-no-i18n>😐</i><span>보통</span></button><button type="button" data-mood="4" aria-pressed="false" title="좋음" aria-label="좋음"><i data-no-i18n>🙂</i><span>좋음</span></button><button type="button" data-mood="5" aria-pressed="false" title="최고" aria-label="최고"><i data-no-i18n>😄</i><span>최고</span></button></div>
+    <input type="text" id="plWord" maxlength="16" autocomplete="off" placeholder="한 단어(선택)" aria-label="기분 한 단어">
+    <p class="setlab"><b>연습한 악보</b></p>
+    <div class="plsongs" id="plSongs"></div>
+    <select id="plSongAdd" aria-label="라이브러리에서 악보 붙이기"></select>
+    <p class="setlab"><b>메모</b></p>
+    <textarea id="plMemo" maxlength="300" rows="3" placeholder="예: 16비트 100까지 깨끗하게. 왼손 고스트가 커짐"></textarea>
+    <div class="rangerow">
+      <button id="plDel" class="btn sm" type="button" style="display:none">삭제</button>
+      <button id="plCancel" class="btn sm" type="button">닫기</button>
+      <button id="plSave" class="btn ink" type="button" title="저장 (⌘Enter)">저장</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" id="libPop" role="dialog" aria-label="곡 목록">
+  <div class="popcard">
+    <header><b>곡 목록</b><span>제목을 고치면 이름도 같이 바뀝니다</span></header>
+    <button id="libNew" class="btn ink">＋ 새 곡</button>
+    <div class="liblist" id="libList"></div>
+    <p class="libnote" id="libNote"></p>
+    <!-- 곡 옮기기 (2026-10-11) — 다른 브라우저·기기로. 파일 저장이 막힌 곳(카톡 안)에서도 된다 -->
+    <div class="libmove" id="libMove">
+      <button id="libCopyAll" class="btn sm" type="button">전체 백업 복사</button>
+      <button id="libPasteIn" class="btn sm" type="button">붙여넣기로 불러오기</button>
+    </div>
+    <div class="rangerow"><button id="libClose" class="btn sm">닫기</button></div>
+  </div>
+</div>
+
+<div class="pop" id="movePop" role="dialog" aria-label="곡 옮기기">
+  <div class="popcard movecard">
+    <header><b id="moveTitle">곡 옮기기</b></header>
+    <p id="moveMsg"></p>
+    <textarea id="moveText" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
+    <div class="rangerow">
+      <button id="moveClip" class="btn sm" type="button">클립보드에서 가져오기</button>
+      <button id="moveCopy" class="btn sm" type="button">다시 복사</button>
+      <button id="moveGo" class="btn ink" type="button">불러오기</button>
+      <button id="moveClose" class="btn sm" type="button">닫기</button>
+    </div>
+  </div>
+</div>
+
+<div class="pop" id="rangePop" role="dialog" aria-label="구간 반복">
+  <div class="popcard">
+    <header><b>구간 반복</b><span>정한 마디만 돌립니다</span></header>
+    <div class="rangerow">
+      <label>시작 <input type="number" id="loopA" min="1" inputmode="numeric" value="1"></label>
+      <span>—</span>
+      <label>끝 <input type="number" id="loopB" min="1" inputmode="numeric" value="1"></label>
+      <button id="loopFromSel" class="btn sm">선택 구간</button>
+    </div>
+    <div class="rangerow">
+      <button id="loopApply" class="btn ink">구간 반복 켜기</button>
+      <button id="loopOff" class="btn sm">전체로</button>
+      <button id="rangeClose" class="btn sm">닫기</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── 악보 탭 도구 레일 (2026-08-17) — 2단 악보 모드에서만 보인다 ── -->
+<!-- 레일 아이콘 (2026-09-09, 1.6) — 문자·이모지 혼용을 한 벌의 선 아이콘으로.
+     🏷·🖼가 iPadOS에서 컬러 이모지로 찍혀 단색 레일에서 혼자 튀던 문제의 해소.
+     24x24 격자·1.75px 스트로크·currentColor라 .on(라임 배경) 상태에서도 색이 따라간다 -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5"/><circle cx="12" cy="8" r=".6" fill="currentColor"/></symbol><symbol id="i-sec" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V6h16v3"/><path d="M4 18v-3h16v3"/><path d="M8 12h8"/></symbol><symbol id="i-rep" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 5v14" stroke-width="3.2"/><path d="M11 5v14"/><circle cx="16" cy="9.5" r="1.3" fill="currentColor" stroke="none"/><circle cx="16" cy="14.5" r="1.3" fill="currentColor" stroke="none"/></symbol><symbol id="i-end" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17V7h16v10"/><path d="M9 10.5l1.5-1v6"/><path d="M14 10.5c.8-1 2.6-.9 2.6.6 0 1.5-2.7 2.6-2.7 4.4H17"/></symbol><symbol id="i-nav" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="M12 3.5v17M3.5 12h17"/></symbol><symbol id="i-dyn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 5.5c-1.6-.4-2.7.4-3 2L4.6 18.5"/><path d="M4.5 10h4"/><path d="M12 9.5l8.5 2.5L12 14.5"/></symbol><symbol id="i-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7V5h14v2"/><path d="M12 5v14"/><path d="M9 19h6"/></symbol><symbol id="i-pen" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l4-1 11-11-3-3L5 16l-1 4z"/><path d="M13.5 7.5l3 3"/></symbol><symbol id="i-clear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15l7-7 7 7-4 4H8z"/><path d="M8 11l7 7"/><path d="M4 19h16"/></symbol><symbol id="i-gap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6h14M5 18h14"/><path d="M12 8.5v7"/><path d="M9.5 11l2.5-2.5 2.5 2.5M9.5 13l2.5 2.5 2.5-2.5"/></symbol><symbol id="i-perline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18M3 12h18M3 17h18"/><path d="M8 5v4M16 5v4M12 10v4M8 15v4M16 15v4"/></symbol><symbol id="i-paper" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor" stroke="none"/></symbol><symbol id="i-pdf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h8l5 5v13H6z"/><path d="M14 3v5h5"/><path d="M12 11v7M9.5 15.5L12 18l2.5-2.5"/></symbol><symbol id="i-png" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M20 15l-4.5-4.5L8 18"/></symbol><symbol id="i-mp4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="14" rx="2"/><path d="M3.5 9h17M7 5v4M12 5v4M17 5v4"/><path d="M10.5 12v5l4-2.5z" fill="currentColor" stroke="none"/></symbol></svg>
+<div class="mkrail" id="railL" role="toolbar" aria-label="악보 표시 도구">
+  <button class="railbtn" data-tool="info"><svg class="ric" aria-hidden="true"><use href="#i-info"/></svg>곡정보</button>
+  <button class="railbtn" data-tool="sec"><svg class="ric" aria-hidden="true"><use href="#i-sec"/></svg>구간</button>
+  <button class="railbtn" data-tool="rep"><svg class="ric" aria-hidden="true"><use href="#i-rep"/></svg>도돌이</button>
+  <button class="railbtn" data-tool="end"><svg class="ric" aria-hidden="true"><use href="#i-end"/></svg>괄호</button>
+  <button class="railbtn" data-tool="nav"><svg class="ric" aria-hidden="true"><use href="#i-nav"/></svg>기호</button>
+  <button class="railbtn" data-tool="dyn"><svg class="ric" aria-hidden="true"><use href="#i-dyn"/></svg>셈여림</button>
+  <button class="railbtn" data-tool="text"><svg class="ric" aria-hidden="true"><use href="#i-text"/></svg>가사</button>
+  <button class="railbtn" data-tool="pen"><svg class="ric" aria-hidden="true"><use href="#i-pen"/></svg>펜</button>
+  <button class="railbtn" data-tool="clear"><svg class="ric" aria-hidden="true"><use href="#i-clear"/></svg>지우기</button>
+</div>
+<!-- 펜 패널 내용물. markPop에는 없다(폰에서는 펜을 못 쓴다) — 숨긴 집에 두고
+     레일 패널이 열릴 때 .mkgrp들과 같은 방식으로 옮겨 담는다 -->
+<div id="penHome" style="display:none">
+  <div class="mkgrp" id="penGrp">
+    <div class="mkrow" id="penColorRow"></div>
+    <div class="mkrow" id="penWRow"></div>
+    <div class="mkrow">
+      <button type="button" class="mkbtn" id="penEraser">지우개</button>
+      <button type="button" class="mkbtn" id="penClearM">이 마디 펜 지우기</button>
+    </div>
+    <p class="rnote" data-i18n-html="rail.pen">펜슬(또는 마우스)로 그리고, <b>손가락으로 스크롤</b>합니다.<br>
+      획은 그린 마디에 붙어 인쇄·PNG·영상에도 함께 나옵니다.</p>
+  </div>
+</div>
+<div class="railpanel" id="railPanel" role="dialog" aria-label="악보 표시">
+  <!-- 닫기가 없으면 패널이 악보를 가린 채 안 비켜난다 (2026-08-21 실기기 제보).
+       레일 버튼을 다시 누르는 길이 있지만, 그건 보이지 않는 길이다 -->
+  <button class="railx" id="railClose" type="button" aria-label="닫기">×</button>
+  <h6 id="railTitle"></h6>
+  <span class="rwhich" id="railWhich"></span>
+  <div id="railSlot"></div>
+</div>
+<div class="mkrail" id="railR" role="toolbar" aria-label="지면 · 출력">
+  <button class="railbtn" data-rtool="gap"><svg class="ric" aria-hidden="true"><use href="#i-gap"/></svg>줄간격</button>
+  <button class="railbtn" data-rtool="perline"><svg class="ric" aria-hidden="true"><use href="#i-perline"/></svg>줄마디</button>
+  <button class="railbtn" data-rtool="paper"><svg class="ric" aria-hidden="true"><use href="#i-paper"/></svg>배경</button>
+  <button class="railbtn" data-rtool="pdf"><svg class="ric" aria-hidden="true"><use href="#i-pdf"/></svg>PDF</button>
+  <button class="railbtn" data-rtool="png"><svg class="ric" aria-hidden="true"><use href="#i-png"/></svg>PNG</button>
+  <button class="railbtn" data-rtool="mp4"><svg class="ric" aria-hidden="true"><use href="#i-mp4"/></svg>MP4</button>
+</div>
+<div class="railpanel" id="railPanelR" role="dialog" aria-label="지면 · 출력">
+  <h6 id="railTitleR"></h6>
+  <div class="rsec" data-rsec="gap">
+    <div class="mkrow" id="rlGap"></div>
+  </div>
+  <div class="rsec" data-rsec="perline">
+    <div class="mkrow" id="rlPerline"></div>
+    <div class="mkrow" id="rlSecbreak"></div>
+    <div class="mkrow" id="rlMrest"></div>
+    <!-- 마디별 새 줄 (2026-09-12) — 선택한 마디부터 줄을 새로 시작하고 그 줄의 마디 수를 정한다 -->
+    <p class="rnote" id="rlLnWhich"></p>
+    <div class="mkrow" id="rlLinebreak"></div>
+    <p class="rnote" data-i18n-html="rail.linebreak">↵가 붙은 마디부터 새 줄이 시작되고, 다음 ↵까지 그 숫자대로 접습니다. 없음이면 위의 줄마디를 따릅니다.</p>
+    <p class="rnote" data-i18n-html="rail.paper">화면과 PDF·PNG 출력에 같이 적용됩니다.</p>
+  </div>
+  <div class="rsec" data-rsec="paper">
+    <div class="mkrow" id="rlPaper"></div>
+  </div>
+  <div class="rsec" data-rsec="mp4">
+    <div class="mkrow" id="vidSizeRow"></div>
+    <button id="vidGo" class="btn ink">영상 만들기</button>
+    <div class="vidbar" id="vidBar"><i></i></div>
+    <p class="rnote" id="vidNote" data-i18n-html="rail.mp4">악보가 흐르고 재생선은 서 있는 영상입니다.
+      소리는 들어가지 않습니다. 도돌이·기호는 펼치지 않고 마디 순서대로 흐릅니다.</p>
+  </div>
+</div>
+<div id="scorePill">
+  <button id="pillPlay" aria-label="재생"></button>
+  <span id="pillBpm"></span>
+</div>
+
+<div class="sheet" id="pngSheet" role="dialog" aria-label="PNG 저장">
+  <img id="pngImg" alt="악보 미리보기">
+  <p class="tip" data-i18n-html="png.hint">그림을 <b>길게 눌러</b> 사진에 추가할 수도 있습니다.</p>
+  <div class="row">
+    <button id="pngSave" class="btn ink">저장</button>
+    <button id="pngClose" class="btn">닫기</button>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<!-- 앱 자체 확인창 (1.8) — confirm()/alert() 대신. 8-58장 -->
+<div class="pop" id="askPop" role="alertdialog" aria-modal="true" aria-labelledby="askMsg">
+  <div class="popcard askcard">
+    <p id="askMsg"></p>
+    <div class="rangerow">
+      <button id="askNo" class="btn sm" type="button">취소</button>
+      <button id="askYes" class="btn ink" type="button">확인</button>
+    </div>
+  </div>
+</div>
+
+<div id="printArea" aria-hidden="true"></div>
+
+
+
+<script type="module" src="/src/main.ts"></script>
+</body>
+</html>

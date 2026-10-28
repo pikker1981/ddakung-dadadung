@@ -1,0 +1,573 @@
+{
+  "version": 1,
+  "id": "big-rusty-stack-3-layer",
+  "kind": "instrument",
+  "instrument": "fx",
+  "brand": "Trowa / Polmuz",
+  "model": "Three-Cymbal Stack",
+  "size": "21″ + 16″ + 14″ half hat",
+  "label": "Trowa / Polmuz Three-Cymbal Stack 21″ + 16″ + 14″ half hat",
+  "license": "CC0-1.0",
+  "source": "https://github.com/sfzinstruments/karoryfer.big-rusty-drums/tree/f07ce00df34a46b6b08375be56fe116cf15782bc",
+  "compatibleTargets": [
+    "fx",
+    "crash"
+  ],
+  "variants": {
+    "fx": [
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl1_rr1.wav",
+        "velocity": 0.08661417322834646,
+        "rr": 0,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl1_rr1.flac"
+        ],
+        "sourceVelocityLow": 1,
+        "sourceVelocityHigh": 21,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl1_rr2.wav",
+        "velocity": 0.08661417322834646,
+        "rr": 1,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl1_rr2.flac"
+        ],
+        "sourceVelocityLow": 1,
+        "sourceVelocityHigh": 21,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl1_rr3.wav",
+        "velocity": 0.08661417322834646,
+        "rr": 2,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl1_rr3.flac"
+        ],
+        "sourceVelocityLow": 1,
+        "sourceVelocityHigh": 21,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl1_rr4.wav",
+        "velocity": 0.08661417322834646,
+        "rr": 3,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl1_rr4.flac"
+        ],
+        "sourceVelocityLow": 1,
+        "sourceVelocityHigh": 21,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl2_rr1.wav",
+        "velocity": 0.25196850393700787,
+        "rr": 0,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl2_rr1.flac"
+        ],
+        "sourceVelocityLow": 22,
+        "sourceVelocityHigh": 42,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl2_rr2.wav",
+        "velocity": 0.25196850393700787,
+        "rr": 1,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl2_rr2.flac"
+        ],
+        "sourceVelocityLow": 22,
+        "sourceVelocityHigh": 42,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl2_rr3.wav",
+        "velocity": 0.25196850393700787,
+        "rr": 2,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl2_rr3.flac"
+        ],
+        "sourceVelocityLow": 22,
+        "sourceVelocityHigh": 42,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl2_rr4.wav",
+        "velocity": 0.25196850393700787,
+        "rr": 3,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl2_rr4.flac"
+        ],
+        "sourceVelocityLow": 22,
+        "sourceVelocityHigh": 42,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl3_rr1.wav",
+        "velocity": 0.41732283464566927,
+        "rr": 0,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl3_rr1.flac"
+        ],
+        "sourceVelocityLow": 43,
+        "sourceVelocityHigh": 63,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl3_rr2.wav",
+        "velocity": 0.41732283464566927,
+        "rr": 1,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl3_rr2.flac"
+        ],
+        "sourceVelocityLow": 43,
+        "sourceVelocityHigh": 63,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl3_rr3.wav",
+        "velocity": 0.41732283464566927,
+        "rr": 2,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl3_rr3.flac"
+        ],
+        "sourceVelocityLow": 43,
+        "sourceVelocityHigh": 63,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl3_rr4.wav",
+        "velocity": 0.41732283464566927,
+        "rr": 3,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl3_rr4.flac"
+        ],
+        "sourceVelocityLow": 43,
+        "sourceVelocityHigh": 63,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl4_rr1.wav",
+        "velocity": 0.5866141732283464,
+        "rr": 0,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl4_rr1.flac"
+        ],
+        "sourceVelocityLow": 64,
+        "sourceVelocityHigh": 85,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl4_rr2.wav",
+        "velocity": 0.5866141732283464,
+        "rr": 1,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl4_rr2.flac"
+        ],
+        "sourceVelocityLow": 64,
+        "sourceVelocityHigh": 85,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl4_rr3.wav",
+        "velocity": 0.5866141732283464,
+        "rr": 2,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl4_rr3.flac"
+        ],
+        "sourceVelocityLow": 64,
+        "sourceVelocityHigh": 85,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl4_rr4.wav",
+        "velocity": 0.5866141732283464,
+        "rr": 3,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl4_rr4.flac"
+        ],
+        "sourceVelocityLow": 64,
+        "sourceVelocityHigh": 85,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl5_rr1.wav",
+        "velocity": 0.7559055118110236,
+        "rr": 0,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl5_rr1.flac"
+        ],
+        "sourceVelocityLow": 86,
+        "sourceVelocityHigh": 106,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl5_rr2.wav",
+        "velocity": 0.7559055118110236,
+        "rr": 1,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl5_rr2.flac"
+        ],
+        "sourceVelocityLow": 86,
+        "sourceVelocityHigh": 106,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl5_rr3.wav",
+        "velocity": 0.7559055118110236,
+        "rr": 2,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl5_rr3.flac"
+        ],
+        "sourceVelocityLow": 86,
+        "sourceVelocityHigh": 106,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl5_rr4.wav",
+        "velocity": 0.7559055118110236,
+        "rr": 3,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl5_rr4.flac"
+        ],
+        "sourceVelocityLow": 86,
+        "sourceVelocityHigh": 106,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl6_rr1.wav",
+        "velocity": 0.9212598425196851,
+        "rr": 0,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl6_rr1.flac"
+        ],
+        "sourceVelocityLow": 107,
+        "sourceVelocityHigh": 127,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl6_rr2.wav",
+        "velocity": 0.9212598425196851,
+        "rr": 1,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl6_rr2.flac"
+        ],
+        "sourceVelocityLow": 107,
+        "sourceVelocityHigh": 127,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl6_rr3.wav",
+        "velocity": 0.9212598425196851,
+        "rr": 2,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl6_rr3.flac"
+        ],
+        "sourceVelocityLow": 107,
+        "sourceVelocityHigh": 127,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_mid_vl6_rr4.wav",
+        "velocity": 0.9212598425196851,
+        "rr": 3,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/mid/cl/st_mid_vl6_rr4.flac"
+        ],
+        "sourceVelocityLow": 107,
+        "sourceVelocityHigh": 127,
+        "sourceArticulation": "stack_3_layer/st_mid_cl"
+      }
+    ]
+  },
+  "fallbacks": {},
+  "description": "Real recorded Trowa / Polmuz Three-Cymbal Stack 21″ + 16″ + 14″ half hat; no manufacturer endorsement.",
+  "recordedArticulations": {
+    "st_ed_cl": [
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl1_rr1.wav",
+        "velocity": 0.08661417322834646,
+        "rr": 0,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl1_rr1.flac"
+        ],
+        "sourceVelocityLow": 1,
+        "sourceVelocityHigh": 21,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl1_rr2.wav",
+        "velocity": 0.08661417322834646,
+        "rr": 1,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl1_rr2.flac"
+        ],
+        "sourceVelocityLow": 1,
+        "sourceVelocityHigh": 21,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl1_rr3.wav",
+        "velocity": 0.08661417322834646,
+        "rr": 2,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl1_rr3.flac"
+        ],
+        "sourceVelocityLow": 1,
+        "sourceVelocityHigh": 21,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl1_rr4.wav",
+        "velocity": 0.08661417322834646,
+        "rr": 3,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl1_rr4.flac"
+        ],
+        "sourceVelocityLow": 1,
+        "sourceVelocityHigh": 21,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl2_rr1.wav",
+        "velocity": 0.25196850393700787,
+        "rr": 0,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl2_rr1.flac"
+        ],
+        "sourceVelocityLow": 22,
+        "sourceVelocityHigh": 42,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl2_rr2.wav",
+        "velocity": 0.25196850393700787,
+        "rr": 1,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl2_rr2.flac"
+        ],
+        "sourceVelocityLow": 22,
+        "sourceVelocityHigh": 42,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl2_rr3.wav",
+        "velocity": 0.25196850393700787,
+        "rr": 2,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl2_rr3.flac"
+        ],
+        "sourceVelocityLow": 22,
+        "sourceVelocityHigh": 42,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl2_rr4.wav",
+        "velocity": 0.25196850393700787,
+        "rr": 3,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl2_rr4.flac"
+        ],
+        "sourceVelocityLow": 22,
+        "sourceVelocityHigh": 42,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl3_rr1.wav",
+        "velocity": 0.41732283464566927,
+        "rr": 0,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl3_rr1.flac"
+        ],
+        "sourceVelocityLow": 43,
+        "sourceVelocityHigh": 63,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl3_rr2.wav",
+        "velocity": 0.41732283464566927,
+        "rr": 1,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl3_rr2.flac"
+        ],
+        "sourceVelocityLow": 43,
+        "sourceVelocityHigh": 63,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl3_rr3.wav",
+        "velocity": 0.41732283464566927,
+        "rr": 2,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl3_rr3.flac"
+        ],
+        "sourceVelocityLow": 43,
+        "sourceVelocityHigh": 63,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl3_rr4.wav",
+        "velocity": 0.41732283464566927,
+        "rr": 3,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl3_rr4.flac"
+        ],
+        "sourceVelocityLow": 43,
+        "sourceVelocityHigh": 63,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl4_rr1.wav",
+        "velocity": 0.5866141732283464,
+        "rr": 0,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl4_rr1.flac"
+        ],
+        "sourceVelocityLow": 64,
+        "sourceVelocityHigh": 85,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl4_rr2.wav",
+        "velocity": 0.5866141732283464,
+        "rr": 1,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl4_rr2.flac"
+        ],
+        "sourceVelocityLow": 64,
+        "sourceVelocityHigh": 85,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl4_rr3.wav",
+        "velocity": 0.5866141732283464,
+        "rr": 2,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl4_rr3.flac"
+        ],
+        "sourceVelocityLow": 64,
+        "sourceVelocityHigh": 85,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl4_rr4.wav",
+        "velocity": 0.5866141732283464,
+        "rr": 3,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl4_rr4.flac"
+        ],
+        "sourceVelocityLow": 64,
+        "sourceVelocityHigh": 85,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl5_rr1.wav",
+        "velocity": 0.7559055118110236,
+        "rr": 0,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl5_rr1.flac"
+        ],
+        "sourceVelocityLow": 86,
+        "sourceVelocityHigh": 106,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl5_rr2.wav",
+        "velocity": 0.7559055118110236,
+        "rr": 1,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl5_rr2.flac"
+        ],
+        "sourceVelocityLow": 86,
+        "sourceVelocityHigh": 106,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl5_rr3.wav",
+        "velocity": 0.7559055118110236,
+        "rr": 2,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl5_rr3.flac"
+        ],
+        "sourceVelocityLow": 86,
+        "sourceVelocityHigh": 106,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl5_rr4.wav",
+        "velocity": 0.7559055118110236,
+        "rr": 3,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl5_rr4.flac"
+        ],
+        "sourceVelocityLow": 86,
+        "sourceVelocityHigh": 106,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl6_rr1.wav",
+        "velocity": 0.9212598425196851,
+        "rr": 0,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl6_rr1.flac"
+        ],
+        "sourceVelocityLow": 107,
+        "sourceVelocityHigh": 127,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl6_rr2.wav",
+        "velocity": 0.9212598425196851,
+        "rr": 1,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl6_rr2.flac"
+        ],
+        "sourceVelocityLow": 107,
+        "sourceVelocityHigh": 127,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl6_rr3.wav",
+        "velocity": 0.9212598425196851,
+        "rr": 2,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl6_rr3.flac"
+        ],
+        "sourceVelocityLow": 107,
+        "sourceVelocityHigh": 127,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      },
+      {
+        "url": "/samples/models/big-rusty-stack-3-layer/st_ed_vl6_rr4.wav",
+        "velocity": 0.9212598425196851,
+        "rr": 3,
+        "sourceFiles": [
+          "karoryfer.big-rusty-drums/Samples/stack_3_layer/ed/cl/st_ed_vl6_rr4.flac"
+        ],
+        "sourceVelocityLow": 107,
+        "sourceVelocityHigh": 127,
+        "sourceArticulation": "stack_3_layer/st_ed_cl"
+      }
+    ]
+  },
+  "descriptionKo": "카로리퍼 Big Rusty Drums 실제 악기 녹음. 제작자 안내서의 모델·규격을 확인하고 원본 매핑의 실제 세기·반복 타격을 보존했습니다. 근접 마이크 녹음과 자연스러운 잔향을 사용합니다.",
+  "attribution": "Karoryfer Samples, Big Rusty Drums, CC0. Models and dimensions from original user guide. Exact source SFZ velocity ranges and recorded RR; close mic, uniform -3 dB headroom, PCM16 stereo 44.1 kHz. No synthesized pitch variants.",
+  "layerNotes": "Counts vary by articulation. Original SFZ velocity ranges and seq_position preserved. Separate edge/choke recordings retained as metadata, not substituted for normal hits.",
+  "bytes": 15620832,
+  "fileCount": 48,
+  "layerCounts": {
+    "crash": 6,
+    "fx": 6
+  },
+  "roundRobinCounts": {
+    "crash": 4,
+    "fx": 4
+  },
+  "quality": {
+    "silentFiles": 0,
+    "clippedFiles": 0,
+    "maxAttackThresholdMs": 0.023,
+    "tail": "Original complete recorded tails; no trimming or fades."
+  }
+}

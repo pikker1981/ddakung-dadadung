@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "id": "paiste-innovations-china-18",
+  "kind": "instrument",
+  "instrument": "china",
+  "brand": "Paiste",
+  "model": "Innovations China",
+  "label": "Paiste Innovations China 18″",
+  "size": "18″",
+  "license": "Public Domain (author dedication 2022)",
+  "source": "https://github.com/endolith/Salamander-Drumkit/tree/9e9c9fca9f26e1763435beca4170505d0fa32fb0",
+  "description": "Paiste Innovations China 18″; independently recorded real instrument, no manufacturer endorsement. Alexander Holm original overhead recording. Exact series/type/size as stated in author README.",
+  "variants": {
+    "china": [
+      {
+        "url": "/samples/models/paiste-innovations-china-18/china2_OH_FF_1.wav",
+        "velocity": 0.5039370078740157,
+        "rr": 0,
+        "sourceFile": "OH/china2_OH_FF_1.wav"
+      },
+      {
+        "url": "/samples/models/paiste-innovations-china-18/china2_OH_FF_2.wav",
+        "velocity": 0.5039370078740157,
+        "rr": 1,
+        "sourceFile": "OH/china2_OH_FF_2.wav"
+      },
+      {
+        "url": "/samples/models/paiste-innovations-china-18/china2_OH_FF_3.wav",
+        "velocity": 0.5039370078740157,
+        "rr": 2,
+        "sourceFile": "OH/china2_OH_FF_3.wav"
+      },
+      {
+        "url": "/samples/models/paiste-innovations-china-18/china2_OH_FF_4.wav",
+        "velocity": 0.5039370078740157,
+        "rr": 3,
+        "sourceFile": "OH/china2_OH_FF_4.wav"
+      }
+    ]
+  },
+  "fallbacks": {},
+  "category": "china",
+  "attribution": "Recorded by Alexander Holm. Original historical CC BY-SA 3.0 README retained; author dedicated all his sampled instruments to public domain in March 2022. Converted original audio to PCM16 stereo 44.1 kHz with uniform -3 dB headroom before resampling; natural tails and source onset retained, no per-hit normalization, no source SFZ gain baked in.",
+  "layerNotes": "Source SFZ velocity groups retained; first up to four real recorded alternatives per group. Same-layer alternatives are genuine separate performances. No synthesized variants; no tail truncation.",
+  "bytes": 5496664,
+  "fileCount": 4,
+  "layerCounts": {
+    "crash": 1,
+    "china": 1
+  },
+  "roundRobinCounts": {
+    "crash": 4,
+    "china": 4
+  },
+  "quality": {
+    "clippedFiles": 0,
+    "silentFiles": 0,
+    "tail": "Original recorded tail preserved; no fade or tail truncation added."
+  },
+  "descriptionKo": "알렉산더 홀름 녹음. 제작자가 명시한 시리즈와 구경을 사용하며 실제 녹음의 자연스러운 잔향을 유지했습니다.",
+  "fallbacksKo": {},
+  "compatibleTargets": [
+    "china",
+    "crash"
+  ]
+}

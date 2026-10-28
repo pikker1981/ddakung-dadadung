@@ -1,0 +1,8 @@
+Galmuri pixel fonts, by quiple and contributors.
+Official source: https://github.com/quiple/galmuri
+Downloaded 2026-10-26 from the official main branch:
+https://raw.githubusercontent.com/quiple/galmuri/main/dist/Galmuri11.woff2
+https://raw.githubusercontent.com/quiple/galmuri/main/dist/Galmuri14.woff2
+https://raw.githubusercontent.com/quiple/galmuri/main/dist/LICENSE.txt
+License: SIL Open Font License 1.1 (see Galmuri-LICENSE.txt).
+The distributed font files are unmodified.

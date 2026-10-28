@@ -1,0 +1,173 @@
+{
+  "version": 1,
+  "id": "paiste-formula-602-thin-crash",
+  "kind": "instrument",
+  "instrument": "ride",
+  "brand": "Paiste",
+  "model": "Formula 602 Thin Crash",
+  "label": "Paiste Formula 602 Thin Crash",
+  "size": null,
+  "license": "CC-BY-4.0",
+  "source": "https://github.com/sfzinstruments/DrumGizmo.DRSKit/tree/b01448990a31f722542f1812e56159a97a6a2a82",
+  "description": "Paiste Formula 602 Thin Crash; independently recorded real instrument, no manufacturer endorsement. DRSKit recording by Lars Muldjord / Bent Bisballe Nyeng with Jes Eiler. Diameter not supplied by author. Actual thin crash cymbal played as ride, with recorded bow and bell.",
+  "variants": {
+    "ride": [
+      {
+        "url": "/samples/models/paiste-formula-602-thin-crash/Ride_tip-1.wav",
+        "velocity": 0.10236220472440945,
+        "rr": 0,
+        "sourceLayer": "v51l",
+        "sourceFile": "Ride_tip/1-Ride_tip-OH[L/R].flac"
+      },
+      {
+        "url": "/samples/models/paiste-formula-602-thin-crash/Ride_tip-2.wav",
+        "velocity": 0.2992125984251969,
+        "rr": 0,
+        "sourceLayer": "v52l",
+        "sourceFile": "Ride_tip/2-Ride_tip-OH[L/R].flac"
+      },
+      {
+        "url": "/samples/models/paiste-formula-602-thin-crash/Ride_tip-3.wav",
+        "velocity": 0.2992125984251969,
+        "rr": 1,
+        "sourceLayer": "v52l",
+        "sourceFile": "Ride_tip/3-Ride_tip-OH[L/R].flac"
+      },
+      {
+        "url": "/samples/models/paiste-formula-602-thin-crash/Ride_tip-4.wav",
+        "velocity": 0.5,
+        "rr": 0,
+        "sourceLayer": "v53l",
+        "sourceFile": "Ride_tip/4-Ride_tip-OH[L/R].flac"
+      },
+      {
+        "url": "/samples/models/paiste-formula-602-thin-crash/Ride_tip-5.wav",
+        "velocity": 0.5,
+        "rr": 1,
+        "sourceLayer": "v53l",
+        "sourceFile": "Ride_tip/5-Ride_tip-OH[L/R].flac"
+      },
+      {
+        "url": "/samples/models/paiste-formula-602-thin-crash/Ride_tip-6.wav",
+        "velocity": 0.7007874015748031,
+        "rr": 0,
+        "sourceLayer": "v54l",
+        "sourceFile": "Ride_tip/6-Ride_tip-OH[L/R].flac"
+      },
+      {
+        "url": "/samples/models/paiste-formula-602-thin-crash/Ride_tip-7.wav",
+        "velocity": 0.7007874015748031,
+        "rr": 1,
+        "sourceLayer": "v54l",
+        "sourceFile": "Ride_tip/7-Ride_tip-OH[L/R].flac"
+      },
+      {
+        "url": "/samples/models/paiste-formula-602-thin-crash/Ride_tip-9.wav",
+        "velocity": 0.9015748031496063,
+        "rr": 0,
+        "sourceLayer": "v55l",
+        "sourceFile": "Ride_tip/9-Ride_tip-OH[L/R].flac"
+      },
+      {
+        "url": "/samples/models/paiste-formula-602-thin-crash/Ride_tip-10.wav",
+        "velocity": 0.9015748031496063,
+        "rr": 1,
+        "sourceLayer": "v55l",
+        "sourceFile": "Ride_tip/10-Ride_tip-OH[L/R].flac"
+      }
+    ],
+    "rideBell": [
+      {
+        "url": "/samples/models/paiste-formula-602-thin-crash/Ride_tip_bell-1.wav",
+        "velocity": 0.10236220472440945,
+        "rr": 0,
+        "sourceLayer": "v51l",
+        "sourceFile": "Ride_tip_bell/1-Ride_tip_bell-OH[L/R].flac"
+      },
+      {
+        "url": "/samples/models/paiste-formula-602-thin-crash/Ride_tip_bell-2.wav",
+        "velocity": 0.10236220472440945,
+        "rr": 1,
+        "sourceLayer": "v51l",
+        "sourceFile": "Ride_tip_bell/2-Ride_tip_bell-OH[L/R].flac"
+      },
+      {
+        "url": "/samples/models/paiste-formula-602-thin-crash/Ride_tip_bell-3.wav",
+        "velocity": 0.2992125984251969,
+        "rr": 0,
+        "sourceLayer": "v52l",
+        "sourceFile": "Ride_tip_bell/3-Ride_tip_bell-OH[L/R].flac"
+      },
+      {
+        "url": "/samples/models/paiste-formula-602-thin-crash/Ride_tip_bell-4.wav",
+        "velocity": 0.2992125984251969,
+        "rr": 1,
+        "sourceLayer": "v52l",
+        "sourceFile": "Ride_tip_bell/4-Ride_tip_bell-OH[L/R].flac"
+      },
+      {
+        "url": "/samples/models/paiste-formula-602-thin-crash/Ride_tip_bell-5.wav",
+        "velocity": 0.5,
+        "rr": 0,
+        "sourceLayer": "v53l",
+        "sourceFile": "Ride_tip_bell/5-Ride_tip_bell-OH[L/R].flac"
+      },
+      {
+        "url": "/samples/models/paiste-formula-602-thin-crash/Ride_tip_bell-6.wav",
+        "velocity": 0.5,
+        "rr": 1,
+        "sourceLayer": "v53l",
+        "sourceFile": "Ride_tip_bell/6-Ride_tip_bell-OH[L/R].flac"
+      },
+      {
+        "url": "/samples/models/paiste-formula-602-thin-crash/Ride_tip_bell-7.wav",
+        "velocity": 0.7007874015748031,
+        "rr": 0,
+        "sourceLayer": "v54l",
+        "sourceFile": "Ride_tip_bell/7-Ride_tip_bell-OH[L/R].flac"
+      },
+      {
+        "url": "/samples/models/paiste-formula-602-thin-crash/Ride_tip_bell-8.wav",
+        "velocity": 0.7007874015748031,
+        "rr": 1,
+        "sourceLayer": "v54l",
+        "sourceFile": "Ride_tip_bell/8-Ride_tip_bell-OH[L/R].flac"
+      },
+      {
+        "url": "/samples/models/paiste-formula-602-thin-crash/Ride_tip_bell-9.wav",
+        "velocity": 0.9015748031496063,
+        "rr": 0,
+        "sourceLayer": "v55l",
+        "sourceFile": "Ride_tip_bell/9-Ride_tip_bell-OH[L/R].flac"
+      },
+      {
+        "url": "/samples/models/paiste-formula-602-thin-crash/Ride_tip_bell-10.wav",
+        "velocity": 0.9015748031496063,
+        "rr": 1,
+        "sourceLayer": "v55l",
+        "sourceFile": "Ride_tip_bell/10-Ride_tip_bell-OH[L/R].flac"
+      }
+    ]
+  },
+  "fallbacks": {},
+  "category": "crash-as-ride",
+  "attribution": "Lars Muldjord / Bent Bisballe Nyeng, DrumGizmo team and Jes Eiler / DRSDrums; SFZ adaptation by kinwie. Curated overhead stereo pair merged from matching OHL/OHR sources, converted to PCM16 44.1 kHz, CC BY 4.0.",
+  "layerNotes": "Exact source SFZ velocity ranges and seq_position RR retained; curated to first two real RR per layer. Natural tails and matching overhead stereo pair retained.",
+  "bytes": 13832346,
+  "fileCount": 19,
+  "layerCounts": {
+    "ride": 5,
+    "rideBell": 5
+  },
+  "roundRobinCounts": {
+    "ride": 2,
+    "rideBell": 2
+  },
+  "quality": {
+    "clippedFiles": 0,
+    "silentFiles": 0,
+    "tail": "Original recorded tail preserved; no fade or tail truncation added."
+  },
+  "descriptionKo": "드럼기즈모·DRS 제작진 녹음. 구경 미상. 실제 얇은 크래시 심벌을 라이드처럼 연주한 보우·벨 녹음입니다.",
+  "fallbacksKo": {}
+}

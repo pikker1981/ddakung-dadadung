@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "id": "sabian-aax-crash-17",
+  "kind": "instrument",
+  "instrument": "crash",
+  "brand": "Sabian",
+  "model": "AAX Crash",
+  "label": "Sabian AAX Crash 17″",
+  "size": "17″",
+  "license": "CC-BY-SA-3.0",
+  "source": "https://www.bandshed.net/avldrumkits/",
+  "description": "Sabian AAX Crash 17″; independently recorded real instrument, no manufacturer endorsement. Glen MacArthur / AVL recorded sticks; exact series and size from original filenames. More specific product suffix unknown. Existing WAVs reused without duplicate audio.",
+  "variants": {
+    "crash": [
+      {
+        "url": "/samples/models/sabian-aax-crash-17/57-SabianAAX-17-Crash2-1.wav",
+        "velocity": 0.1062992125984252,
+        "rr": 0,
+        "sourceFile": "57-SabianAAX-17-Crash2-1.wav"
+      },
+      {
+        "url": "/samples/models/sabian-aax-crash-17/57-SabianAAX-17-Crash2-2.wav",
+        "velocity": 0.3110236220472441,
+        "rr": 0,
+        "sourceFile": "57-SabianAAX-17-Crash2-2.wav"
+      },
+      {
+        "url": "/samples/models/sabian-aax-crash-17/57-SabianAAX-17-Crash2-3.wav",
+        "velocity": 0.5118110236220472,
+        "rr": 0,
+        "sourceFile": "57-SabianAAX-17-Crash2-3.wav"
+      },
+      {
+        "url": "/samples/models/sabian-aax-crash-17/57-SabianAAX-17-Crash2-4.wav",
+        "velocity": 0.7086614173228346,
+        "rr": 0,
+        "sourceFile": "57-SabianAAX-17-Crash2-4.wav"
+      },
+      {
+        "url": "/samples/models/sabian-aax-crash-17/57-SabianAAX-17-Crash2-5.wav",
+        "velocity": 0.905511811023622,
+        "rr": 0,
+        "sourceFile": "57-SabianAAX-17-Crash2-5.wav"
+      }
+    ]
+  },
+  "fallbacks": {},
+  "attribution": "Glen MacArthur 2015; curated derivative under a different library name. CC BY-SA 3.0 with music exception; licenses/AVL-LICENSE.txt and AVL-original-license.pdf retained.",
+  "layerNotes": "Five genuine source velocity layers; no round robins. Original recording tails retained.",
+  "bytes": 5793890,
+  "fileCount": 5,
+  "layerCounts": {
+    "crash": 5
+  },
+  "roundRobinCounts": {
+    "crash": 1
+  },
+  "quality": {
+    "clippedFiles": 0,
+    "silentFiles": 0,
+    "tail": "Original recorded tail preserved; no fade or tail truncation added."
+  },
+  "descriptionKo": "글렌 매카서·AVL 녹음. 원본 파일명으로 시리즈와 구경을 확인했습니다. 세부 제품 접미사는 미상이며 실제 5단계 세기를 사용합니다.",
+  "fallbacksKo": {}
+}

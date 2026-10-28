@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "id": "studio-jazz",
+  "label": "버추오시티 · 스튜디오 재즈",
+  "license": "CC0-1.0",
+  "source": "https://github.com/sfzinstruments/virtuosity_drums/tree/9f04cf9a734527edfbb0a4eee1f674e45bbf71bc",
+  "description": "Austin McMahon / Versilian Studios; coherent live jazz kit. Kick/snare close mic + quiet overhead, tom mid + overhead; cymbals overhead.",
+  "variants": {
+    "hihatFoot": [
+      {
+        "url": "/samples/studio-jazz/hihatFoot-v1-r1.wav",
+        "velocity": 0.16666666666666666,
+        "rr": 0,
+        "sourceLayer": 1
+      },
+      {
+        "url": "/samples/studio-jazz/hihatFoot-v1-r2.wav",
+        "velocity": 0.16666666666666666,
+        "rr": 1,
+        "sourceLayer": 1
+      },
+      {
+        "url": "/samples/studio-jazz/hihatFoot-v1-r3.wav",
+        "velocity": 0.16666666666666666,
+        "rr": 2,
+        "sourceLayer": 1
+      },
+      {
+        "url": "/samples/studio-jazz/hihatFoot-v1-r4.wav",
+        "velocity": 0.16666666666666666,
+        "rr": 3,
+        "sourceLayer": 1
+      },
+      {
+        "url": "/samples/studio-jazz/hihatFoot-v2-r1.wav",
+        "velocity": 0.5,
+        "rr": 0,
+        "sourceLayer": 2
+      },
+      {
+        "url": "/samples/studio-jazz/hihatFoot-v2-r2.wav",
+        "velocity": 0.5,
+        "rr": 1,
+        "sourceLayer": 2
+      },
+      {
+        "url": "/samples/studio-jazz/hihatFoot-v2-r3.wav",
+        "velocity": 0.5,
+        "rr": 2,
+        "sourceLayer": 2
+      },
+      {
+        "url": "/samples/studio-jazz/hihatFoot-v2-r4.wav",
+        "velocity": 0.5,
+        "rr": 3,
+        "sourceLayer": 2
+      },
+      {
+        "url": "/samples/studio-jazz/hihatFoot-v3-r1.wav",
+        "velocity": 0.8333333333333334,
+        "rr": 0,
+        "sourceLayer": 3
+      },
+      {
+        "url": "/samples/studio-jazz/hihatFoot-v3-r2.wav",
+        "velocity": 0.8333333333333334,
+        "rr": 1,
+        "sourceLayer": 3
+      },
+      {
+        "url": "/samples/studio-jazz/hihatFoot-v3-r3.wav",
+        "velocity": 0.8333333333333334,
+        "rr": 2,
+        "sourceLayer": 3
+      },
+      {
+        "url": "/samples/studio-jazz/hihatFoot-v3-r4.wav",
+        "velocity": 0.8333333333333334,
+        "rr": 3,
+        "sourceLayer": 3
+      }
+    ]
+  },
+  "fallbacks": {},
+  "layerNotes": "Kick/cymbals use actual recorded round robins. Snare/toms use adjacent recorded dynamic takes, each with its own velocity center, not invented round robins. No per-hit normalization, no synthesis, no alignment shifts.",
+  "bytes": 105749972,
+  "fileCount": 136
+}
