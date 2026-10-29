@@ -26,6 +26,10 @@ export function installIpadWorkspace(): void {
   }
 
   input.id = 'ipadInputPanel';
+  const inputFrame = document.createElement('section');
+  inputFrame.className = 'ipad-input-frame';
+  inputFrame.setAttribute('aria-label', '리듬 입력 작업 영역');
+  input.before(inputFrame); inputFrame.append(input);
   // The iPad workspace always fits one complete input measure, not stacked cards.
   window.maiWorkspace.setEditorCount(1);
   // Allocate the remaining visible height to the grid, above the fixed transport.
@@ -33,21 +37,35 @@ export function installIpadWorkspace(): void {
   let resizeFrame = 0;
   const fitInput = () => {
     resizeFrame = 0;
-    if (!input.getClientRects().length) return;
+    if (!inputFrame.getClientRects().length) return;
     const viewport = window.visualViewport;
     const bottom = (viewport?.offsetTop ?? 0) + (viewport?.height ?? window.innerHeight);
-    const top = Math.max(viewport?.offsetTop ?? 0, input.getBoundingClientRect().top);
+    const top = Math.max(viewport?.offsetTop ?? 0, inputFrame.getBoundingClientRect().top);
     const dock = document.querySelector<HTMLElement>('.dock');
     const dockHeight = dock?.getBoundingClientRect().height ?? 92;
-    const height = `${Math.max(220, Math.floor(bottom - top - dockHeight - 12))}px`;
+    const visibleHeight = Math.max(220, Math.floor(bottom - top - dockHeight - 12));
+    const scoreRoom = `${visibleHeight}px`;
+    if (stage.style.getPropertyValue('--ipad-stage-room') !== scoreRoom) {
+      stage.style.setProperty('--ipad-stage-room', scoreRoom);
+      requestAnimationFrame(() => window.maiWorkspace.refreshScore());
+    }
+    const scale = Number.parseFloat(getComputedStyle(inputFrame).getPropertyValue('--ipad-input-scale')) || 0.76;
+    const frameHeight = `${visibleHeight}px`;
+    if (inputFrame.style.getPropertyValue('--ipad-frame-height') !== frameHeight) inputFrame.style.setProperty('--ipad-frame-height', frameHeight);
+    const height = `${visibleHeight / scale}px`;
     if (input.style.getPropertyValue('--ipad-input-height') !== height) input.style.setProperty('--ipad-input-height', height);
+    const width = `${(inputFrame.getBoundingClientRect().width / scale).toFixed(3)}px`;
+    if (input.style.width !== width) {
+      input.style.width = width;
+      requestAnimationFrame(() => window.maiWorkspace.refreshLayout());
+    }
     const grid = document.getElementById('gridMode');
     const card = grid?.querySelector<HTMLElement>('.measure-editor-card');
     const cell = card?.querySelector<HTMLElement>('.cell');
     const rows = card?.querySelectorAll('.rowlabel').length ?? 0;
     if (grid && card && cell && rows) {
       const overhead = card.getBoundingClientRect().height - rows * cell.getBoundingClientRect().height;
-      const rowHeight = `${Math.max(10, Math.min(40, Math.floor((grid.clientHeight - overhead - 10) / rows)))}px`;
+      const rowHeight = `${Math.max(10, Math.min(40, Math.floor((grid.getBoundingClientRect().height - overhead - 10) / rows / scale)))}px`;
       if (input.style.getPropertyValue('--ipad-cell-height') !== rowHeight) input.style.setProperty('--ipad-cell-height', rowHeight);
     }
   };
@@ -55,7 +73,7 @@ export function installIpadWorkspace(): void {
     if (!resizeFrame) resizeFrame = requestAnimationFrame(fitInput);
   };
   const inputSizeObserver = new ResizeObserver(scheduleFitInput);
-  [input, document.getElementById('gridMode'), document.querySelector('.topbar'), main.querySelector('.titlerow'), document.getElementById('workspaceStatus'), document.querySelector('.dock')]
+  [inputFrame, input, document.getElementById('gridMode'), document.querySelector('.topbar'), main.querySelector('.titlerow'), document.getElementById('workspaceStatus'), document.querySelector('.dock')]
     .forEach(node => { if (node) inputSizeObserver.observe(node); });
   window.addEventListener('resize', scheduleFitInput);
   window.visualViewport?.addEventListener('resize', scheduleFitInput);

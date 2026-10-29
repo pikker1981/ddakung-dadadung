@@ -234,6 +234,10 @@ function paint(target, o){
   const rowsU = [];
   if(oneRow){
     rowsU.push(Array.from({length: nU}, (_,k)=> k));
+  } else if(o.screenColumns===2){
+    // iPad's four-measure overview keeps two columns even when a dense measure
+    // or a document line/section break would split an automatic screen row.
+    for(let u=0;u<nU;u+=2)rowsU.push(Array.from({length:Math.min(2,nU-u)},(_,k)=>u+k));
   } else if(o.perLine === 'auto'){
     let u = 0;
     while(u < nU){
@@ -832,25 +836,25 @@ let screenPerLine = 'auto';
 const SCREEN_PAGE_SIZE = 20;
 let screenPageStart = 0, screenPageSelection = -1, screenPageFocus = 0, screenPageSize = SCREEN_PAGE_SIZE;
 function scorePagingEnabled(){return screenPerLine==='auto'&&document.body.classList.contains('crt-workspace');}
-// The iPad editor follows a sliding, two-system window. Detached source and print renders
+// The iPad editor shows four-measure groups in two columns. Detached source and print renders
 // keep using SCREEN_PAGE_SIZE and their explicit ranges.
-function scoreScreenPageSize(){return document.body.classList.contains('ipad-workspace')?2:SCREEN_PAGE_SIZE;}
-function scoreScreenPageStart(mi,size){return size===2?Math.max(0,Math.min(mi,measures.length-size)):Math.floor(mi/size)*size;}
+function scoreScreenPageSize(){return document.body.classList.contains('ipad-workspace')?4:SCREEN_PAGE_SIZE;}
+function scoreScreenPageStart(mi,size){return Math.floor(mi/size)*size;}
 function scorePageInfo(){
-  const size=scoreScreenPageSize(),total=measures.length,pages=Math.max(1,size===2?total:Math.ceil(total/size));
-  return {enabled:scorePagingEnabled(),start:screenPageStart,end:Math.min(total-1,screenPageStart+size-1),total,page:size===2?screenPageFocus+1:Math.floor(screenPageStart/size)+1,pages};
+  const size=scoreScreenPageSize(),total=measures.length,pages=Math.max(1,size===4?total:Math.ceil(total/size));
+  return {enabled:scorePagingEnabled(),start:screenPageStart,end:Math.min(total-1,screenPageStart+size-1),total,page:size===4?screenPageFocus+1:Math.floor(screenPageStart/size)+1,pages};
 }
 function ensureScorePage(mi){
   if(!scorePagingEnabled()||mi<0||mi>=measures.length)return false;
   const size=scoreScreenPageSize(),start=scoreScreenPageStart(mi,size);
-  if(start===screenPageStart&&screenPageSize===size&&(size!==2||screenPageFocus===mi))return false;
+  if(start===screenPageStart&&screenPageSize===size&&(size!==4||screenPageFocus===mi))return false;
   screenPageStart=start;screenPageFocus=mi;screenPageSelection=selMeasure;screenPageSize=size;renderScore();
   const wrap=document.getElementById('scoreWrap');if(wrap){wrap.scrollTop=0;wrap.scrollLeft=0;}
   return true;
 }
 function moveScorePage(direction){
   if(!scorePagingEnabled()||![-1,1].includes(direction))return false;
-  const size=scoreScreenPageSize(),start=size===2?screenPageFocus+direction:screenPageStart+direction*size;
+  const size=scoreScreenPageSize(),start=size===4?screenPageFocus+direction:screenPageStart+direction*size;
   if(start<0||start>=measures.length)return false;
   selectMeasure(start);ensureScorePage(start);return true;
 }
@@ -900,7 +904,7 @@ function renderScore(){
   const previousPageStart=screenPageStart;
   const paged=scorePagingEnabled();
   const pageSize=scoreScreenPageSize();
-  const ipadWindow=paged&&pageSize===2;
+  const ipadWindow=paged&&pageSize===4;
   if(paged){
     if(screenPageSelection!==selMeasure||screenPageSize!==pageSize){screenPageStart=scoreScreenPageStart(selMeasure,pageSize);screenPageFocus=selMeasure;screenPageSelection=selMeasure;screenPageSize=pageSize;}
     screenPageFocus=Math.max(0,Math.min(screenPageFocus,measures.length-1));
@@ -911,7 +915,8 @@ function renderScore(){
   const Z = zoomF();
   const svgW = paint(svg, {
     availW: screenPerLine === 'auto' ? wrapW / Z : wrapW, perLine: screenPerLine,
-    maxPerLine: ipadWindow ? 1 : document.body.classList.contains('crt-workspace') ? 4 : undefined,
+    maxPerLine: ipadWindow ? 2 : document.body.classList.contains('crt-workspace') ? 4 : undefined,
+    screenColumns:ipadWindow?2:undefined,
     unfoldRests:ipadWindow,
     from:paged?screenPageStart:0,to:paged?Math.min(measures.length,screenPageStart+pageSize):measures.length,
     screenPage:paged,
@@ -919,7 +924,7 @@ function renderScore(){
     meta: ipadWindow ? null : songMeta, copyright: ipadWindow ? '' : songMeta.copyright,
     cache: slotXCache,
   });
-  // iPad's compact monitor fits both visible measures. Keep engraving/cache units
+  // iPad's compact monitor fits the four-measure group. Keep engraving/cache units
   // unchanged: selection uses getScreenCTM and the cursor copies this SVG's box.
   // Other screens retain their note size and scroll when a measure overflows.
   let displayZ=Z;

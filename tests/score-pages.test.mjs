@@ -45,51 +45,74 @@ test('manual next and previous select page starts, deletion clamps page and fixe
   assert.equal(f.run('moveScorePage(1)'),false);
 });
 
-test('iPad screen paints the selected and next original measures in separate systems',()=>{
+test('iPad screen paints four-measure groups with original indices and a partial final group',()=>{
   const f=fixture(45,true),before=f.json('measures');f.run('renderScore()');
-  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to,lastPaint.maxPerLine,lastPaint.unfoldRests]'),[0,2,1,true]);
+  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to,lastPaint.maxPerLine,lastPaint.screenColumns,lastPaint.unfoldRests]'),[0,4,2,2,true]);
   f.run('selectMeasure(22)');
-  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to]'),[22,24]);
-  assert.deepEqual(f.json('Object.keys(slotXCache)'),['22','23']);
-  assert.deepEqual(f.json('scorePageInfo()'),{enabled:true,start:22,end:23,total:45,page:23,pages:45});
+  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to]'),[20,24]);
+  assert.deepEqual(f.json('Object.keys(slotXCache)'),['20','21','22','23']);
+  assert.deepEqual(f.json('scorePageInfo()'),{enabled:true,start:20,end:23,total:45,page:23,pages:45});
   f.run('selectMeasure(44)');
-  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to]'),[43,45]);
-  assert.deepEqual(f.json('scorePageInfo()'),{enabled:true,start:43,end:44,total:45,page:45,pages:45});
+  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to]'),[44,45]);
+  assert.deepEqual(f.json('scorePageInfo()'),{enabled:true,start:44,end:44,total:45,page:45,pages:45});
   assert.deepEqual(f.json('measures'),before);
-  // Even two empty measures must remain separate units when multi-rests are on.
+  const partial=fixture(7,true);partial.run('selectMeasure(6)');
+  assert.deepEqual(partial.json('[lastPaint.from,lastPaint.to]'),[4,7]);
+  assert.deepEqual(partial.json('Object.keys(slotXCache)'),['4','5','6']);
+  // Empty measures must remain separate units when multi-rests are on.
   const units=source.slice(source.indexOf('  const units = [];'),source.indexOf('  const UW = units.map'));
-  const plan=JSON.parse(vm.runInNewContext(units+'JSON.stringify(units)',{oneRow:false,o:{unfoldRests:true},from:0,to:2,mrestRun:()=>2,GEO:{MEASURE_W:100},MWs:[100,100]}));
-  assert.deepEqual(plan.map(u=>[u.mi,u.n]),[[0,1],[1,1]]);
+  const plan=JSON.parse(vm.runInNewContext(units+'JSON.stringify(units)',{oneRow:false,o:{unfoldRests:true},from:0,to:4,mrestRun:()=>4,GEO:{MEASURE_W:100},MWs:[100,100,100,100]}));
+  assert.deepEqual(plan.map(u=>[u.mi,u.n]),[[0,1],[1,1],[2,1],[3,1]]);
+});
+
+test('iPad two-column row planning ignores width and document breaks without changing ordinary auto rows',()=>{
+  const rowCode=source.slice(source.indexOf('  const units = [];'),source.indexOf('  // 마디 번호 줄(rows)'));
+  const rows=(count,screenColumns)=>JSON.parse(vm.runInNewContext(rowCode+'JSON.stringify(rowsU.map(r=>r.map(u=>units[u].mi)))',{
+    oneRow:false,o:{perLine:'auto',screenColumns,maxPerLine:2,unfoldRests:true,availW:120},
+    from:4,to:4+count,mrestRun:()=>4,GEO:{MEASURE_W:900},MWs:Array(8).fill(900),clef:62,lineBreakAt:()=>true,
+  }));
+  assert.deepEqual(rows(4,2),[[4,5],[6,7]]);
+  assert.deepEqual(rows(3,2),[[4,5],[6]]);
+  assert.deepEqual(rows(1,2),[[4]]);
+  assert.deepEqual(rows(4,undefined),[[4],[5],[6],[7]]);
 });
 
 test('iPad playback follows individual measures and can return to the editor selection on stop',()=>{
   const f=fixture(8,true);f.run('selectMeasure(2)');
   assert.equal(f.run('ensureScorePage(2)'),false);
   assert.equal(f.run('ensureScorePage(3)'),true);
-  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to,selMeasure]'),[3,5,2]);
-  f.run('renderScore()');assert.equal(f.run('lastPaint.from'),3);
+  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to,selMeasure,scorePageInfo().page]'),[0,4,2,4]);
+  f.run('renderScore()');assert.equal(f.run('lastPaint.from'),0);
+  assert.equal(f.run('ensureScorePage(4)'),true);
+  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to,scorePageInfo().page]'),[4,8,5]);
   assert.equal(f.run('ensureScorePage(6)'),true);
-  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to,scorePageInfo().page]'),[6,8,7]);
+  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to,scorePageInfo().page]'),[4,8,7]);
   assert.equal(f.run('ensureScorePage(7)'),true);
-  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to,scorePageInfo().page]'),[6,8,8]);
+  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to,scorePageInfo().page]'),[4,8,8]);
   assert.equal(f.run('ensureScorePage(7)'),false);
   assert.equal(f.run('ensureScorePage(0)'),true);
-  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to,selMeasure]'),[0,2,2]);
+  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to,selMeasure]'),[0,4,2]);
   // stopPlay already calls this operation to restore the edited measure.
   assert.equal(f.run('ensureScorePage(selMeasure)'),true);
-  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to,selMeasure]'),[2,4,2]);
+  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to,selMeasure]'),[0,4,2]);
 });
 
 test('iPad previous and next select adjacent editor measures with bounded navigation',()=>{
-  const f=fixture(3,true);f.run('renderScore()');
+  const f=fixture(6,true);f.run('renderScore()');
   assert.equal(f.run('moveScorePage(-1)'),false);
   assert.equal(f.run('moveScorePage(1)'),true);
-  assert.deepEqual(f.json('[selMeasure,lastPaint.from,lastPaint.to,scorePageInfo().page]'),[1,1,3,2]);
+  assert.deepEqual(f.json('[selMeasure,lastPaint.from,lastPaint.to,scorePageInfo().page]'),[1,0,4,2]);
   assert.equal(f.run('moveScorePage(1)'),true);
-  assert.deepEqual(f.json('[selMeasure,lastPaint.from,lastPaint.to,scorePageInfo().page]'),[2,1,3,3]);
+  assert.deepEqual(f.json('[selMeasure,lastPaint.from,lastPaint.to,scorePageInfo().page]'),[2,0,4,3]);
+  f.run('selectMeasure(3)');assert.equal(f.run('moveScorePage(1)'),true);
+  assert.deepEqual(f.json('[selMeasure,lastPaint.from,lastPaint.to,scorePageInfo().page]'),[4,4,6,5]);
+  assert.equal(f.run('moveScorePage(1)'),true);
+  assert.deepEqual(f.json('[selMeasure,lastPaint.from,lastPaint.to,scorePageInfo().page]'),[5,4,6,6]);
   assert.equal(f.run('moveScorePage(1)'),false);
   assert.equal(f.run('moveScorePage(-1)'),true);
-  assert.deepEqual(f.json('[selMeasure,lastPaint.from,lastPaint.to,scorePageInfo().page]'),[1,1,3,2]);
+  assert.deepEqual(f.json('[selMeasure,lastPaint.from,lastPaint.to,scorePageInfo().page]'),[4,4,6,5]);
+  assert.equal(f.run('moveScorePage(-1)'),true);
+  assert.deepEqual(f.json('[selMeasure,lastPaint.from,lastPaint.to,scorePageInfo().page]'),[3,0,4,4]);
   f.run('measures.length=1;selMeasure=0;renderScore()');
   assert.deepEqual(f.json('[lastPaint.from,lastPaint.to]'),[0,1]);
   assert.deepEqual(f.json('scorePageInfo()'),{enabled:true,start:0,end:0,total:1,page:1,pages:1});
@@ -101,7 +124,7 @@ test('installing the iPad shell refreshes page size while fixed output preview s
   const f=fixture();f.run('selectMeasure(22)');
   assert.deepEqual(f.json('[lastPaint.from,lastPaint.to]'),[20,40]);
   f.run("bodyClasses.add('ipad-workspace');renderScore()");
-  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to]'),[22,24]);
+  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to]'),[20,24]);
   f.run('screenPerLine=4;renderScore()');
   assert.equal(f.run('scorePageInfo().enabled'),false);
   assert.deepEqual(f.json('[lastPaint.from,lastPaint.to]'),[0,45]);

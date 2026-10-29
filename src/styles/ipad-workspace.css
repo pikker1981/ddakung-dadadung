@@ -11,12 +11,12 @@
  .ipad-workspace input[type=checkbox],.ipad-workspace input[type=radio]{width:22px;height:22px}
  /* Keep both named areas in every orientation. A missing panel area creates an
     implicit third column, because the legacy input panel is always display:flex. */
- .workspace.crt-workspace.ipad-workspace main{min-width:744px;grid-template:'title title' auto 'score panel' auto / minmax(200px,.4fr) minmax(480px,1fr);gap:8px 10px;padding:6px 12px 16px!important;align-items:start}
+ .workspace.crt-workspace.ipad-workspace main{min-width:744px;grid-template:'title title' auto 'score panel' auto / minmax(0,.45fr) minmax(0,.55fr);gap:8px 10px;padding:6px 12px 16px!important;align-items:start}
  .workspace.crt-workspace.ipad-workspace main>.titlerow{height:auto;min-width:0}
  .ipad-workspace #titleInput{min-width:0;flex:1;height:44px;font-size:16px}
  .ipad-workspace .titlerow .btn.icon{height:44px;width:44px}
  .workspace.crt-workspace.ipad-workspace #crtStage{grid-area:score;height:auto;min-height:0;padding:0;position:sticky;top:8px;align-self:start;display:block;overflow:visible}
- .workspace.crt-workspace.ipad-workspace .crt-stage .crt-monitor{width:100%;max-width:100%;height:auto;aspect-ratio:909/840}
+ .workspace.crt-workspace.ipad-workspace .crt-stage .crt-monitor{width:min(100%,calc((var(--ipad-stage-room,100dvh) - 96px) * 909 / 840));max-width:100%;height:auto;aspect-ratio:909/840;margin-inline:auto}
  .workspace.crt-workspace.ipad-workspace .crt-score-pager{position:static;min-height:44px;gap:4px;margin-bottom:4px;font-size:11px;flex-wrap:wrap}
  .ipad-workspace .crt-score-pager button{padding:6px 8px;font-size:12px}
  .workspace.crt-workspace.ipad-workspace .crt-screen #scoreWrap{padding:12px 10px!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}
@@ -29,10 +29,11 @@
  .workspace.crt-workspace.ipad-workspace .ipad-score-tools .score-selection-modes{flex-basis:100%;justify-content:center;gap:4px}
  .workspace.crt-workspace.ipad-workspace .ipad-score-tools .score-region-controls>span{flex:1 0 100%;font-size:11px;line-height:1.4}
  .workspace.crt-workspace.ipad-workspace .ipad-score-tools .score-region-controls button{padding:5px 8px;font-size:11px}
- .workspace.crt-workspace.ipad-workspace main>.crt-input-panel{grid-area:panel;height:var(--ipad-input-height,calc(100dvh - 260px))!important;max-height:none!important;min-height:0!important;overflow:auto!important;padding:0 8px 8px!important;min-width:0;overscroll-behavior:contain}
+ .workspace.crt-workspace.ipad-workspace .ipad-input-frame{--ipad-input-scale:.76;grid-area:panel;position:relative;min-width:0;height:var(--ipad-frame-height,calc(100dvh - 260px));overflow:hidden}
+ .workspace.crt-workspace.ipad-workspace .ipad-input-frame>.crt-input-panel{display:flex!important;flex-direction:column;position:absolute;inset:0 auto auto 0;transform:scale(var(--ipad-input-scale));transform-origin:top left;box-sizing:border-box;margin:0;height:var(--ipad-input-height,calc(100dvh - 260px))!important;max-height:none!important;min-height:0!important;overflow:auto!important;padding:0 8px 8px!important;min-width:0;overscroll-behavior:contain}
  .workspace.crt-workspace.ipad-workspace .crt-panel-heading{position:relative;min-height:28px;max-height:none;margin:0 0 4px;padding:4px 0;font-size:13px;justify-content:space-between;gap:6px}
  .workspace.crt-workspace.ipad-workspace .crt-panel-signal{position:static;font-size:10px}
- .workspace.crt-workspace.ipad-workspace main>.crt-input-panel>.bar{display:flex;flex-direction:column;flex:0 0 auto;height:auto;min-height:0;max-height:none;overflow:visible;gap:4px;padding:0;margin:0}
+ .workspace.crt-workspace.ipad-workspace .ipad-input-frame>.crt-input-panel>.bar{display:flex;flex-direction:column;flex:0 0 auto;height:auto;min-height:0;max-height:none;overflow:visible;gap:4px;padding:0;margin:0}
  .workspace.crt-workspace.ipad-workspace .bar>:is(.chiprow,.tools){display:flex;flex-wrap:nowrap;align-items:center;justify-content:flex-start;min-height:44px;max-height:48px;overflow-x:auto;overflow-y:hidden;gap:4px;padding:0 0 2px;margin:0;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
  .workspace.crt-workspace.ipad-workspace .bar>.tools{max-height:none}
  .workspace.crt-workspace.ipad-workspace .bar>:is(.chiprow,.tools)>*{flex-shrink:0}
@@ -61,8 +62,8 @@
  .workspace.crt-workspace.ipad-workspace .editor-toolbar>.editor-range{grid-column:2;grid-row:1;min-width:0;font-size:10px;white-space:normal;line-height:1.4;text-align:center;align-self:center}
  .workspace.crt-workspace.ipad-workspace .editor-toolbar>[data-next]{grid-column:3;grid-row:1;font-size:0!important}
  .workspace.crt-workspace.ipad-workspace .editor-toolbar>[data-next]::before{content:'→';font-size:18px}
- .workspace.crt-workspace.ipad-workspace main>.panel>#gridMode{display:flex;flex:1 1 0;height:auto!important;min-height:180px;overflow:hidden}
- .workspace.crt-workspace.ipad-workspace main>.panel>#gridMode>.gridWrap{flex:1 1 auto!important;width:100%;height:100%;min-height:0!important;max-height:100%!important;margin:0;padding:2px 0 6px;overflow:auto!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+ .workspace.crt-workspace.ipad-workspace .ipad-input-frame>.panel>#gridMode{display:flex;flex:1 1 0;height:auto!important;min-height:180px;overflow:hidden}
+ .workspace.crt-workspace.ipad-workspace .ipad-input-frame>.panel>#gridMode>.gridWrap{flex:1 1 auto!important;width:100%;height:100%;min-height:0!important;max-height:100%!important;margin:0;padding:2px 0 6px;overflow:auto!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
  .workspace.crt-workspace.ipad-workspace #grid .cell{height:var(--ipad-cell-height,28px)!important;min-height:0}
  .workspace.crt-workspace.ipad-workspace #grid .rowlabel{font-size:clamp(8px,var(--ipad-cell-height,28px),11px)!important;line-height:1;gap:3px;padding-right:2px;min-height:0}
  .workspace.crt-workspace.ipad-workspace #grid .rowbrush{min-height:0;height:100%;min-width:18px;max-height:var(--ipad-cell-height,28px)}
