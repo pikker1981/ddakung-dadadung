@@ -413,6 +413,7 @@ function scrollScoreTo(mi, force){
 }
 
 function labelW(){
+  if(document.body.classList.contains('ipad-workspace')) return 88;
   if(document.body.classList.contains('edition-ipad')) return 88;   // 2단에서는 라벨을 조인다
   return window.innerWidth >= 700 ? 108 : 84;
 }
@@ -425,7 +426,7 @@ function cellW(m=measures[selMeasure]){
     const mode=document.getElementById('gridMode');
     let width=gw?.clientWidth || 0;
     if((mode?.clientWidth || width)>=1500 && editorCount>1)width=(width-14)/2;
-    if(width>0)return Math.max(26,Math.min(100,Math.floor((width-32-labelW()-gridOverhead(m))/gridUnits(m))));
+    if(width>0)return Math.max(document.body.classList.contains('ipad-workspace')?18:26,Math.min(100,Math.floor((width-32-labelW()-gridOverhead(m))/gridUnits(m))));
   }
   /* 2026-08-13: 아이패드 2단만 맞추던 걸 **한 단 패드(세로)까지** 넓혔다.
      1024 세로에서 그리드가 딱 16px 넘쳐서 "좌우로 아주 살짝 슬라이드"됐다(제보).

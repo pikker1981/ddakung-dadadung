@@ -35,6 +35,18 @@ test('current geometry uses actual proportional beat anchors and cached row mult
   assert.ok(g.beats.every(b=>b.y<100&&b.y+b.height>=136));
   assert.equal(f.run('ROW_MUL'),7);
 });
+
+test('single-measure screen geometry keeps the original document measure index',()=>{
+  const f=fixture();
+  f.run('measures=Array.from({length:7},()=>({beats:2,widths:[20,80]}));slotXCache.length=0;slotXCache[6]={x0:50,top:100,mul:2,w:240}');
+  const g=f.json('window.ddakungScoreRender.currentGeometry()');
+  assert.deepEqual(g.beats.map(b=>[b.measure,b.beat,b.x,b.width]),[[6,0,82,50],[6,1,132,158]]);
+  assert.equal(f.run('ROW_MUL'),7);
+  f.run("svg.getAttribute=k=>k==='viewBox'?'0 17.5 500 139.46':null");
+  const trimmed=f.json('window.ddakungScoreRender.currentGeometry()');
+  assert.deepEqual(trimmed.beats.map(b=>[b.measure,b.beat,b.x,b.width]),[[6,0,82,50],[6,1,132,158]]);
+  assert.ok(trimmed.beats.every(b=>b.y>=17.5&&Math.abs(b.y+b.height-156.96)<1e-9));
+});
 test('foreign render uses independent twenty-bar pages and restores every retained reference',()=>{
   const f=fixture();
   f.run("const foreign={title:'other',measures:Array.from({length:45},()=>({beats:2,widths:[20,80]}))};const before=JSON.stringify(foreign)");

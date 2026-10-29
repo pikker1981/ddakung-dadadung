@@ -5,6 +5,7 @@
     const box=(target.getAttribute('viewBox')||'').trim().split(/\s+/).map(Number);
     const width=box[2]||Number(target.getAttribute('width'))||0;
     const height=box[3]||Number(target.getAttribute('height'))||0;
+    const viewTop=Number.isFinite(box[1])?box[1]:0;
     const beats=[], previousMul=ROW_MUL;
     const tops=[...new Set(cache.filter(Boolean).map(p=>p.top))].sort((a,b)=>a-b);
     try{
@@ -13,8 +14,8 @@
         ROW_MUL=p.mul||1;
         const nb=beatCount(m), nextTop=tops[tops.indexOf(p.top)+1];
         const upper=Math.min(-38,MARK_Y.stick-8);
-        const y=Math.max(0,p.top+upper);
-        const bottom=Math.min(height,p.top+Math.max(80,4*LG+MARK_Y.stickB+8,4*LG+(MARK_Y.kick||0)+8),nextTop==null?Infinity:nextTop+upper);
+        const y=Math.max(viewTop,p.top+upper);
+        const bottom=Math.min(viewTop+height,p.top+Math.max(80,4*LG+MARK_Y.stickB+8,4*LG+(MARK_Y.kick||0)+8),nextTop==null?Infinity:nextTop+upper);
         for(let b=0;b<nb;b++){
           const x=xAtPos(p.x0,b,m);
           const end=b+1<nb?xAtPos(p.x0,b+1,m):p.x0+p.w;

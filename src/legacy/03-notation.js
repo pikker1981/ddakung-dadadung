@@ -830,23 +830,26 @@ function drawMarks(m, mx, top, bottom, MW, opts){
    검토 모드가 이걸 써서 인쇄 결과를 화면에서 미리 보여 준다. */
 let screenPerLine = 'auto';
 const SCREEN_PAGE_SIZE = 20;
-let screenPageStart = 0, screenPageSelection = -1;
+let screenPageStart = 0, screenPageSelection = -1, screenPageSize = SCREEN_PAGE_SIZE;
 function scorePagingEnabled(){return screenPerLine==='auto'&&document.body.classList.contains('crt-workspace');}
+// The iPad editor follows one live measure. Detached source and print renders
+// keep using SCREEN_PAGE_SIZE and their explicit ranges.
+function scoreScreenPageSize(){return document.body.classList.contains('ipad-workspace')?1:SCREEN_PAGE_SIZE;}
 function scorePageInfo(){
-  const total=measures.length,pages=Math.max(1,Math.ceil(total/SCREEN_PAGE_SIZE));
-  return {enabled:scorePagingEnabled(),start:screenPageStart,end:Math.min(total-1,screenPageStart+SCREEN_PAGE_SIZE-1),total,page:Math.floor(screenPageStart/SCREEN_PAGE_SIZE)+1,pages};
+  const size=scoreScreenPageSize(),total=measures.length,pages=Math.max(1,Math.ceil(total/size));
+  return {enabled:scorePagingEnabled(),start:screenPageStart,end:Math.min(total-1,screenPageStart+size-1),total,page:Math.floor(screenPageStart/size)+1,pages};
 }
 function ensureScorePage(mi){
   if(!scorePagingEnabled()||mi<0||mi>=measures.length)return false;
-  const start=Math.floor(mi/SCREEN_PAGE_SIZE)*SCREEN_PAGE_SIZE;
-  if(start===screenPageStart)return false;
-  screenPageStart=start;screenPageSelection=selMeasure;renderScore();
+  const size=scoreScreenPageSize(),start=Math.floor(mi/size)*size;
+  if(start===screenPageStart&&screenPageSize===size)return false;
+  screenPageStart=start;screenPageSelection=selMeasure;screenPageSize=size;renderScore();
   const wrap=document.getElementById('scoreWrap');if(wrap){wrap.scrollTop=0;wrap.scrollLeft=0;}
   return true;
 }
 function moveScorePage(direction){
   if(!scorePagingEnabled()||![-1,1].includes(direction))return false;
-  const start=screenPageStart+direction*SCREEN_PAGE_SIZE;
+  const start=screenPageStart+direction*scoreScreenPageSize();
   if(start<0||start>=measures.length)return false;
   selectMeasure(start);ensureScorePage(start);return true;
 }
@@ -895,24 +898,46 @@ function renderScore(){
   slotXCache = [];
   const previousPageStart=screenPageStart;
   const paged=scorePagingEnabled();
+  const pageSize=scoreScreenPageSize();
+  const ipadMeasure=paged&&pageSize===1;
   if(paged){
-    if(screenPageSelection!==selMeasure){screenPageStart=Math.floor(selMeasure/SCREEN_PAGE_SIZE)*SCREEN_PAGE_SIZE;screenPageSelection=selMeasure;}
-    screenPageStart=Math.max(0,Math.min(screenPageStart,Math.max(0,Math.ceil(measures.length/SCREEN_PAGE_SIZE)-1)*SCREEN_PAGE_SIZE));
+    if(screenPageSelection!==selMeasure||screenPageSize!==pageSize){screenPageStart=Math.floor(selMeasure/pageSize)*pageSize;screenPageSelection=selMeasure;screenPageSize=pageSize;}
+    screenPageStart=Math.max(0,Math.min(screenPageStart,Math.max(0,Math.ceil(measures.length/pageSize)-1)*pageSize));
   }
   const wrap = document.getElementById('scoreWrap'), wrapStyle = getComputedStyle(wrap);
   const wrapW = Math.max(1, wrap.clientWidth - parseFloat(wrapStyle.paddingLeft) - parseFloat(wrapStyle.paddingRight));
   const Z = zoomF();
   const svgW = paint(svg, {
     availW: screenPerLine === 'auto' ? wrapW / Z : wrapW, perLine: screenPerLine,
-    maxPerLine: document.body.classList.contains('crt-workspace') ? 4 : undefined,
-    from:paged?screenPageStart:0,to:paged?Math.min(measures.length,screenPageStart+SCREEN_PAGE_SIZE):measures.length,
+    maxPerLine: ipadMeasure ? 1 : document.body.classList.contains('crt-workspace') ? 4 : undefined,
+    from:paged?screenPageStart:0,to:paged?Math.min(measures.length,screenPageStart+pageSize):measures.length,
     screenPage:paged,
-    title: (document.getElementById('titleInput')?.value || ''),
-    meta: songMeta, copyright: songMeta.copyright,
+    title: ipadMeasure ? '' : (document.getElementById('titleInput')?.value || ''),
+    meta: ipadMeasure ? null : songMeta, copyright: ipadMeasure ? '' : songMeta.copyright,
     cache: slotXCache,
   });
-  // 화면 폭은 줄바꿈만 결정한다. 한 마디가 넘쳐도 음표 크기는 유지하고 카드에서 스크롤한다.
-  svg.style.width = (svgW * Z) + 'px';
+  // iPad's compact monitor fits the live measure. Keep engraving/cache units
+  // unchanged: selection uses getScreenCTM and the cursor copies this SVG's box.
+  // Other screens retain their note size and scroll when a measure overflows.
+  let displayZ=Z;
+  if(ipadMeasure){
+    // Remove unused system padding while retaining the engraving coordinates.
+    // Some detached/hidden SVGs cannot report a box, so retain paint's viewBox.
+    try{
+      const box=svg.getBBox?.();
+      if(Number.isFinite(box?.y)&&Number.isFinite(box?.height)&&box.height>0){
+        const top=Math.max(0,box.y-8),height=box.y+box.height+8-top;
+        if(Number.isFinite(height)&&height>0){
+          svg.setAttribute('viewBox',`0 ${top} ${svgW} ${height}`);
+          svg.setAttribute('height',height);
+        }
+      }
+    }catch(e){}
+    const wrapH=wrap.clientHeight-(parseFloat(wrapStyle.paddingTop)||0)-(parseFloat(wrapStyle.paddingBottom)||0);
+    const svgH=Number((svg.getAttribute('viewBox')||'').trim().split(/\s+/)[3]);
+    displayZ=Math.min(Z,wrapW/svgW,wrapH>0&&svgH>0?wrapH/svgH:Infinity);
+  }
+  svg.style.width = (svgW * displayZ) + 'px';
   svg.style.height = 'auto';
   svg.style.maxWidth = 'none';
   // 재생 커서 — **악보 SVG 밖, 위에 얹은 작은 SVG에** 둔다 (2.1, 2026-10-21 제보 "음표가 많으면 버벅인다").

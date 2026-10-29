@@ -11,7 +11,6 @@ import { installEditorTools } from './editor-tools';
 import { installGridClipboard } from './grid-clipboard';
 import { neutralizeMarketing, isVendorRoute } from './navigation';
 import { installCrtWorkspace } from './crt-workspace';
-import { installVelocityEditor } from './velocity-editor';
 import { installMixer } from './mixer';
 import { installMeasureRepeat } from './measure-repeat';
 import { installScoreRegions } from './score-region-ui';
@@ -69,7 +68,6 @@ async function boot() {
   installEditorTools();
   installGridClipboard();
   installMeasureRepeat();
-  installVelocityEditor();
   installMixer();
   installImageImport();
   installCrtWorkspace();

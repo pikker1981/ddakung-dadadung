@@ -16,7 +16,7 @@ export function installIpadWorkspace(): void {
   if (scoreControls) {
     const tools = document.createElement('details'); tools.className = 'ipad-score-tools';
     const summary = document.createElement('summary'); summary.textContent = 'Score selection';
-    scoreControls.before(tools); tools.append(summary, scoreControls);
+    stage.querySelector('.crt-monitor')?.before(tools); tools.append(summary, scoreControls);
     tools.addEventListener('keydown', event => {
       if (event.code === 'Space') event.stopPropagation();
     });
@@ -26,8 +26,32 @@ export function installIpadWorkspace(): void {
   }
 
   input.id = 'ipadInputPanel';
+  // Allocate the remaining visible height to the grid, above the fixed transport.
+  // Observe real header/dock sizes rather than assuming a particular iPad model.
+  let resizeFrame = 0;
+  const fitInput = () => {
+    resizeFrame = 0;
+    if (!input.getClientRects().length) return;
+    const viewport = window.visualViewport;
+    const bottom = (viewport?.offsetTop ?? 0) + (viewport?.height ?? window.innerHeight);
+    const top = Math.max(viewport?.offsetTop ?? 0, input.getBoundingClientRect().top);
+    const dock = document.querySelector<HTMLElement>('.dock');
+    const dockHeight = dock?.getBoundingClientRect().height ?? 92;
+    const height = `${Math.max(380, Math.floor(bottom - top - dockHeight - 12))}px`;
+    if (input.style.getPropertyValue('--ipad-input-height') !== height) input.style.setProperty('--ipad-input-height', height);
+  };
+  const scheduleFitInput = () => {
+    if (!resizeFrame) resizeFrame = requestAnimationFrame(fitInput);
+  };
+  const inputSizeObserver = new ResizeObserver(scheduleFitInput);
+  [input, document.querySelector('.topbar'), main.querySelector('.titlerow'), document.getElementById('workspaceStatus'), document.querySelector('.dock')]
+    .forEach(node => { if (node) inputSizeObserver.observe(node); });
+  window.addEventListener('resize', scheduleFitInput);
+  window.visualViewport?.addEventListener('resize', scheduleFitInput);
+  scheduleFitInput();
   const bar = input.querySelector<HTMLElement>(':scope > .bar');
   const secondary = [
+    bar?.querySelector<HTMLElement>(':scope > .chiprow'), bar?.querySelector<HTMLElement>(':scope > .tools'),
     document.getElementById('rhythmTools'), document.getElementById('artRow'),
     document.getElementById('hitTargetHint'), document.getElementById('ornInsRow'),
     input.querySelector<HTMLElement>('.measure-repeat-controls'),
@@ -37,8 +61,8 @@ export function installIpadWorkspace(): void {
     const tools = document.createElement('details');
     tools.id = 'ipadSecondaryTools'; tools.className = 'ipad-secondary-tools';
     const summary = document.createElement('summary');
-    summary.textContent = 'Articulation · Tuplets · More';
-    summary.setAttribute('aria-label', 'Articulation, tuplets, playback feel, bar loop and clipboard tools');
+    summary.textContent = 'Input tools · Articulation · More';
+    summary.setAttribute('aria-label', 'Bar controls, articulation, tuplets, playback feel, bar loop and clipboard tools');
     tools.append(summary);
     const content = document.createElement('div'); content.className = 'ipad-secondary-content';
     // Move each existing row intact: legacy handlers and #artRow button selectors
@@ -49,6 +73,21 @@ export function installIpadWorkspace(): void {
       if (event.code === 'Space') event.stopPropagation();
     });
   }
+
+  const syncSingleBarLabel = () => {
+    const page = window.maiWorkspace.scorePage();
+    const pager = stage.querySelector<HTMLElement>('.crt-score-pager');
+    const label = pager?.querySelector('span');
+    if (label) label.textContent = `${page.start + 1}마디 / 총 ${page.total}마디`;
+    const previous = pager?.querySelector<HTMLButtonElement>('[data-score-prev]');
+    const next = pager?.querySelector<HTMLButtonElement>('[data-score-next]');
+    if (previous) previous.textContent = '←';
+    if (next) next.textContent = '→';
+    previous?.setAttribute('aria-label', '이전 마디');
+    next?.setAttribute('aria-label', '다음 마디');
+  };
+  window.addEventListener('ddakung-score-page-change', syncSingleBarLabel);
+  requestAnimationFrame(() => { window.maiWorkspace.refreshScore(); syncSingleBarLabel(); });
 
   const mixerView = document.createElement('section');
   mixerView.id = 'ipadMixerView'; mixerView.hidden = true;
