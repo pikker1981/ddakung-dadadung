@@ -26,6 +26,8 @@ export function installIpadWorkspace(): void {
   }
 
   input.id = 'ipadInputPanel';
+  // The iPad workspace always fits one complete input measure, not stacked cards.
+  window.maiWorkspace.setEditorCount(1);
   // Allocate the remaining visible height to the grid, above the fixed transport.
   // Observe real header/dock sizes rather than assuming a particular iPad model.
   let resizeFrame = 0;
@@ -37,17 +39,29 @@ export function installIpadWorkspace(): void {
     const top = Math.max(viewport?.offsetTop ?? 0, input.getBoundingClientRect().top);
     const dock = document.querySelector<HTMLElement>('.dock');
     const dockHeight = dock?.getBoundingClientRect().height ?? 92;
-    const height = `${Math.max(380, Math.floor(bottom - top - dockHeight - 12))}px`;
+    const height = `${Math.max(220, Math.floor(bottom - top - dockHeight - 12))}px`;
     if (input.style.getPropertyValue('--ipad-input-height') !== height) input.style.setProperty('--ipad-input-height', height);
+    const grid = document.getElementById('gridMode');
+    const card = grid?.querySelector<HTMLElement>('.measure-editor-card');
+    const cell = card?.querySelector<HTMLElement>('.cell');
+    const rows = card?.querySelectorAll('.rowlabel').length ?? 0;
+    if (grid && card && cell && rows) {
+      const overhead = card.getBoundingClientRect().height - rows * cell.getBoundingClientRect().height;
+      const rowHeight = `${Math.max(10, Math.min(40, Math.floor((grid.clientHeight - overhead - 10) / rows)))}px`;
+      if (input.style.getPropertyValue('--ipad-cell-height') !== rowHeight) input.style.setProperty('--ipad-cell-height', rowHeight);
+    }
   };
   const scheduleFitInput = () => {
     if (!resizeFrame) resizeFrame = requestAnimationFrame(fitInput);
   };
   const inputSizeObserver = new ResizeObserver(scheduleFitInput);
-  [input, document.querySelector('.topbar'), main.querySelector('.titlerow'), document.getElementById('workspaceStatus'), document.querySelector('.dock')]
+  [input, document.getElementById('gridMode'), document.querySelector('.topbar'), main.querySelector('.titlerow'), document.getElementById('workspaceStatus'), document.querySelector('.dock')]
     .forEach(node => { if (node) inputSizeObserver.observe(node); });
   window.addEventListener('resize', scheduleFitInput);
   window.visualViewport?.addEventListener('resize', scheduleFitInput);
+  window.addEventListener('ddakung-editor-view-change', scheduleFitInput);
+  const gridNode = document.getElementById('grid');
+  if (gridNode) new MutationObserver(scheduleFitInput).observe(gridNode, {childList:true,subtree:true});
   scheduleFitInput();
   const bar = input.querySelector<HTMLElement>(':scope > .bar');
   const secondary = [
@@ -78,7 +92,7 @@ export function installIpadWorkspace(): void {
     const page = window.maiWorkspace.scorePage();
     const pager = stage.querySelector<HTMLElement>('.crt-score-pager');
     const label = pager?.querySelector('span');
-    if (label) label.textContent = `${page.start + 1}마디 / 총 ${page.total}마디`;
+    if (label) label.textContent = `${page.start + 1}${page.end > page.start ? '–' + (page.end + 1) : ''}마디 / 총 ${page.total}마디`;
     const previous = pager?.querySelector<HTMLButtonElement>('[data-score-prev]');
     const next = pager?.querySelector<HTMLButtonElement>('[data-score-next]');
     if (previous) previous.textContent = '←';

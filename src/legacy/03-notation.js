@@ -224,7 +224,7 @@ function paint(target, o){
   const ZF = (oneRow || o.noZoom || o.perLine === 'auto') ? 1 : zoomF();   // 악보 크기 — auto는 renderScore가 availW로 처리
   const units = [];
   for(let i=from; i<to; ){
-    const n = oneRow ? 1 : mrestRun(i, to);
+    const n = oneRow || o.unfoldRests ? 1 : mrestRun(i, to);
     units.push({mi:i, n, w: n > 1 ? GEO.MEASURE_W : MWs[i]});
     i += n;
   }
@@ -830,26 +830,27 @@ function drawMarks(m, mx, top, bottom, MW, opts){
    검토 모드가 이걸 써서 인쇄 결과를 화면에서 미리 보여 준다. */
 let screenPerLine = 'auto';
 const SCREEN_PAGE_SIZE = 20;
-let screenPageStart = 0, screenPageSelection = -1, screenPageSize = SCREEN_PAGE_SIZE;
+let screenPageStart = 0, screenPageSelection = -1, screenPageFocus = 0, screenPageSize = SCREEN_PAGE_SIZE;
 function scorePagingEnabled(){return screenPerLine==='auto'&&document.body.classList.contains('crt-workspace');}
-// The iPad editor follows one live measure. Detached source and print renders
+// The iPad editor follows a sliding, two-system window. Detached source and print renders
 // keep using SCREEN_PAGE_SIZE and their explicit ranges.
-function scoreScreenPageSize(){return document.body.classList.contains('ipad-workspace')?1:SCREEN_PAGE_SIZE;}
+function scoreScreenPageSize(){return document.body.classList.contains('ipad-workspace')?2:SCREEN_PAGE_SIZE;}
+function scoreScreenPageStart(mi,size){return size===2?Math.max(0,Math.min(mi,measures.length-size)):Math.floor(mi/size)*size;}
 function scorePageInfo(){
-  const size=scoreScreenPageSize(),total=measures.length,pages=Math.max(1,Math.ceil(total/size));
-  return {enabled:scorePagingEnabled(),start:screenPageStart,end:Math.min(total-1,screenPageStart+size-1),total,page:Math.floor(screenPageStart/size)+1,pages};
+  const size=scoreScreenPageSize(),total=measures.length,pages=Math.max(1,size===2?total:Math.ceil(total/size));
+  return {enabled:scorePagingEnabled(),start:screenPageStart,end:Math.min(total-1,screenPageStart+size-1),total,page:size===2?screenPageFocus+1:Math.floor(screenPageStart/size)+1,pages};
 }
 function ensureScorePage(mi){
   if(!scorePagingEnabled()||mi<0||mi>=measures.length)return false;
-  const size=scoreScreenPageSize(),start=Math.floor(mi/size)*size;
-  if(start===screenPageStart&&screenPageSize===size)return false;
-  screenPageStart=start;screenPageSelection=selMeasure;screenPageSize=size;renderScore();
+  const size=scoreScreenPageSize(),start=scoreScreenPageStart(mi,size);
+  if(start===screenPageStart&&screenPageSize===size&&(size!==2||screenPageFocus===mi))return false;
+  screenPageStart=start;screenPageFocus=mi;screenPageSelection=selMeasure;screenPageSize=size;renderScore();
   const wrap=document.getElementById('scoreWrap');if(wrap){wrap.scrollTop=0;wrap.scrollLeft=0;}
   return true;
 }
 function moveScorePage(direction){
   if(!scorePagingEnabled()||![-1,1].includes(direction))return false;
-  const start=screenPageStart+direction*scoreScreenPageSize();
+  const size=scoreScreenPageSize(),start=size===2?screenPageFocus+direction:screenPageStart+direction*size;
   if(start<0||start>=measures.length)return false;
   selectMeasure(start);ensureScorePage(start);return true;
 }
@@ -899,28 +900,30 @@ function renderScore(){
   const previousPageStart=screenPageStart;
   const paged=scorePagingEnabled();
   const pageSize=scoreScreenPageSize();
-  const ipadMeasure=paged&&pageSize===1;
+  const ipadWindow=paged&&pageSize===2;
   if(paged){
-    if(screenPageSelection!==selMeasure||screenPageSize!==pageSize){screenPageStart=Math.floor(selMeasure/pageSize)*pageSize;screenPageSelection=selMeasure;screenPageSize=pageSize;}
-    screenPageStart=Math.max(0,Math.min(screenPageStart,Math.max(0,Math.ceil(measures.length/pageSize)-1)*pageSize));
+    if(screenPageSelection!==selMeasure||screenPageSize!==pageSize){screenPageStart=scoreScreenPageStart(selMeasure,pageSize);screenPageFocus=selMeasure;screenPageSelection=selMeasure;screenPageSize=pageSize;}
+    screenPageFocus=Math.max(0,Math.min(screenPageFocus,measures.length-1));
+    screenPageStart=ipadWindow?scoreScreenPageStart(screenPageFocus,pageSize):Math.max(0,Math.min(screenPageStart,Math.max(0,Math.ceil(measures.length/pageSize)-1)*pageSize));
   }
   const wrap = document.getElementById('scoreWrap'), wrapStyle = getComputedStyle(wrap);
   const wrapW = Math.max(1, wrap.clientWidth - parseFloat(wrapStyle.paddingLeft) - parseFloat(wrapStyle.paddingRight));
   const Z = zoomF();
   const svgW = paint(svg, {
     availW: screenPerLine === 'auto' ? wrapW / Z : wrapW, perLine: screenPerLine,
-    maxPerLine: ipadMeasure ? 1 : document.body.classList.contains('crt-workspace') ? 4 : undefined,
+    maxPerLine: ipadWindow ? 1 : document.body.classList.contains('crt-workspace') ? 4 : undefined,
+    unfoldRests:ipadWindow,
     from:paged?screenPageStart:0,to:paged?Math.min(measures.length,screenPageStart+pageSize):measures.length,
     screenPage:paged,
-    title: ipadMeasure ? '' : (document.getElementById('titleInput')?.value || ''),
-    meta: ipadMeasure ? null : songMeta, copyright: ipadMeasure ? '' : songMeta.copyright,
+    title: ipadWindow ? '' : (document.getElementById('titleInput')?.value || ''),
+    meta: ipadWindow ? null : songMeta, copyright: ipadWindow ? '' : songMeta.copyright,
     cache: slotXCache,
   });
-  // iPad's compact monitor fits the live measure. Keep engraving/cache units
+  // iPad's compact monitor fits both visible measures. Keep engraving/cache units
   // unchanged: selection uses getScreenCTM and the cursor copies this SVG's box.
   // Other screens retain their note size and scroll when a measure overflows.
   let displayZ=Z;
-  if(ipadMeasure){
+  if(ipadWindow){
     // Remove unused system padding while retaining the engraving coordinates.
     // Some detached/hidden SVGs cannot report a box, so retain paint's viewBox.
     try{
