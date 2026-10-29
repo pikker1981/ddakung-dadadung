@@ -1,6 +1,6 @@
 import './styles/ipad-workspace.css';
 
-/** iPad web shell: retain the editor/audio instances when switching workspaces. */
+/** iPad web shell: keep score and input mounted together, with a separate mixer. */
 export function installIpadWorkspace(): void {
   if (document.body.classList.contains('ipad-workspace')) return;
   const main = document.querySelector<HTMLElement>('body > main');
@@ -12,40 +12,43 @@ export function installIpadWorkspace(): void {
   if (!main || !mixer || !settings || !settingsCard || !stage || !input) return;
   document.body.classList.add('ipad-workspace');
 
-  const tabs = document.createElement('nav');
-  tabs.className = 'ipad-editor-tabs';
-  tabs.setAttribute('aria-label', '편집 화면');
-  tabs.setAttribute('role', 'tablist');
-  tabs.innerHTML = '<button class="btn" id="ipadScoreTab" type="button" role="tab" aria-controls="crtStage">악보</button><button class="btn" id="ipadInputTab" type="button" role="tab" aria-controls="ipadInputPanel">리듬 입력</button>';
-  input.id = 'ipadInputPanel';
-  main.querySelector('.titlerow')?.after(tabs);
-  let activeTab: 'score' | 'input' = 'score';
-  const portrait = matchMedia('(max-width:999px), (orientation:portrait)');
-  const updateTab = () => {
-    document.body.dataset.ipadTab = activeTab;
-    tabs.querySelectorAll<HTMLButtonElement>('button').forEach((button, index) => {
-      const selected = (index === 0) === (activeTab === 'score');
-      button.setAttribute('aria-selected', String(selected));
-      button.tabIndex = selected ? 0 : -1;
+  const scoreControls = stage.querySelector<HTMLElement>('.score-region-controls');
+  if (scoreControls) {
+    const tools = document.createElement('details'); tools.className = 'ipad-score-tools';
+    const summary = document.createElement('summary'); summary.textContent = 'Score selection';
+    scoreControls.before(tools); tools.append(summary, scoreControls);
+    tools.addEventListener('keydown', event => {
+      if (event.code === 'Space') event.stopPropagation();
     });
-    // Inert prevents keyboard focus from reaching the hidden portrait panel.
-    stage.inert = portrait.matches && activeTab !== 'score';
-    input.inert = portrait.matches && activeTab !== 'input';
-    const velocity = document.getElementById('velocityEditor');
-    if (velocity) velocity.inert = portrait.matches && activeTab !== 'input';
-    requestAnimationFrame(() => window.maiWorkspace.refreshLayout());
-  };
-  tabs.querySelectorAll('button').forEach((button, index) => button.addEventListener('click', () => {
-    activeTab = index === 0 ? 'score' : 'input'; updateTab();
-  }));
-  tabs.addEventListener('keydown', event => {
-    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
-    event.preventDefault();
-    activeTab = event.key === 'Home' ? 'score' : event.key === 'End' ? 'input' : activeTab === 'score' ? 'input' : 'score';
-    updateTab(); tabs.querySelector<HTMLButtonElement>('[aria-selected="true"]')?.focus();
-  });
-  portrait.addEventListener('change', updateTab);
-  updateTab();
+    // Expanding the tools shifts the score SVG. Refresh its playback overlay
+    // without changing the selection, note scale or editor scroll position.
+    tools.addEventListener('toggle', () => requestAnimationFrame(() => window.maiWorkspace.refreshScore()));
+  }
+
+  input.id = 'ipadInputPanel';
+  const bar = input.querySelector<HTMLElement>(':scope > .bar');
+  const secondary = [
+    document.getElementById('rhythmTools'), document.getElementById('artRow'),
+    document.getElementById('hitTargetHint'), document.getElementById('ornInsRow'),
+    input.querySelector<HTMLElement>('.measure-repeat-controls'),
+    input.querySelector<HTMLElement>('.editor-hint'), input.querySelector<HTMLElement>('.clipboard-controls'),
+  ].filter((node): node is HTMLElement => !!node && input.contains(node));
+  if (bar && secondary.length) {
+    const tools = document.createElement('details');
+    tools.id = 'ipadSecondaryTools'; tools.className = 'ipad-secondary-tools';
+    const summary = document.createElement('summary');
+    summary.textContent = 'Articulation · Tuplets · More';
+    summary.setAttribute('aria-label', 'Articulation, tuplets, playback feel, bar loop and clipboard tools');
+    tools.append(summary);
+    const content = document.createElement('div'); content.className = 'ipad-secondary-content';
+    // Move each existing row intact: legacy handlers and #artRow button selectors
+    // continue to own the same nodes, including dynamically added ornament tools.
+    content.append(...secondary); tools.append(content); bar.append(tools);
+    tools.addEventListener('keydown', event => {
+      // Space on the disclosure opens it without starting global playback.
+      if (event.code === 'Space') event.stopPropagation();
+    });
+  }
 
   const mixerView = document.createElement('section');
   mixerView.id = 'ipadMixerView'; mixerView.hidden = true;
