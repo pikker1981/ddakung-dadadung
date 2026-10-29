@@ -369,7 +369,10 @@ function paint(target, o){
        머리가 못 겹친다 — 옛 squeezeFloor·꾸밈음 하한이 전부 간격표 안으로 들어왔다.
        걸린 gap이 있으면 실제 줄 폭이 fillW보다 넓게 남고, 그만큼 svgW가 커져 악보가
        통째로 줄어든다 — 옛 하한과 같은 동작이다. */
-    return solveRowMul(rowsU[ln].map(u => units[u].n > 1 ? {fixed: units[u].w} : units[u].mi), fillW);
+    const mul=solveRowMul(rowsU[ln].map(u => units[u].n > 1 ? {fixed: units[u].w} : units[u].mi), fillW);
+    // Forced iPad pairs can exceed the card's collision minimum. Keep natural
+    // note/bar/ornament spacing here; renderScore fits the complete SVG uniformly.
+    return o.screenColumns===2?Math.max(1,mul):mul;
   });
   /* **설계 폭 아래로는 안 내려간다.** 줄이 그보다 좁으면 인쇄에서 종이 폭에 맞춰
      확대되면서 `SYS_H`까지 커져 `LINES_PER_PAGE = 10`이 깨진다.

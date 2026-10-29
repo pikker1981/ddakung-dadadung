@@ -163,3 +163,78 @@ test('compact iPad score fits paper width and height without a repeated heading 
   assert.equal(f.run("svg.getAttribute('viewBox')"),'0 0 540 600');
   assert.equal(f.run('lastPaint.title'),'Current score title');
 });
+
+test('four-measure engraving keeps real noteheads, grace notes and bar boundaries clear',()=>{
+  for(const variant of ['sixteenths','ruff-accent-sticking','thirty-seconds']){
+    const f=realEngravingFixture();
+    if(variant==='ruff-accent-sticking')f.run('measures.forEach(m=>{m.snare.fill(3);m.orn={snare:Array(16).fill(0)};m.orn.snare[0]=3;m.stick=Array.from({length:16},(_,i)=>i%2+1)})');
+    if(variant==='thirty-seconds')f.run('measures.forEach(m=>{m.division=8;m.snare=Array(32).fill(1);m.orn={snare:Array(32).fill(0)};m.orn.snare[0]=3})');
+    const before=f.json('measures');
+    const width=f.run("paint(svg,{availW:300,perLine:'auto',maxPerLine:2,screenColumns:2,unfoldRests:true,readOnly:true,cache,rows})");
+    assert.deepEqual(f.json('rows'),[[0,1],[2,3]]);
+    assert.ok(f.run('cache.every(p=>p.mul>=1)'));
+    assert.ok(width>300,'natural engraving must be fitted as a whole SVG');
+    const ellipses=f.target.children.filter(n=>n.tag==='ellipse');
+    const heads=ellipses.filter(n=>Number(n.attrs.rx)>4);
+    const perMeasure=variant==='thirty-seconds'?32:16;
+    assert.equal(heads.length,perMeasure*4);
+    for(const offset of [0,perMeasure*2]){
+      const a=heads[offset+perMeasure-1],b=heads[offset+perMeasure];
+      assert.equal(a.attrs.cy,b.attrs.cy);
+      assert.ok(Number(b.attrs.cx)-Number(a.attrs.cx)>=Number(a.attrs.rx)+Number(b.attrs.rx),'bar-boundary noteheads overlap');
+    }
+    for(const y of new Set(ellipses.map(n=>n.attrs.cy))){
+      const row=ellipses.filter(n=>n.attrs.cy===y).sort((a,b)=>Number(a.attrs.cx)-Number(b.attrs.cx));
+      for(let i=1;i<row.length;i++){
+        const a=row[i-1],b=row[i];
+        assert.ok(Number(b.attrs.cx)-Number(a.attrs.cx)-Number(a.attrs.rx)-Number(b.attrs.rx)>=0.5,'note/grace heads need visible clearance');
+      }
+    }
+    if(variant==='ruff-accent-sticking'){
+      assert.equal(f.target.children.filter(n=>n.tag==='text'&&['R','L'].includes(n.textContent)).length,64);
+      assert.equal(f.target.children.filter(n=>n.tag==='path'&&n.attrs.d===f.run('ACCENT_GLYPH.above.d')).length,64);
+    }
+    assert.deepEqual(f.json('measures'),before);
+  }
+  const ordinary=realEngravingFixture();
+  ordinary.run("paint(svg,{availW:300,perLine:'auto',maxPerLine:2,unfoldRests:true,readOnly:true,cache,rows})");
+  assert.deepEqual(ordinary.json('rows'),[[0],[1],[2],[3]]);
+  assert.ok(ordinary.run('cache.some(p=>p.mul<1)'),'ordinary engraving retains its existing spacing rule');
+});
+
+// Exercise the complete engraver with fixed 4/4 input, rather than the range-only
+// paint stub above. The retained paint/spacing/note/grace/mark functions emit all
+// SVG elements; this DOM stand-in only records their actual attributes.
+function realEngravingFixture(){
+  class SvgNode{
+    constructor(tag){this.tag=tag;this.attrs={};this.children=[];this.style={};}
+    set innerHTML(_){this.children=[];}
+    setAttribute(name,value){this.attrs[name]=String(value);}
+    getAttribute(name){return this.attrs[name]??null;}
+    removeAttribute(name){delete this.attrs[name];}
+    appendChild(node){this.children.push(node);return node;}
+  }
+  const target=new SvgNode('svg');
+  const c=vm.createContext({document:{getElementById:()=>target,createElementNS:(_,tag)=>new SvgNode(tag)}});
+  vm.runInContext(`
+    const INSTR=[{id:'snare',voice:'hand',pos:4,head:'o'}],HAND_INS=INSTR,FOOT_INS=[],byId={snare:INSTR[0]};
+    const ST={font:'Georgia',headRx:5.4,headRy:4.5,ghostRx:4.1,ghostRy:3.1,tilt:-22,stem:1.1,beam:4.5,staff:1,hollow:1.7,xw:1.8,xwg:1.4,jitter:0};
+    const ART={NORM:1,GHOST:2,ACCENT:3,OPEN:4,XSTICK:5,RIM:6,CLOSED:7,BELL:8,BUZZ:12};
+    const OPEN_OK={},CLOSED_OK={},XSTICK_OK={},RIM_OK={},BELL_OK={},ROLL_SLASH={},DIV_MIX={},DYN_OK=[],HP_OK=[];
+    const HEAD_SIZES={normal:1},headSize='normal',showTempo=false,bpm=100,INK='#171717',STICK_POS='above',
+      TEXT_BASE_PX=10,SHOW_BARNUM=true,SHOW_MREST=true,CRASH_RING=false,SEXT_SPLIT=true,MERGE_STEMS=false;
+    let measures=Array.from({length:4},()=>({snare:Array(16).fill(1)})),cache=[],rows=[];
+    function beatCount(){return 4}function beatQ(){return 1}function tsOf(){return [4,4]}
+    function divOf(m,b,voice){return m.division||4}function divCells(d){return d}
+    function cellFrac(d,k){return k/d}function divSegs(d){return [{k0:0,n:d,f0:0,fl:1,div:d}]}
+    function beatOffset(m,voice,b){return b*(m.division||4)}
+    function idxAt(m,voice,b,k){return beatOffset(m,voice,b)+k}
+    function isGhost(v){return v===2}function rollPart(v){return v}
+    function compoundBeat(){return false}
+    function lineGap(){return 0}function lineBreakAt(){return false}function mrestRun(){return 1}
+    function textPx(){return 10}function zoomF(){return 1}function jit(){return 0}
+    function ornOf(m,id,step){return m.orn?.[id]?.[step]||0}function ornInsOf(m,id){return id}
+    function tapMeasures(){return false}
+  `+source,c);
+  return {run:s=>vm.runInContext(s,c),json:s=>JSON.parse(vm.runInContext(`JSON.stringify(${s})`,c)),target};
+}
