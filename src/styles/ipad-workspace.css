@@ -15,8 +15,8 @@
  .workspace.crt-workspace.ipad-workspace main>.titlerow{height:auto;min-width:0}
  .ipad-workspace #titleInput{min-width:0;flex:1;height:44px;font-size:16px}
  .ipad-workspace .titlerow .btn.icon{height:44px;width:44px}
- .workspace.crt-workspace.ipad-workspace #crtStage{grid-area:score;height:auto;min-height:0;padding:0;position:sticky;top:8px;align-self:start;display:block;overflow:visible}
- .workspace.crt-workspace.ipad-workspace .crt-stage .crt-monitor{width:min(100%,calc((var(--ipad-stage-room,100dvh) - 96px) * 909 / 840));max-width:100%;height:auto;aspect-ratio:909/840;margin-inline:auto}
+ .workspace.crt-workspace.ipad-workspace #crtStage{grid-area:score;height:var(--ipad-stage-room,calc(100dvh - 260px));min-height:0;padding:0;position:sticky;top:8px;align-self:start;display:flex;flex-direction:column;overflow:visible}
+ .workspace.crt-workspace.ipad-workspace .crt-stage .crt-monitor{width:100%;max-width:100%;height:auto;min-height:0;flex:1 1 0;aspect-ratio:auto;margin-inline:auto}
  .workspace.crt-workspace.ipad-workspace .crt-score-pager{position:static;min-height:44px;gap:4px;margin-bottom:4px;font-size:11px;flex-wrap:wrap}
  .ipad-workspace .crt-score-pager button{padding:6px 8px;font-size:12px}
  .workspace.crt-workspace.ipad-workspace .crt-screen #scoreWrap{padding:12px 10px!important;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y}
