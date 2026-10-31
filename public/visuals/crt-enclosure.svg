@@ -54,7 +54,6 @@
   <path fill="url(#crt-light)" d="M687 726H828V744H687ZM849 729H876V744H849Z"/>
   <path fill="#f8f8f6" d="M687 726H828V729H687ZM849 729H876V732H849Z"/>
   <path fill="#202020" d="M849 756H870V762H849Z"/>
-  <text x="30" y="812" fill="#333" font-family="monospace" font-size="21" font-weight="bold" letter-spacing="1.2">CRT MONITOR</text>
   <g stroke="#404040" stroke-width="5" fill="#aaa"><circle cx="789" cy="801" r="15"/><circle cx="831" cy="801" r="15"/></g>
   <g stroke="#e3e3e3" stroke-width="3" fill="#171717"><circle cx="789" cy="801" r="9"/><circle cx="831" cy="801" r="9"/></g>
   <path fill="#464646" d="M783 822H795V825H783ZM825 822H837V825H825Z"/>
