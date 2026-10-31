@@ -12,6 +12,35 @@ export function installIpadWorkspace(): void {
   if (!main || !mixer || !settings || !settingsCard || !stage || !input) return;
   document.body.classList.add('ipad-workspace');
 
+  const fullscreenButton = document.createElement('button');
+  fullscreenButton.type = 'button'; fullscreenButton.id = 'ipadScoreFullscreen'; fullscreenButton.className = 'btn';
+  fullscreenButton.textContent = '악보 전체 화면';
+  fullscreenButton.setAttribute('aria-expanded', 'false');
+  fullscreenButton.setAttribute('aria-controls', 'crtStage');
+  stage.querySelector('.crt-score-pager')?.append(fullscreenButton);
+  let editorScroll = {left: 0, top: 0};
+  const setScoreFullscreen = (open: boolean) => {
+    if (open) editorScroll = {left: window.scrollX, top: window.scrollY};
+    document.body.classList.toggle('ipad-score-fullscreen', open);
+    fullscreenButton.textContent = open ? '편집으로 돌아가기' : '악보 전체 화면';
+    fullscreenButton.setAttribute('aria-expanded', String(open));
+    if (open) window.scrollTo(0, 0);
+    scheduleFitInput();
+    requestAnimationFrame(() => {
+      window.maiWorkspace.refreshLayout();
+      window.maiWorkspace.refreshScore();
+      fullscreenButton.focus({preventScroll:true});
+      if (!open) window.scrollTo(editorScroll.left, editorScroll.top);
+    });
+  };
+  fullscreenButton.addEventListener('click', () => setScoreFullscreen(!document.body.classList.contains('ipad-score-fullscreen')));
+  fullscreenButton.addEventListener('keydown', event => { if (event.code === 'Space') event.stopPropagation(); });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && document.body.classList.contains('ipad-score-fullscreen') && !document.querySelector('dialog[open],.pop.is-open')) {
+      event.preventDefault(); setScoreFullscreen(false);
+    }
+  }, true);
+
   const scoreControls = stage.querySelector<HTMLElement>('.score-region-controls');
   if (scoreControls) {
     const tools = document.createElement('details'); tools.className = 'ipad-score-tools';
@@ -37,12 +66,26 @@ export function installIpadWorkspace(): void {
   let resizeFrame = 0;
   const fitInput = () => {
     resizeFrame = 0;
-    if (!inputFrame.getClientRects().length) return;
     const viewport = window.visualViewport;
     const bottom = (viewport?.offsetTop ?? 0) + (viewport?.height ?? window.innerHeight);
-    const top = Math.max(viewport?.offsetTop ?? 0, inputFrame.getBoundingClientRect().top);
     const dock = document.querySelector<HTMLElement>('.dock');
     const dockHeight = dock?.getBoundingClientRect().height ?? 92;
+    let fullscreenSizeChanged = false;
+    for (const [name, value] of [
+      ['--ipad-viewport-height', `${viewport?.height ?? window.innerHeight}px`],
+      ['--ipad-viewport-top', `${viewport?.offsetTop ?? 0}px`],
+      ['--ipad-playbar-height', `${dockHeight}px`],
+    ]) {
+      if (document.body.style.getPropertyValue(name) !== value) {
+        document.body.style.setProperty(name, value); fullscreenSizeChanged = true;
+      }
+    }
+    if (document.body.classList.contains('ipad-score-fullscreen')) {
+      if (fullscreenSizeChanged) requestAnimationFrame(() => window.maiWorkspace.refreshScore());
+      return;
+    }
+    if (!inputFrame.getClientRects().length) return;
+    const top = Math.max(viewport?.offsetTop ?? 0, inputFrame.getBoundingClientRect().top);
     const visibleHeight = Math.max(220, Math.floor(bottom - top - dockHeight - 12));
     const scoreRoom = `${visibleHeight}px`;
     if (stage.style.getPropertyValue('--ipad-stage-room') !== scoreRoom) {
@@ -77,6 +120,7 @@ export function installIpadWorkspace(): void {
     .forEach(node => { if (node) inputSizeObserver.observe(node); });
   window.addEventListener('resize', scheduleFitInput);
   window.visualViewport?.addEventListener('resize', scheduleFitInput);
+  window.visualViewport?.addEventListener('scroll', scheduleFitInput);
   window.addEventListener('ddakung-editor-view-change', scheduleFitInput);
   const gridNode = document.getElementById('grid');
   if (gridNode) new MutationObserver(scheduleFitInput).observe(gridNode, {childList:true,subtree:true});
@@ -115,8 +159,9 @@ export function installIpadWorkspace(): void {
     const next = pager?.querySelector<HTMLButtonElement>('[data-score-next]');
     if (previous) previous.textContent = '←';
     if (next) next.textContent = '→';
-    previous?.setAttribute('aria-label', '이전 마디');
-    next?.setAttribute('aria-label', '다음 마디');
+    const full = document.body.classList.contains('ipad-score-fullscreen');
+    previous?.setAttribute('aria-label', full ? '이전 16마디' : '이전 마디');
+    next?.setAttribute('aria-label', full ? '다음 16마디' : '다음 마디');
   };
   window.addEventListener('ddakung-score-page-change', syncSingleBarLabel);
   requestAnimationFrame(() => { window.maiWorkspace.refreshScore(); syncSingleBarLabel(); });

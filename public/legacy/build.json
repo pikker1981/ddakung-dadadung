@@ -1,5 +1,5 @@
 {
-  "sha256": "99fd417326005e92c30c7fda1d9de5a101ea99046db59e7a9d24563beab5bf93",
+  "sha256": "49d8aa106da67b54c1b972d50d051dc7d3688af608fb8767c35ce0a6b98187ee",
   "sourceOrder": [
     "import-contract.js",
     "01-domain-and-language.js",

@@ -234,10 +234,10 @@ function paint(target, o){
   const rowsU = [];
   if(oneRow){
     rowsU.push(Array.from({length: nU}, (_,k)=> k));
-  } else if(o.screenColumns===2){
-    // iPad's eight-measure overview keeps two columns even when a dense measure
+  } else if(o.screenColumns===2||o.screenColumns===4){
+    // iPad overviews keep their columns even when a dense measure
     // or a document line/section break would split an automatic screen row.
-    for(let u=0;u<nU;u+=2)rowsU.push(Array.from({length:Math.min(2,nU-u)},(_,k)=>u+k));
+    for(let u=0;u<nU;u+=o.screenColumns)rowsU.push(Array.from({length:Math.min(o.screenColumns,nU-u)},(_,k)=>u+k));
   } else if(o.perLine === 'auto'){
     let u = 0;
     while(u < nU){
@@ -372,7 +372,7 @@ function paint(target, o){
     const mul=solveRowMul(rowsU[ln].map(u => units[u].n > 1 ? {fixed: units[u].w} : units[u].mi), fillW);
     // Forced iPad pairs can exceed the card's collision minimum. Keep natural
     // note/bar/ornament spacing here; renderScore fits the complete SVG uniformly.
-    return o.screenColumns===2?Math.max(1,mul):mul;
+    return o.screenColumns===2||o.screenColumns===4?Math.max(1,mul):mul;
   });
   /* **설계 폭 아래로는 안 내려간다.** 줄이 그보다 좁으면 인쇄에서 종이 폭에 맞춰
      확대되면서 `SYS_H`까지 커져 `LINES_PER_PAGE = 10`이 깨진다.
@@ -841,7 +841,7 @@ let screenPageStart = 0, screenPageSelection = -1, screenPageFocus = 0, screenPa
 function scorePagingEnabled(){return screenPerLine==='auto'&&document.body.classList.contains('crt-workspace');}
 // The iPad editor shows eight-measure groups in two columns. Detached source and print renders
 // keep using SCREEN_PAGE_SIZE and their explicit ranges.
-function scoreScreenPageSize(){return document.body.classList.contains('ipad-workspace')?8:SCREEN_PAGE_SIZE;}
+function scoreScreenPageSize(){return document.body.classList.contains('ipad-workspace')?(document.body.classList.contains('ipad-score-fullscreen')?16:8):SCREEN_PAGE_SIZE;}
 function scoreScreenPageStart(mi,size){return Math.floor(mi/size)*size;}
 function scorePageInfo(){
   const size=scoreScreenPageSize(),total=measures.length,pages=Math.max(1,size===8?total:Math.ceil(total/size));
@@ -907,7 +907,8 @@ function renderScore(){
   const previousPageStart=screenPageStart;
   const paged=scorePagingEnabled();
   const pageSize=scoreScreenPageSize();
-  const ipadWindow=paged&&pageSize===8;
+  const ipadWindow=paged&&document.body.classList.contains('ipad-workspace');
+  const ipadColumns=pageSize===16?4:2;
   if(paged){
     if(screenPageSelection!==selMeasure||screenPageSize!==pageSize){screenPageStart=scoreScreenPageStart(selMeasure,pageSize);screenPageFocus=selMeasure;screenPageSelection=selMeasure;screenPageSize=pageSize;}
     screenPageFocus=Math.max(0,Math.min(screenPageFocus,measures.length-1));
@@ -918,8 +919,8 @@ function renderScore(){
   const Z = zoomF();
   const svgW = paint(svg, {
     availW: screenPerLine === 'auto' ? wrapW / Z : wrapW, perLine: screenPerLine,
-    maxPerLine: ipadWindow ? 2 : document.body.classList.contains('crt-workspace') ? 4 : undefined,
-    screenColumns:ipadWindow?2:undefined,
+    maxPerLine: ipadWindow ? ipadColumns : document.body.classList.contains('crt-workspace') ? 4 : undefined,
+    screenColumns:ipadWindow?ipadColumns:undefined,
     unfoldRests:ipadWindow,
     from:paged?screenPageStart:0,to:paged?Math.min(measures.length,screenPageStart+pageSize):measures.length,
     screenPage:paged,

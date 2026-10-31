@@ -73,9 +73,26 @@ test('iPad two-column row planning ignores width and document breaks without cha
   }));
   assert.deepEqual(rows(4,2),[[4,5],[6,7]]);
   assert.deepEqual(rows(8,2),[[4,5],[6,7],[8,9],[10,11]]);
+  assert.deepEqual(rows(16,4),[[4,5,6,7],[8,9,10,11],[12,13,14,15],[16,17,18,19]]);
   assert.deepEqual(rows(3,2),[[4,5],[6]]);
   assert.deepEqual(rows(1,2),[[4]]);
   assert.deepEqual(rows(4,undefined),[[4],[5],[6],[7]]);
+});
+
+test('iPad score-only mode pages sixteen bars, follows playback, and restores eight-bar editing',()=>{
+  const f=fixture(35,true),before=f.json('measures');
+  f.run("selectMeasure(10);bodyClasses.add('ipad-score-fullscreen');renderScore()");
+  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to,lastPaint.screenColumns]'),[0,16,4]);
+  assert.deepEqual(f.json('scorePageInfo()'),{enabled:true,start:0,end:15,total:35,page:1,pages:3});
+  assert.equal(f.run('ensureScorePage(15)'),false);
+  assert.equal(f.run('ensureScorePage(16)'),true);
+  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to,selMeasure]'),[16,32,10]);
+  f.run('moveScorePage(1)');
+  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to,selMeasure]'),[32,35,32]);
+  assert.equal(f.run('moveScorePage(1)'),false);
+  f.run("bodyClasses.delete('ipad-score-fullscreen');renderScore()");
+  assert.deepEqual(f.json('[lastPaint.from,lastPaint.to,lastPaint.screenColumns]'),[32,35,2]);
+  assert.deepEqual(f.json('measures'),before);
 });
 
 test('iPad playback follows individual measures and can return to the editor selection on stop',()=>{

@@ -106,6 +106,23 @@
  .ipad-workspace .topbar .fileacts{margin-left:auto}
 }
 @media print{#ipadMixerView{display:none!important}}
+/* Score-only reading view uses the existing live SVG and the same transport. */
+@media screen {
+ .ipad-workspace #ipadScoreFullscreen{font-size:11px;white-space:nowrap}
+ html:has(body.ipad-score-fullscreen){overflow:hidden!important}
+ body.workspace.crt-workspace.ipad-workspace.ipad-score-fullscreen{overflow:hidden!important;padding:0;height:100dvh!important;min-height:0}
+ .ipad-score-fullscreen :is(.topbar,#workspaceStatus,footer){display:none!important}
+ .ipad-score-fullscreen #toast,.ipad-score-fullscreen #audioOutputStatus:not(.audio-error){display:none!important}
+ .workspace.crt-workspace.ipad-workspace.ipad-score-fullscreen main{position:fixed;inset:var(--ipad-viewport-top,0px) 0 auto;display:flex!important;flex-direction:column;width:100%;min-width:0;max-width:none;height:calc(var(--ipad-viewport-height,100dvh) - var(--ipad-playbar-height,92px));min-height:0;margin:0;padding:8px max(8px,env(safe-area-inset-right)) 8px max(8px,env(safe-area-inset-left))!important;gap:0;overflow:hidden}
+ .ipad-score-fullscreen main>:not(#crtStage){display:none!important}
+ .workspace.crt-workspace.ipad-workspace.ipad-score-fullscreen #crtStage{position:relative;top:auto;align-self:stretch;width:100%;height:100%;min-height:0;flex:1;overflow:hidden}
+ .ipad-score-fullscreen #crtStage>.ipad-score-tools,.ipad-score-fullscreen .crt-enclosure{display:none!important}
+ .workspace.crt-workspace.ipad-workspace.ipad-score-fullscreen .crt-score-pager{flex:0 0 auto;justify-content:center;gap:8px;margin-bottom:8px}
+ .ipad-score-fullscreen #ipadScoreFullscreen{margin-left:auto}
+ .workspace.crt-workspace.ipad-workspace.ipad-score-fullscreen .crt-monitor{flex:1 1 0;width:100%;height:auto;min-height:0;filter:none}
+ .workspace.crt-workspace.ipad-workspace.ipad-score-fullscreen .crt-screen{inset:0;clip-path:none;border:1px solid #777}
+ .workspace.crt-workspace.ipad-workspace.ipad-score-fullscreen .crt-screen #scoreWrap{padding:12px!important;box-shadow:none}
+}
 @media screen and (max-height:700px){
  .workspace.crt-workspace.ipad-workspace .crt-panel-heading{min-height:24px;padding-block:2px}
  .workspace.crt-workspace.ipad-workspace .ipad-secondary-tools>summary{min-height:32px;padding-block:3px}
