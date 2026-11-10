@@ -15,6 +15,7 @@ import { installMixer } from './mixer';
 import { installMeasureRepeat } from './measure-repeat';
 import { installScoreRegions } from './score-region-ui';
 import { installInputPanelLanguage } from './input-panel-language';
+import { installPencilHybrid } from './pencil-hybrid';
 import './styles/crt-workspace.css';
 
 function loadScript(src: string): Promise<void> {
@@ -73,6 +74,7 @@ async function boot() {
   installCrtWorkspace();
   installScoreRegions();
   installInputPanelLanguage();
+  installPencilHybrid();
   installIpadWorkspace();
   installUploadedScores();
   installAudioStatus();

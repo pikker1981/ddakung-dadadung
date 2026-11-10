@@ -10,3 +10,4 @@ tests/*
 !tests/score-regions.test.mjs
 !tests/score-pages.test.mjs
 !tests/score-render-bridge.test.mjs
+!tests/pencil-hybrid.test.mjs

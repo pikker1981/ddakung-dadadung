@@ -9,6 +9,25 @@ export interface MaiDocument {
 }
 export interface VelocityNote {instrument:string;measure:number;step:number;row:number;start:number;velocity:number|null;label:string}
 export interface VelocityEdit extends VelocityNote {}
+
+export interface PencilCandidate {
+  id?: string;
+  measure: number;
+  instrument: string;
+  step: number;
+  endStep?: number;
+  articulation?: string | number;
+  source?: 'web' | 'native' | 'web-pencil' | string;
+  confidence?: number;
+}
+export interface PencilApplyResult {
+  ok: boolean;
+  changed?: number;
+  candidates?: PencilCandidate[];
+  reason?: string;
+  message?: string;
+  errors?: string[];
+}
 export interface WorkspaceBridge {
   measureRepeat():{start:number|null;end:number|null;enabled:boolean;playing:boolean;pending:boolean;total:number;current:number;selectedStart:number;selectedEnd:number};
   playMeasureRepeat(start:number,end:number):Promise<boolean>;
@@ -19,6 +38,7 @@ export interface WorkspaceBridge {
   setNoteVelocities(edits:VelocityEdit[]):boolean;
   commitVelocityEdit():void;
   previewVelocity(note:VelocityNote):void;
+  applyPencilCandidates(candidates:PencilCandidate[]):PencilApplyResult;
   isPlaying():boolean;
   activateCell(instrument: string, step: number, measure?: number): void;
   snapshot(): MaiDocument;

@@ -8,7 +8,7 @@
     "dev": "node scripts/build-legacy.mjs && vite --host 127.0.0.1",
     "build": "node scripts/build-legacy.mjs && tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1 --port 4180 --strictPort",
-    "test": "node --test tests/ipad-score-selection.test.mjs tests/score-regions.test.mjs tests/score-pages.test.mjs tests/score-render-bridge.test.mjs tests/ipad-audio-session.test.mjs"
+    "test": "node --test tests/ipad-score-selection.test.mjs tests/score-regions.test.mjs tests/score-pages.test.mjs tests/score-render-bridge.test.mjs tests/ipad-audio-session.test.mjs tests/pencil-hybrid.test.mjs"
   },
   "devDependencies": {
     "typescript": "5.9.3",

@@ -1,0 +1,23 @@
+#pencilHybridButton{min-height:44px;white-space:nowrap}
+.pencil-hybrid-dialog{width:min(720px,calc(100vw - 28px));max-width:none;padding:0;background:#242424;color:#eee;border:2px solid #0b0907;border-top-color:#aaa;border-left-color:#858585;box-shadow:8px 8px #0009}
+.pencil-hybrid-dialog::backdrop{background:#090807c9}
+.pencil-hybrid-card{display:flex;flex-direction:column;gap:12px;padding:20px;margin:0}
+.pencil-hybrid-card header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border-bottom:1px solid #6d6657;padding-bottom:12px}
+.pencil-hybrid-card h2,.pencil-hybrid-card h3{margin:0;font-family:var(--crt-pixel,var(--font-body,sans-serif))}
+.pencil-eyebrow{color:#ed670f;font-size:10px;letter-spacing:1px}
+.pencil-intro,.pencil-status,.pencil-empty{margin:0;color:#c3c3c3;font-size:13px;line-height:1.5}
+.pencil-status{min-height:20px;color:#edb777}
+.pencil-canvas-wrap{position:relative;min-height:250px;border:1px solid #6c6454;background:#141414;touch-action:none;overflow:hidden}
+.pencil-canvas-wrap canvas{display:block;width:100%;height:250px;touch-action:none;cursor:crosshair}
+.pencil-lane-labels{position:absolute;inset:0;display:grid;grid-template-rows:repeat(3,1fr);pointer-events:none;color:#aaa28f;font-size:11px;padding:8px}
+.pencil-lane-labels span{align-self:start}
+.pencil-actions,.pencil-hybrid-card footer{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap}
+.pencil-candidates{border-top:1px solid #6d6657;padding-top:12px}
+.pencil-candidates h3{font-size:14px;margin-bottom:8px}
+.pencil-list{display:flex;flex-direction:column;gap:8px;max-height:180px;overflow:auto}
+.pencil-candidate{display:grid;grid-template-columns:1fr 90px 1fr auto;gap:8px;align-items:center}
+.pencil-hybrid-dialog select,.pencil-hybrid-dialog input{min-height:44px;box-sizing:border-box;width:100%;padding:8px;background:#141414;color:#eee;border:1px solid #6c6454;font:inherit}
+.pencil-hybrid-dialog button{min-height:44px;padding:8px 12px;font:inherit}
+.pencil-hybrid-dialog button:focus-visible,.pencil-hybrid-dialog :is(select,input):focus-visible{outline:2px solid #ff913e;outline-offset:3px}
+@media(max-width:600px){.pencil-candidate{grid-template-columns:1fr 80px auto;}.pencil-candidate select:nth-child(3){grid-column:1 / 3}.pencil-candidate button{grid-column:3;grid-row:1 / 3}}
+@media(prefers-reduced-motion:reduce){.pencil-hybrid-dialog *{transition:none!important;animation:none!important}}

@@ -56,6 +56,28 @@ window.maiWorkspace = Object.freeze({
   },
   commitVelocityEdit(){commit();window.dispatchEvent(new Event('mai-velocity-refresh'));},
   previewVelocity(note){if(!playing&&!(typeof PLAY_PENDING!=='undefined'&&PLAY_PENDING)){const m=measures[note.measure];if(m?.[note.instrument]?.[note.step])previewSound(note.instrument,m[note.instrument][note.step],note.measure,note.step);}},
+  applyPencilCandidates(candidates){
+    if(!Array.isArray(candidates)) return {ok:false,reason:'invalid-candidates',message:'후보 목록이 올바르지 않습니다.'};
+    const valid=[],errors=[],seen=new Set();
+    const articulationValue=value=>{
+      if(Number.isInteger(value)) return value;
+      const map={normal:ART.NORM,ghost:ART.GHOST,accent:ART.ACCENT,open:ART.OPEN,xstick:ART.XSTICK,rim:ART.RIM,closed:ART.CLOSED,bell:ART.BELL};
+      return map[value] || ART.NORM;
+    };
+    candidates.forEach((candidate,index)=>{
+      const m=Number.isInteger(candidate?.measure)?measures[candidate.measure]:null;
+      const ins=byId[candidate?.instrument];
+      const step=Number.isInteger(candidate?.step)?candidate.step:-1;
+      if(!m||!ins||!Array.isArray(m[ins.id])||step<0||step>=m[ins.id].length){errors.push(`${index+1}번째 후보의 마디·악기·위치를 확인하세요.`);return;}
+      const key=`${candidate.measure}:${ins.id}:${step}`; if(seen.has(key)) return; seen.add(key);
+      valid.push({measure:candidate.measure,id:ins.id,step,value:artFor(ins.id,articulationValue(candidate.articulation))});
+    });
+    if(errors.length) return {ok:false,reason:'invalid-candidates',errors,message:errors.join(' ')};
+    let changed=0;
+    for(const item of valid) if(setCell(item.id,item.step,item.value,item.measure)) changed++;
+    if(changed){commit();renderScore();refreshGrid();refreshStepDots();}
+    return {ok:true,changed};
+  },
   isPlaying(){return playing||(typeof PLAY_PENDING!=='undefined'&&PLAY_PENDING);},
   activateCell(id, step, measure){
     if(measure !== undefined){
