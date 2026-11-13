@@ -455,7 +455,7 @@ const EN = {
   '<b>{n}곡</b>을 라이브러리에 넣었습니다.':'Added <b>{n} songs</b> to the library.',
   '넣은 곡이 없습니다.':'No songs were added.',
   '악보 파일이 아니어서 건너뜀: {n}개':'Skipped (not a score file): {n}',
-  '저장 공간(또는 {n}곡 상한)이 차서 일부를 못 넣었습니다.':'Storage (or the {n}-song limit) is full — some were not added.',
+  '저장 공간이 차서 일부를 못 넣었습니다.':'Storage is full — some were not added.',
   '코드가 맞지 않습니다.':'That code isn\'t right.',
   '이 브라우저는 저장이 막혀 있어 코드를 기억할 수 없습니다.':'This browser blocks storage, so the code can\'t be remembered.',
   /* ── 악보 보기 · 메모 (2026-10-20) ── */

@@ -5,11 +5,14 @@ export function installMixer():void {
   const api=window.ddakungAudio;
   if(!api)throw Error('Drum audio bridge unavailable');
   const panel=document.createElement('section');panel.id='mainMixer';panel.className='main-mixer';panel.setAttribute('aria-labelledby','mainMixerTitle');
-  panel.innerHTML=`<div class="mixer-heading"><div><span class="mixer-eyebrow">12 CHANNELS · YOUR BALANCE</span><h2 id="mainMixerTitle">드럼 믹서</h2><p>악기별 크기와 좌우 위치를 조절하세요. MUTE가 SOLO보다 우선합니다.</p></div><div class="mixer-actions"><button type="button" class="btn" data-clear-solo>SOLO 전체 해제</button><button type="button" class="btn" data-mixer-reset>믹서 초기화</button></div></div><div class="mixer-channels" role="group" aria-label="악기별 믹서"></div><p class="mixer-status" role="status" aria-live="polite"></p>`;
+  panel.innerHTML=`<div class="mixer-heading"><div><span class="mixer-eyebrow">12 CHANNELS · YOUR BALANCE</span><h2 id="mainMixerTitle">드럼 믹서</h2><p>악기별 크기와 좌우 위치를 조절하세요. MUTE가 SOLO보다 우선합니다.</p></div><div class="mixer-actions"><button type="button" class="btn" data-clear-solo>SOLO 전체 해제</button><button type="button" class="btn" data-mixer-reset>믹서 초기화</button><button type="button" class="btn mixer-toggle" data-mixer-toggle aria-expanded="false" aria-controls="mixerBody">펼치기</button></div></div><div id="mixerBody" class="mixer-body" hidden><div class="mixer-channels" role="group" aria-label="악기별 믹서"></div><p class="mixer-status" role="status" aria-live="polite"></p></div>`;
   const main=document.querySelector('body > main');
   if(main)main.after(panel);else document.querySelector('footer')?.before(panel);
   if(!panel.isConnected)document.body.append(panel);
-  const channels=panel.querySelector('.mixer-channels')!,sourceLabels=new Map<string,string>([['synth','합성 대체 소리']]);
+  const channels=panel.querySelector('.mixer-channels')!,body=panel.querySelector<HTMLElement>('#mixerBody')!,toggle=panel.querySelector<HTMLButtonElement>('[data-mixer-toggle]')!,sourceLabels=new Map<string,string>([['synth','합성 대체 소리']]);
+  const setExpanded=(expanded:boolean)=>{body.hidden=!expanded;toggle.setAttribute('aria-expanded',String(expanded));toggle.textContent=expanded?'접기':'펼치기';panel.classList.toggle('is-collapsed',!expanded);};
+  toggle.addEventListener('click',()=>setExpanded(toggle.getAttribute('aria-expanded')!=='true'));
+  setExpanded(false);
   const finish=document.createElement('div');finish.className='mixer-polish';finish.innerHTML='<div><label for="mixerPolish">사운드 정리 · 자연 / 스튜디오</label><output for="mixerPolish"></output></div><input id="mixerPolish" type="range" min="0" max="100" step="1" aria-describedby="mixerPolishHelp"><p id="mixerPolishHelp">0% 기존 드럼 소리 · 기본 40% · 원음의 울림과 개별 튜닝 유지</p>';
   panel.querySelector('.mixer-heading')!.insertBefore(finish,panel.querySelector('.mixer-actions'));
   const finishInput=finish.querySelector<HTMLInputElement>('input')!;

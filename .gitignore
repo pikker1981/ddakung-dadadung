@@ -11,3 +11,6 @@ tests/*
 !tests/score-pages.test.mjs
 !tests/score-render-bridge.test.mjs
 !tests/pencil-hybrid.test.mjs
+
+.vercel
+.env*

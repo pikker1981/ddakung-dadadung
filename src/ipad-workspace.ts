@@ -171,6 +171,9 @@ export function installIpadWorkspace(): void {
   mixerView.setAttribute('aria-labelledby', 'ipadMixerTitle');
   mixerView.innerHTML = '<header class="ipad-view-heading"><button class="btn" type="button" data-mixer-back>← 편집으로</button><h1 id="ipadMixerTitle">드럼 믹서</h1><button class="btn" type="button" data-mixer-tuning>내 드럼 만들기</button></header>';
   mixerView.append(mixer);
+  const mixerToggle = mixer.querySelector<HTMLButtonElement>('[data-mixer-toggle]');
+  const expandMixer = () => { if (mixerToggle?.getAttribute('aria-expanded') !== 'true') mixerToggle?.click(); };
+  const collapseMixer = () => { if (mixerToggle?.getAttribute('aria-expanded') === 'true') mixerToggle?.click(); };
   main.after(mixerView);
   const entry = document.createElement('button');
   entry.type = 'button'; entry.id = 'ipadMixerButton'; entry.className = 'btn'; entry.textContent = '드럼 믹서';
@@ -189,10 +192,12 @@ export function installIpadWorkspace(): void {
     document.body.classList.add('ipad-mixer-open'); main.inert = true;
     document.querySelector<HTMLElement>('.topbar')!.inert = true;
     mixerView.hidden = false;
+    expandMixer();
     window.scrollTo(0, 0); back.focus({preventScroll:true});
   });
   const returnToEditor = () => {
     if (mixerView.hidden) return;
+    collapseMixer();
     mixerView.hidden = true; document.body.classList.remove('ipad-mixer-open');
     main.inert = false; document.querySelector<HTMLElement>('.topbar')!.inert = false;
     requestAnimationFrame(() => {

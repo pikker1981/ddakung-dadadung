@@ -1878,7 +1878,6 @@ function shelfImportFiles(files){
       let d = null;
       try{ d = JSON.parse(txt); }catch(e){ d = null; }
       if(!looksLikeScore(d)){ skipped++; return; }
-      if(lib.songs.length >= SONG_MAX){ full = true; return; }
       const title = ((typeof d.title === 'string' && d.title.trim()) ? d.title
                    : f.name.replace(/\.(?:mai|ddakung)\.json$/i, '').replace(/\.json$/i, '')).slice(0, 60);
       let ms;
@@ -1902,7 +1901,7 @@ function shelfImportFiles(files){
     track('shelf-drop');
     let msg = added ? t('<b>{n}곡</b>을 라이브러리에 넣었습니다.').replace('{n}', added) : t('넣은 곡이 없습니다.');
     if(skipped) msg += ' ' + t('악보 파일이 아니어서 건너뜀: {n}개').replace('{n}', skipped);
-    if(full) msg += ' ' + t('저장 공간(또는 {n}곡 상한)이 차서 일부를 못 넣었습니다.').replace('{n}', SONG_MAX);
+    if(full) msg += ' ' + t('저장 공간이 차서 일부를 못 넣었습니다.');
     toast(msg);
     if(shelfIsOpen()){ _shelfView = 'all'; renderShelf(); } else openShelf('all');
   });

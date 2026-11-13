@@ -107,7 +107,7 @@ window.maiWorkspace = Object.freeze({
   importScore(score){
     // Preparation is pure: an invalid result never saves, switches or stops play.
     const imported = prepareScoreDocument(score);
-    if(!STORAGE_OK || lib.songs.length >= SONG_MAX) return false;
+    if(!STORAGE_OK) return false;
     if(!flushSong()) return false;
     const previousLib = JSON.parse(JSON.stringify(lib));
     const id = newId(), body = JSON.stringify(imported);

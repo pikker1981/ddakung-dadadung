@@ -23,7 +23,8 @@
 const LIB_KEY   = 'maidrum.lib';
 const SONG_PRE  = 'maidrum.s.';
 const DRAFT_KEY = 'maidrum.draft';      // 옛 단일 초안. 이관에만 쓴다
-const SONG_MAX  = 60;                   // localStorage 5MB 기준 넉넉한 상한
+// 곡 개수에는 인위적인 상한을 두지 않는다. 실제 저장 공간이 부족할 때
+// lsSet()이 실패하고 기존 저장 공간 경고가 작업 전환을 안전하게 막는다.
 /* 라이브러리 상태 (PC 스튜디오, 2026-10-20) — 즐겨찾기와 마지막으로 연 시각. 곡 본문과 색인은 건드리지 않는다.
    **책갈피는 여기 없다** — 마디 자체에 붙는다(`m.bm`). 마디를 옮기고 지워도 따라다니고,
    파일로 저장하면 같이 나간다. 여기는 기기마다 달라도 되는 것만 둔다.
@@ -315,10 +316,6 @@ function blankDoc(){
    예전 `새 악보`는 지금 것을 덮어써서 확인을 받아야 했다. 이제는 옆에 하나 더 만든다. */
 function newSong(){
   if(!STORAGE_OK){ storageTransitionWarning(); return false; }
-  if(lib.songs.length >= SONG_MAX){
-    toast(`곡은 ${SONG_MAX}개까지 둘 수 있습니다. 안 쓰는 곡을 지워 주세요.`);
-    return false;
-  }
   if(!flushSong()) return false;
   const previousLib = JSON.parse(JSON.stringify(lib));
   const id = newId();
@@ -373,9 +370,6 @@ function openSong(id){
 }
 
 function dupSong(id){
-  if(lib.songs.length >= SONG_MAX){
-    toast(`곡은 ${SONG_MAX}개까지 둘 수 있습니다.`); return;
-  }
   if(id === lib.cur && !flushSong()) return;
   const raw = lsGet(songKey(id));
   if(!raw) return;
@@ -608,7 +602,6 @@ function importBackup(text){
   let added = 0, dup = 0, full = false, storageFailed = false;
   for(const {body,doc:d} of prepared.entries){
     if(have.has(body)){ dup++; continue; }
-    if(lib.songs.length >= SONG_MAX){ full = true; break; }
     const id = newId();
     if(!lsSet(songKey(id), body)){ full = true; storageFailed = true; break; }
     const staged = JSON.parse(JSON.stringify(lib));
@@ -1023,9 +1016,6 @@ document.getElementById('fileInput').onchange = e=>{
     try{
       // Validate/normalize completely before touching the current song or library.
       const imported = prepareScoreDocument(d);
-      if(STORAGE_OK && lib.songs.length >= SONG_MAX){
-        appAlert(`곡은 ${SONG_MAX}개까지 둘 수 있습니다. 새 파일을 열기 전에 곡 목록을 정리해 주세요.`); return;
-      }
       if(playing) stopPlay();
       // 라이브러리가 생긴 뒤로 **파일 열기는 새 곡으로 들어온다.**
       // 예전처럼 지금 곡을 덮어쓰면, 남의 파일을 열어 보다가 내 작업을 잃는다
